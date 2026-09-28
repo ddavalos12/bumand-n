@@ -23,3 +23,15 @@ dist/
 
 # Agentes AI (Reglas locales)
 .agents/
+
+# LaTeX y Auxiliares
+*.tex
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+!*.pdf

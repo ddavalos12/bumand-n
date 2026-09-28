@@ -15,6 +15,7 @@ import { UsuariosModulo } from './modulos/usuarios/usuarios.modulo';
 import { BecariosModulo } from './modulos/becarios/becarios.modulo';
 import { IglesiasModulo } from './modulos/iglesias/iglesias.modulo';
 import { LugaresPracticaModulo } from './modulos/lugares-practica/lugares-practica.modulo';
+import { AuthModulo } from './modulos/auth/auth.modulo';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { LugaresPracticaModulo } from './modulos/lugares-practica/lugares-practi
     BecariosModulo,
     IglesiasModulo,
     LugaresPracticaModulo,
+    AuthModulo,
   ],
   controllers: [AppControlador],
   providers: [AppServicio],
