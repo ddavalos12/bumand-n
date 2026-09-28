@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Becario } from '../../becarios/entidades/becario.entidad';
 import { Usuario } from '../../usuarios/entidades/usuario.entidad';
+import { Recorrido } from './recorrido.entidad';
 
 export enum EstadoSolicitud {
   BORRADOR = 'borrador',
@@ -51,4 +52,7 @@ export class SolicitudPasajes {
   @ManyToOne(() => Usuario)
   @JoinColumn({ name: 'supervisor_id' })
   supervisor: Usuario;
+
+  @OneToMany(() => Recorrido, (recorrido) => recorrido.solicitud)
+  recorridos: Recorrido[];
 }
