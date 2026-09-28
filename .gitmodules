@@ -1,0 +1,9 @@
+﻿[submodule "bumand-backend"]
+	path = bumand-backend
+	url = https://github.com/ddavalos12/bummand-backend.git
+[submodule "bumand-frontend"]
+	path = bumand-frontend
+	url = https://github.com/ddavalos12/bummand-frontend.git
+[submodule "bumand-movil"]
+	path = bumand-movil
+	url = https://github.com/ddavalos12/bummand-movil.git
