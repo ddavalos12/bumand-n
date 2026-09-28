@@ -17,6 +17,12 @@ import { IglesiasModulo } from './modulos/iglesias/iglesias.modulo';
 import { LugaresPracticaModulo } from './modulos/lugares-practica/lugares-practica.modulo';
 import { AutenticacionModulo } from './modulos/autenticacion/autenticacion.modulo';
 
+import { AsistenciaModulo } from './modulos/asistencia/asistencia.modulo';
+import { RegistroAsistencia } from './modulos/asistencia/entidades/registro-asistencia.entidad';
+import { PasajesModulo } from './modulos/pasajes/pasajes.modulo';
+import { SolicitudPasajes } from './modulos/pasajes/entidades/solicitud-pasaje.entidad';
+import { Recorrido } from './modulos/pasajes/entidades/recorrido.entidad';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -29,7 +35,7 @@ import { AutenticacionModulo } from './modulos/autenticacion/autenticacion.modul
       username: process.env.DB_USERNAME,
       password: process.env.DB_CONTRASENA,
       database: process.env.DB_DATABASE,
-      entities: [Usuario, Becario, Iglesia, LugarPractica],
+      entities: [Usuario, Becario, Iglesia, LugarPractica, RegistroAsistencia, SolicitudPasajes, Recorrido],
       synchronize: false, // ¡No sincronizar en producción ni sobrescribir BD legacy!
     }),
     UsuariosModulo,
@@ -37,6 +43,8 @@ import { AutenticacionModulo } from './modulos/autenticacion/autenticacion.modul
     IglesiasModulo,
     LugaresPracticaModulo,
     AutenticacionModulo,
+    AsistenciaModulo,
+    PasajesModulo,
   ],
   controllers: [AppControlador],
   providers: [AppServicio],

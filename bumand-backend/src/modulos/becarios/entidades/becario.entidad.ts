@@ -1,7 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Usuario } from '../../usuarios/entidades/usuario.entidad';
 import { Iglesia } from '../../iglesias/entidades/iglesia.entidad';
 import { LugarPractica } from '../../lugares-practica/entidades/lugar-practica.entidad';
+import { RegistroAsistencia } from '../../asistencia/entidades/registro-asistencia.entidad';
 
 @Entity('becarios')
 export class Becario {
@@ -53,4 +54,7 @@ export class Becario {
   @ManyToOne(() => LugarPractica, (lugarPractica) => lugarPractica.becarios)
   @JoinColumn({ name: 'lugar_practica_id' })
   lugarPractica: LugarPractica;
+
+  @OneToMany(() => RegistroAsistencia, (registro) => registro.becario)
+  registrosAsistencia: RegistroAsistencia[];
 }
