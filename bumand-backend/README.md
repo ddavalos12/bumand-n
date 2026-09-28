@@ -21,4 +21,4 @@ El proyecto sigue una arquitectura modular y en estricto español:
 ## Configuración de Base de Datos
 
 La aplicación usa TypeORM y se conecta usando las variables de entorno definidas en el archivo `.env`:
-- `DB_HOST`, `DB_PORT`, `DB_USERNAME`, `DB_PASSWORD`, `DB_DATABASE`.
+- `DB_HOST`, `DB_PORT`, `DB_USERNAME`, `DB_CONTRASENA`, `DB_DATABASE`.

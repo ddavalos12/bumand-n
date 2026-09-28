@@ -15,7 +15,7 @@ import { UsuariosModulo } from './modulos/usuarios/usuarios.modulo';
 import { BecariosModulo } from './modulos/becarios/becarios.modulo';
 import { IglesiasModulo } from './modulos/iglesias/iglesias.modulo';
 import { LugaresPracticaModulo } from './modulos/lugares-practica/lugares-practica.modulo';
-import { AuthModulo } from './modulos/auth/auth.modulo';
+import { AutenticacionModulo } from './modulos/autenticacion/autenticacion.modulo';
 
 @Module({
   imports: [
@@ -27,7 +27,7 @@ import { AuthModulo } from './modulos/auth/auth.modulo';
       host: process.env.DB_HOST,
       port: parseInt(process.env.DB_PORT as string, 10),
       username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
+      password: process.env.DB_CONTRASENA,
       database: process.env.DB_DATABASE,
       entities: [Usuario, Becario, Iglesia, LugarPractica],
       synchronize: false, // ¡No sincronizar en producción ni sobrescribir BD legacy!
@@ -36,7 +36,7 @@ import { AuthModulo } from './modulos/auth/auth.modulo';
     BecariosModulo,
     IglesiasModulo,
     LugaresPracticaModulo,
-    AuthModulo,
+    AutenticacionModulo,
   ],
   controllers: [AppControlador],
   providers: [AppServicio],
