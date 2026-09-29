@@ -1,4 +1,4 @@
-﻿[submodule "bumand-backend"]
+[submodule "bumand-backend"]
 	path = bumand-backend
 	url = https://github.com/ddavalos12/bummand-backend.git
 [submodule "bumand-frontend"]
