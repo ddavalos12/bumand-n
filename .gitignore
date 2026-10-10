@@ -38,7 +38,7 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Documentación LaTeX y Auxiliares (Solo se preservan los PDFs)
+# Documentación LaTeX y Auxiliares
 *.tex
 *.aux
 *.log
@@ -49,7 +49,16 @@ pnpm-debug.log*
 *.fls
 *.fdb_latexmk
 *.synctex.gz
-!*.pdf
+
+# Documentación en PDF generada (se ignoran todos excepto el original del repositorio)
+*.pdf
+!DOCUMENTACION_GENERAL_BUMAND.pdf
+
+# Documentación Markdown generada / auxiliar (solo se preservan los originales)
+/*.md
+!/README.md
+!/USUARIOS_PRUEBA.md
+documentacion/
 
 # Archivos Temporales y Documentos de Casos de Uso No Esenciales
 /_prototipos/
@@ -89,3 +98,4 @@ $RECYCLE.BIN/
 # Reglas Internas de Agentes y Memoria de Diseño
 .agents/
 .antigravity-design/
+AudiosyDocumentosBumands/
