@@ -50,15 +50,19 @@ pnpm-debug.log*
 *.fdb_latexmk
 *.synctex.gz
 
-# Documentación en PDF generada (se ignoran todos excepto el original del repositorio)
+# Documentación en PDF oficial
 *.pdf
 !DOCUMENTACION_GENERAL_BUMAND.pdf
+!DOCUMENTACION_INTEGRAL_BUMAND.pdf
+!DOCUMENTACION_WEB_ROLES.pdf
+!DOCUMENTACION_MOVIL_PAGINAS.pdf
 
-# Documentación Markdown generada / auxiliar (solo se preservan los originales)
+# Documentación Markdown oficial
 /*.md
 !/README.md
 !/USUARIOS_PRUEBA.md
-documentacion/
+!documentacion/
+documentacion/pgsql/
 
 # Archivos Temporales y Documentos de Casos de Uso No Esenciales
 /_prototipos/

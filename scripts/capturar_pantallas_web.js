@@ -43,12 +43,12 @@ async function iniciarSesion(page, correo, contrasena) {
 async function seleccionarPestaña(page, tabId, etiqueta) {
   console.log(`[NAV] Seleccionando pestaña: ${tabId} (${etiqueta})`);
   const seleccionada = await page.evaluate((id, texto) => {
-    // Buscar por texto en los botones del menú lateral
     const botones = Array.from(document.querySelectorAll('button'));
-    // Primero intentar buscar botón con texto exacto o que contenga
     let boton = botones.find(b => {
       const t = b.innerText ? b.innerText.trim().toLowerCase() : '';
-      return t.includes(texto.toLowerCase());
+      const title = b.getAttribute('title') ? b.getAttribute('title').trim().toLowerCase() : '';
+      const aria = b.getAttribute('aria-label') ? b.getAttribute('aria-label').trim().toLowerCase() : '';
+      return t.includes(texto.toLowerCase()) || title.includes(texto.toLowerCase()) || aria.includes(texto.toLowerCase());
     });
     if (boton) {
       boton.click();
@@ -58,7 +58,7 @@ async function seleccionarPestaña(page, tabId, etiqueta) {
   }, tabId, etiqueta);
 
   if (!seleccionada) {
-    console.warn(`[NAV] No se pudo encontrar el botón con etiqueta: "${etiqueta}", intentando vía React tabs fallback`);
+    console.warn(`[NAV] No se pudo encontrar el botón con etiqueta: "${etiqueta}"`);
   }
   await esperar(1800);
 }
@@ -117,6 +117,10 @@ async function ejecutar() {
     // admin_reportes.png
     await seleccionarPestaña(page, 'reportes', 'Reportes PDF');
     await capturar(page, 'admin_reportes.png');
+
+    // admin_refrigerios.png
+    await seleccionarPestaña(page, 'refrigerios', 'Refrigerios');
+    await capturar(page, 'admin_refrigerios.png');
 
     // admin_notificaciones.png
     await seleccionarPestaña(page, 'notificaciones', 'Notificaciones');

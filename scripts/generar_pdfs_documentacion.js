@@ -14,7 +14,7 @@ function reemplazarImagenesBase64(contenidoMd, directorioBase) {
       if (fs.existsSync(rutaAbsoluta)) {
         const extension = path.extname(rutaAbsoluta).replace('.', '') || 'png';
         const imagenBase64 = fs.readFileSync(rutaAbsoluta).toString('base64');
-        const esMovil = rutaRelativa.includes('movil') || rutaRelativa.includes('0');
+        const esMovil = rutaRelativa.includes('movil') || rutaRelativa.includes('/movil/') || rutaRelativa.includes('\\movil\\');
         const claseImagen = esMovil ? 'imagen-movil' : 'imagen-web';
         return `<div class="contenedor-captura"><img class="${claseImagen}" src="data:image/${extension};base64,${imagenBase64}" alt="${alt}" /><p class="leyenda-captura">${alt}</p></div>`;
       }
@@ -287,7 +287,69 @@ const ESTILOS_CSS = `
     border-top: 1px solid #E2E8F0;
     margin: 28px 0;
   }
+
+  .salto-pagina {
+    page-break-before: always;
+  }
+
+  .formula-bloque {
+    display: block;
+    text-align: center;
+    background-color: #F8FAFC;
+    border: 1px solid #CBD5E1;
+    border-left: 4px solid #067CC1;
+    border-radius: 6px;
+    padding: 10px 16px;
+    margin: 14px 0;
+    font-size: 11pt;
+    font-weight: 600;
+    color: #0F172A;
+  }
+
+  .formula-inline {
+    font-family: inherit;
+    font-weight: 600;
+    background-color: #F1F5F9;
+    color: #0F172A;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid #E2E8F0;
+  }
 `;
+
+function formatearFormulasHtml(contenidoMd) {
+  // 1. Bloques de fórmula $$...$$
+  let texto = contenidoMd.replace(/\$\$([\s\S]*?)\$\$/g, (match, formula) => {
+    let limpia = formula
+      .replace(/\\text\{([^{}]+)\}/g, '$1')
+      .replace(/\\times/g, '×')
+      .replace(/\\sum/g, '∑')
+      .replace(/\\le/g, '≤')
+      .replace(/\\ge/g, '≥')
+      .replace(/\\pm/g, '±')
+      .replace(/\\rightarrow/g, '→')
+      .replace(/_\{([^{}]+)\}/g, '<sub>$1</sub>')
+      .replace(/\^\{([^{}]+)\}/g, '<sup>$1</sup>');
+    return `<div class="formula-bloque">${limpia.trim()}</div>`;
+  });
+
+  // 2. Fórmulas inline $...$
+  texto = texto.replace(/\$([^\$\n]+?)\$/g, (match, formula) => {
+    let limpia = formula
+      .replace(/\\text\{([^{}]+)\}/g, '$1')
+      .replace(/\\times/g, '×')
+      .replace(/\\sum/g, '∑')
+      .replace(/\\le/g, '≤')
+      .replace(/\\ge/g, '≥')
+      .replace(/\\pm/g, '±')
+      .replace(/\\rightarrow/g, '→')
+      .replace(/_\{([^{}]+)\}/g, '<sub>$1</sub>')
+      .replace(/\^\{([^{}]+)\}/g, '<sup>$1</sup>');
+    return `<span class="formula-inline">${limpia.trim()}</span>`;
+  });
+
+  return texto;
+}
 
 async function convertirMdAPdf(rutaMd, rutaPdfSalida, opcionesPortada) {
   console.log(`\nIniciando conversión de: ${path.basename(rutaMd)} -> ${path.basename(rutaPdfSalida)}...`);
@@ -298,6 +360,7 @@ async function convertirMdAPdf(rutaMd, rutaPdfSalida, opcionesPortada) {
 
   const directorioBase = path.dirname(rutaMd);
   let contenidoMd = fs.readFileSync(rutaMd, 'utf8');
+  contenidoMd = formatearFormulasHtml(contenidoMd);
 
   // Reemplazar imágenes con base64 para renderizado perfecto
   const contenidoConImagenes = reemplazarImagenesBase64(contenidoMd, directorioBase);
@@ -405,13 +468,16 @@ async function ejecutar() {
       }
     );
 
-    // 3. PDF Consolidado Integral (Web + Móvil)
+    // 3. PDF Consolidado Integral (Guía de Instalación + Web + Móvil)
+    const contenidoGuia = fs.readFileSync(path.join(RUTA_DOC, 'GUIA_INSTALACION_Y_ENCENDIDO.md'), 'utf8');
     const contenidoWeb = fs.readFileSync(path.join(RUTA_DOC, 'DOCUMENTACION_WEB_ROLES.md'), 'utf8');
     const contenidoMovil = fs.readFileSync(path.join(RUTA_DOC, 'DOCUMENTACION_MOVIL_PAGINAS.md'), 'utf8');
     
-    const contenidoUnificado = `# PARTE I: PLATAFORMA WEB POR ROLES\n\n` + 
+    const contenidoUnificado = `# PARTE PRELIMINAR: GUÍA OFICIAL DE INSTALACIÓN Y ENCENDIDO\n\n` + 
+      contenidoGuia.replace(/^# .*\n/, '') + 
+      `\n\n<div class="salto-pagina"></div>\n\n# PARTE I: PLATAFORMA WEB POR ROLES\n\n` + 
       contenidoWeb.replace(/^# .*\n/, '') + 
-      `\n\n\\pagebreak\n\n# PARTE II: APLICACIÓN MÓVIL POR PANTALLAS\n\n` + 
+      `\n\n<div class="salto-pagina"></div>\n\n# PARTE II: APLICACIÓN MÓVIL POR PANTALLAS\n\n` + 
       contenidoMovil.replace(/^# .*\n/, '');
 
     const rutaMdUnificado = path.join(RUTA_DOC, 'DOCUMENTACION_INTEGRAL_BUMAND.md');
