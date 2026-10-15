@@ -43,7 +43,7 @@ Para ejecutar y probar la aplicación móvil de BUMAND en Flutter junto con su e
 - **Flutter SDK:** v3.x (Canal `stable`) (`flutter --version`)
 - **Dart SDK:** v3.x (`dart --version`)
 - **Dispositivo o Emulador:** Android Studio Emulator, dispositivo físico USB con depuración habilitada, o Google Chrome (para depuración Web).
-- **Backend NestJS Activo:** Corriendo en `http://localhost:3001` (o IP local de red para emuladores/dispositivos físicos).
+- **Backend NestJS Activo:** Corriendo en `http://localhost:3002` (o IP local de red para emuladores/dispositivos físicos).
 
 #### 2. Preparación y Validación del Proyecto Móvil:
 ```bash

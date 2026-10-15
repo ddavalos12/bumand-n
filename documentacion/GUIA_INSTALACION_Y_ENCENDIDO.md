@@ -80,13 +80,124 @@ npm test
 ```
 > **Resultado Esperado:** **15 de 15 suites aprobadas**, **75 de 75 tests unitarios en verde (100% éxito)**, cubriendo los módulos de autenticación, control de asistencia, motor de multas de viernes, cálculo del 80% de viáticos, matriz dinámica del 20% en evaluaciones y refrigerios institucionales.
 
-### 2.6. Modos de Encendido del Servicio Backend
+### 2.6. Arquitectura, Adición y Ejecución de Semillas de Datos (Seeders Institucionales)
+
+El subsistema de semillas de datos de BUMAND (`bumand-backend/src/datos/`) garantiza la inicialización determinista e idempotente de todo el ecosistema institucional, asegurando que la base de datos PostgreSQL cuente con la nómina real homologada de Diaconía FRIF-IFD.
+
+```
+bumand-backend/src/datos/
+├── datos.modulo.ts                  # Registro del módulo de datos y exportación de repositorios
+├── semilla.servicio.ts              # Lógica de inserción, actualización y depuración de registros
+├── semilla-datos.constantes.ts      # Arrays fuertemente tipados con la nómina oficial institucional
+└── sembrar.ts                       # Script CLI de arranque independiente (bootstrap)
+```
+
+#### 2.6.1. Entidades Pobladas por la Semilla
+El servicio de siembra procesa e interconecta las siguientes entidades relacionales:
+1. **Administradores Institucionales (2 cuentas):** Acceso total y supervisión técnica (`daniel234.davalos@gmail.com`, `coordinacion@bumand.bo`).
+2. **Supervisores y Mentores Diaconía (29 cuentas):** Jefaturas de seguridad física, talento humano, finanzas, captaciones, agencias y consultorio médico. Se registran tanto en `Usuario` (con rol `SUPERVISOR`) como en la tabla `Evaluador` para evaluaciones 360°.
+3. **Estudiantes Becarios (30 nóminas oficiales):** Registro completo con C.I., correo corporativo `@bumand.bo`, carrera universitaria, institución de educación superior (UPEA, UMSA, etc.), iglesia asignada y matriz de horarios semanales.
+4. **Iglesias Vinculadas (25 congregaciones cristianas):** Datos de pastor, teléfono, dirección y coordenadas GPS para la convalidación del Formulario Pastoral F-03.
+5. **Lugares de Práctica y Geocercas (11 sedes/agencias):** Oficina Central Diaconía IFD (El Alto) y 10 agencias provinciales/urbanas (San Pedro, Chasquipampa, Viacha, Senkata, Río Seco, Ciudad Satélite, etc.), cada una con coordenadas WGS-84 y radio de tolerancia métrica ($r \in [50, 60]\text{ metros}$).
+6. **Módulos de Evaluación 360°:** 5 módulos formativos oficiales equilibrados al 20% cada uno (Espiritual, Práctico/Laboral, Académico, Liderazgo/Servicio y Desarrollo Personal).
+7. **Tarifas y Paradas Oficiales:** Puntos de trasbordo y tarifas del transporte público homologadas para la liquidación del 80% de viáticos.
+
+#### 2.6.2. Cómo Agregar Nuevos Registros a los Seeders
+Para incorporar nuevos usuarios, iglesias o sedes sin alterar la integridad referencial:
+
+1. **Editar las constantes tipadas en `src/datos/semilla-datos.constantes.ts`:**
+   Ubique el array correspondiente y agregue el nuevo objeto validando que cumpla con la interfaz TypeScript:
+   ```typescript
+   // Ejemplo: Agregar un nuevo estudiante becario
+   export const BECARIOS_SEMILLA: BecarioSemilla[] = [
+     // ... becarios existentes ...
+     {
+       ci: "12345678",
+       nombre: "Nombre Completo del Estudiante",
+       correo: "nuevo.becario@bumand.bo",
+       clave: "Bumand2026!",
+       carrera: "Ingeniería de Sistemas",
+       universidad: "Universidad Mayor de San Andrés",
+       institucion: "UMSA",
+       unidad: "Sistemas e Infraestructura",
+       ubicacion: "Oficina Central Diaconía IFD - El Alto",
+       supervisor_correo: "angel.ali@bumand.bo",
+       horario_semanal: {
+         lunes: "08:00 - 12:00",
+         martes: "08:00 - 12:00",
+         miercoles: "08:00 - 12:00",
+         jueves: "08:00 - 12:00",
+         viernes: "14:35 - 18:35"
+       },
+       iglesia_nombre: "Iglesia Cristiana Central"
+     }
+   ];
+   ```
+
+2. **Extensión de Lógica de Inserción en `src/datos/semilla.servicio.ts` (si se crea una nueva entidad):**
+   - Inyecte el repositorio TypeORM en el constructor (`@InjectRepository(NuevaEntidad)`).
+   - En el método `ejecutarSemilla()`, agregue la validación de unicidad mediante `findOne`:
+     ```typescript
+     let entidad = await this.nueva_entidad_repo.findOne({ where: { codigo: dato.codigo } });
+     if (!entidad) {
+       entidad = this.nueva_entidad_repo.create(dato);
+       await this.nueva_entidad_repo.save(entidad);
+       this.logger.log(`Nuevo registro sembrado: ${dato.codigo}`);
+     }
+     ```
+
+#### 2.6.3. Modos de Ejecución de los Seeders
+
+##### Opción A: Ejecución Manual vía CLI (Recomendada para inicialización o resiembra)
+Ejecute el comando npm desde el directorio `bumand-backend/`:
+```bash
+npm run sembrar
+```
+Este comando ejecuta el bootstrap de NestJS sin levantar el listener HTTP (`src/datos/sembrar.ts`), inicializa TypeORM, aplica las migraciones y entidades sincronizadas, ejecuta la siembra completa e imprime el resumen en consola:
+```
+[SemillaServicio] Nómina oficial sembrada con éxito: 30 becarios registrados.
+[SemillaServicio] Verificación y siembra institucional completada con éxito: 2 administradores, 29 supervisores, 30 estudiantes/becarios y 25 iglesias.
+Siembra manual institucional completada con éxito.
+```
+
+##### Opción B: Ejecución Automática al Iniciar el Servidor (`OnModuleInit`)
+El servicio `SemillaServicio` implementa la interfaz de ciclo de vida `OnModuleInit` de NestJS. Cada vez que el backend se enciende mediante:
+```bash
+npm run start:dev   # o npm run start
+```
+El hook `onModuleInit()` verifica si las cuentas base y las nóminas existen. Si un usuario o registro no existe o ha sido modificado en las constantes, lo sincroniza automáticamente de forma transparente y sin duplicar datos.
+
+#### 2.6.4. Verificación Directa en Base de Datos PostgreSQL
+Puede verificar el resultado de la siembra conectándose a PostgreSQL mediante `psql`:
+```bash
+# Conexión local a la base de datos de BUMAND
+psql -h localhost -p 5432 -U postgres -d bumand-db
+```
+Ejecutar las consultas de auditoría institucional:
+```sql
+-- Verificar conteo por roles institucionales
+SELECT rol, count(*) FROM "usuario" GROUP BY rol;
+-- Resultado esperado:
+-- ADMINISTRADOR: 2
+-- SUPERVISOR: 29
+-- BECARIO: 30
+
+-- Verificar lugares de práctica con geocercas calibradas
+SELECT nombre, latitud, longitud, radio_tolerancia_m FROM "lugar_practica";
+
+-- Verificar módulos de evaluación 360°
+SELECT nombre, ponderacion_porcentaje FROM "modulo_evaluacion";
+```
+
+---
+
+### 2.7. Modos de Encendido del Servicio Backend
 
 #### Modo Desarrollo (con Recarga en Caliente - Hot Reload):
 ```bash
 npm run start:dev
 ```
-El servidor escuchará en el puerto configurado: `http://localhost:3001` (o `http://localhost:3000`).
+El servidor escuchará en el puerto configurado: `http://localhost:3002`.
 
 #### Modo Producción (Compilación Optimizada):
 ```bash
@@ -97,7 +208,7 @@ npm run start:prod
 #### Explorador de la API REST (Swagger UI):
 Una vez encendido el backend, puede auditar y probar todos los endpoints REST interactivos accediendo a:
 ```
-http://localhost:3001/api/docs
+http://localhost:3002/api/docs
 ```
 
 ---
@@ -122,7 +233,7 @@ npm install
 Cree o configure el archivo `.env.local` en la raíz de `bumand-frontend/`:
 ```env
 # Enlace hacia la API REST de BUMAND NestJS
-NEXT_PUBLIC_API_URL=http://localhost:3001/api
+NEXT_PUBLIC_API_URL=http://localhost:3002
 
 # Identificador de Entorno
 NEXT_PUBLIC_ENTORNO=desarrollo
@@ -232,7 +343,7 @@ Para iniciar todo el ecosistema de manera concurrente en un entorno local:
    ```bash
    cd bumand-backend && npm run start:dev
    ```
-   *(Verificar que reporte conexión exitosa y Swagger en el puerto 3001).*
+   *(Verificar que reporte conexión exitosa y Swagger en el puerto 3002).*
 
 2. **Terminal 2 (Frontend Next.js):**
    ```bash

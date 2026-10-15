@@ -366,82 +366,152 @@ Módulo administrativo independiente para el control logístico, contable y de r
 
 ## 4. Rol: Supervisor Institucional (`angel.ali@bumand.bo`)
 
-El Supervisor representa el eslabón de acompañamiento y tutoría presencial de los estudiantes. Su entorno web está acotado a los becarios que tiene formalmente asignados bajo su tutela.
+El **Supervisor Institucional** (encarnado en la cuenta de prueba oficial por **Angel Javier Ali Paz**, Jefe de Seguridad Física y Tutor General de Prácticas de Diaconía FRIF-IFD) personifica el eslabón táctico de acompañamiento, mentoría presencial y control operativo de los estudiantes becarios.
+
+A diferencia del Administrador General (que ostenta control estructural y de gobierno institucional) y de la Estudiante Becaria (acotada a su propio kardex operativo), el entorno web del Supervisor opera con un aislamiento de jurisdicción basado en **RBAC estricto a nivel de token JWT** y vistas filtradas por tutoría.
 
 ---
 
-### 4.1. Panel de Supervisión
+### 4.1. Panel de Supervisión Operativo
 
-#### Captura de Pantalla
+#### Captura de Pantalla en Alta Resolución (1440x900)
 ![Panel de Supervisión Operativo](capturas/web/supervisor_panel.png)
 
-#### Propósito y Funcionalidad
-Ofrece al supervisor una visión focalizada de sus responsabilidades tutoriales:
-- Monitoreo del total de horas registradas por su grupo asignado.
-- Vigilancia del cumplimiento de la meta horaria mensual.
-- Control de las solicitudes de viáticos que aguardan su revisión técnica antes del pase a contabilidad.
-
-#### Qué Hace vs. Qué NO Hace
-- **Qué Hace:**
-  - Facilita la toma de decisiones inmediata sobre la asistencia y rendimiento de los becarios asignados.
-  - Alerta sobre retrasos en la entrega de evaluaciones de facilitadores o pastores.
-- **Qué NO Hace:**
-  - No expone las partidas presupuestarias globales de sedes fuera de su jurisdicción tutorial.
+#### Propósito, Arquitectura y Métricas Visibles
+El Panel de Supervisión (`PanelControlVista`, pestaña `administracion`) sintetiza el estado de la cohorte asignada al tutor sin exponer datos de gobernanza global ajenos a su competencia:
+1. **Encabezado y Alerta de Cohorte Reactiva:**
+   - Despliega la tarjeta institucional: `Panel de Supervisión Institucional — Cohorte Angel Javier Ali Paz`.
+   - Subtexto rector: *"Monitoreo en tiempo real de asistencia, puntualidad y cumplimiento de prácticas geocercadas."*
+   - Indicador de estado en cabecera: `BUMAND · En Línea`, botón de consulta de *Versículo Diario (RVR60)* y campana con insignia interactiva de notificaciones sin leer.
+2. **Selector Analítico Temporal:**
+   - Permite acotar el análisis mediante filtros rápidos: *Este Mes*, *Último Trimestre*, *Semestre Actual* y *Personalizado* (01/07/2026 al 31/12/2026 sincronizado en tiempo real).
+3. **Cuadro de Mando de KPIs Tutoriales:**
+   - **Becarios Activos:** `21` estudiantes universitarios bajo seguimiento (100% matriculados en la gestión 2026).
+   - **Asistencia Semanal:** `87%` de asistencia neta con alerta visual de *5 con retraso esta semana*.
+   - **Evaluaciones 360°:** `21 / 21` estudiantes habilitados en el período formativo *Semestre II · 2026*.
+   - **Presupuesto 80% Pasajes:** `Bs 5.240,00` liquidados acumulados sobre una partida institucional de `Bs 10.000,00`.
+4. **Spotlight de Multas Reglamentarias (Escuela de Líderes):**
+   - Refleja la recaudación transparente de penalizaciones por retrasos no justificados: `Bs 850,00` recaudados en `17` casos, fondos destinados a los refrigerios institucionales de confraternización diaconal.
+5. **Panel de Seguimiento Semanal (Semana 32):**
+   - **Bandeja de Becarios con Retraso (5 incidencias):** Notifica desviaciones horarias (ej. *Carlos Oscar Luna Lizarraga*, ingreso 08:24 vs. previsto 08:00 en Oficina Central Bloque A, +24 min).
+   - **Control de Asistencia Semanal:** Segmentación dinámica en 3 pestañas: *Todos (21)*, *Asistieron (17)*, *No asistieron (4)*, con insignias de estado y horario pactado.
 
 ---
 
-### 4.2. Becarios Asignados a Supervisión
+### 4.2. Directorio de Becarios Asignados a Supervisión
 
-#### Captura de Pantalla
+#### Captura de Pantalla en Alta Resolución (1440x900)
 ![Becarios Asignados a Supervisión](capturas/web/supervisor_becarios.png)
 
-#### Propósito y Funcionalidad
-Lista exhaustiva de los expedientes bajo supervisión directa (por ejemplo, tutorías de Angel Javier Ali Paz):
-- Visualización de la carrera, universidad y sede de práctica del estudiante.
-- Acceso directo a los datos de contacto y avance académico.
-
-#### Qué Hace vs. Qué NO Hace
-- **Qué Hace:**
-  - Permite verificar de forma personalizada el cumplimiento de los planes de práctica por becario.
-- **Qué NO Hace:**
-  - No permite que un supervisor transfiera becarios a otros tutores sin autorización del Administrador General.
-
----
-
-### 4.3. Aprobación y Observación de Pasajes
-
-#### Captura de Pantalla
-![Aprobación de Pasajes por Supervisor](capturas/web/supervisor_pasajes_aprobacion.png)
-
-#### Propósito y Funcionalidad
-El supervisor audita cada tramo declarado por los becarios asignados:
-- Verifica que el origen y destino correspondan a la ruta entre el domicilio del becario y la sede o iglesia asignada.
-- Corrobora que la tarifa declarada se ajuste al régimen del transporte público local.
-- Aprueba con el 80% reglamentario o rechaza con motivo fundado.
-
-#### Qué Hace vs. Qué NO Hace
-- **Qué Hace:**
-  - Resuelve las solicitudes en primera instancia para permitir la posterior liquidación en tesorería.
-  - Exige una retroalimentación detallada en caso de observación para que el becario pueda subsanar.
-- **Qué NO Hace:**
-  - No puede modificar arbitrariamente los montos declarados por el becario; debe aprobarlos o devolverlos observados para su corrección.
+#### Propósito, Datos Expuestos y Blindaje RBAC
+El módulo de Becarios Asignados (`GestionBecarios`, pestaña `becarios`) presenta los expedientes académicos e institucionales bajo la jurisdicción tutorial del supervisor:
+- **Datos Visibles en Tabla:** Nombre completo del becario, C.I., carrera universitaria (UMSA, UPEA, UNIFRANZ), congregación eclesiástica, sede de práctica asignada (con discriminación de bloques), supervisor responsable asignado y estado del expediente (`ACTIVO` o `PENDIENTE VALIDACIÓN`).
+- **Casos de Seguimiento Directo:**
+  - *Nilda Amalia Churata Paye* (CI: 10028341, Educación Parvularia - UMSA, Oficina Central Bloque A, Tutor: Angel Javier Ali Paz, Estado: ACTIVO).
+  - *Ronald Franz Mamani Quispe* (CI: 8472910, Bioquímica y Farmacia - UMSA, Oficina Central Bloque A, Tutor: Angel Javier Ali Paz, Estado: PENDIENTE VALIDACIÓN).
+  - *Adai Belen Huayta Cardozo* (CI: 13696496, Estadística - UMSA, Oficina Central Bloque B, Tutor: Rodrigo Solorzano, Estado: ACTIVO).
+  - *Edgar Elias Alarcon Huanca* (CI: 9160054, Medicina - UPEA, Sucursal Juan Pablo II, Tutora: Claudia Cabrera, Estado: PENDIENTE VALIDACIÓN).
+- **Gobernanza y Restricciones Visuales Estrictas:**
+  - El interruptor de control *Solicitar Verificación Mensual de Datos* está **completamente oculto** (exclusivo para `es_admin`).
+  - Los botones de acción rápida *Asignar Supervisor* y el botón verde de aprobación ejecutiva *Validar* están deshabilitados y ocultos en las filas.
+  - Al abrir el modal *Nuevo Becario*, se visualiza el banner de protección: *"Gobernanza activa: Los campos Universidad, Carrera, Iglesia y Sede están bloqueados para roles no administradores."*
 
 ---
 
-### 4.4. Matriz 360° y Calificación del Mentor
+### 4.3. Supervisión, Aprobación y Observación de Pasajes (80%)
 
-#### Captura de Pantalla
+#### Captura de Pantalla en Alta Resolución (1440x900)
+![Supervisión y Aprobación de Pasajes](capturas/web/supervisor_pasajes_aprobacion.png)
+
+#### Auditoría Técnica del Reembolso Exacto al 80%
+El módulo (`AprobacionPasajes`, pestaña `pasajes`) materializa la política reglamentaria del BUMAND mediante la cual Diaconía reintegra exactamente el **80% del gasto de transporte público urbano e interurbano** en centavos de boliviano:
+1. **Resumen y Cómputo del Mes (Marzo 2026):**
+   - Muestra el indicador consolidado: `16 formularios · 3 pendientes`, con pestañas de alternancia entre *Planillas* y *Tarifario*.
+2. **Tabla de Planillas Mensuales Declaradas:**
+   - *María Catunta L.* (Créditos): 8 recorridos, Gasto Total Bs 35,00, **80% a Reembolsar: Bs 28,00**, Estado: `Pendiente`, Acción: Botón verde interactivo **[Aprobar]**.
+   - *Jose M. Suñagua* (Riesgos): 9 recorridos, Gasto Total Bs 73,50, **80% a Reembolsar: Bs 58,80**, Estado: `Pendiente`, Acción: Botón verde **[Aprobar]**.
+   - *Daniel Dávalos Q.* (Seguridad Física): 7 recorridos, Gasto Total Bs 66,00, **80% a Reembolsar: Bs 52,80**, Estado: `Pendiente`, Acción: Botón verde **[Aprobar]**.
+   - *Ruddy Flores T.* (Planificación y Presupuesto): 8 recorridos, Total Bs 43,50, **80%: Bs 34,80**, Estado: `Aprobado` (Acción inactiva con guion).
+   - *Alejandro Paredes* (Marketing): 10 recorridos, Total Bs 95,00, **80%: Bs 76,00**, Estado: `Aprobado` (Acción inactiva con guion).
+3. **Bandeja de Detalle de Planilla y Botón [Observar]:**
+   - Al seleccionar la solicitud de *María Catunta L.*, el panel inferior expone la unidad (*Créditos*), la sede (*Oficina Central - Bloque A*), el tutor (*Carlos Alanoca*) y la glosa técnica de tareas ejecutadas (*"Envío de reportes de cartera y conciliación de extractos bancarios"*).
+   - El botón **[Observar]** abre un diálogo modal que exige obligatoriamente registrar una fundamentación técnica detallada (mínimo 10 caracteres) para revertir la planilla a borrador editable por el becario.
+4. **Flujo de Convalidación con Firma Digital:**
+   - La aprobación individual o masiva permite estampar la **Firma Digital Canvas del Supervisor**, generando un hash criptográfico único que queda registrado en la base de datos PostgreSQL (`firma_supervisor: "HASH_VERIFICADO_..."`), garantizando la inmutabilidad de la planilla previo al desembolso contable.
+
+---
+
+### 4.4. Matriz de Evaluación 360° Semestral y Firma Digital Canvas
+
+#### Captura de Pantalla en Alta Resolución (1440x900)
 ![Evaluación 360° del Supervisor](capturas/web/supervisor_evaluaciones.png)
 
-#### Propósito y Funcionalidad
-El tutor califica el módulo **"Evaluación del Mentor / Prácticas"** (25% de la nota total) y revisa la calificación pastoral antes de cerrar el acta con su firma digitalizada en pantalla.
+#### Evaluación Integral y Desglose de los 5 Módulos Formativos
+El módulo de Evaluación 360° (`EvaluacionesVista` y `MatrizEvaluacion360`, pestaña `evaluacion_360`) canaliza la ponderación del desempeño integral del estudiante:
+1. **Lema Bíblico Institucional:**
+   - Banner de cabecera con *Colosenses 3:23-24 (RVR1960)*: *"Y todo lo que hagáis, hacedlo de corazón, como para el Señor y no para los hombres; sabiendo que del Señor recibiréis la recompensa de la herencia, porque a Cristo el Señor servís."*
+   - Subtexto: *"La evaluación semestral 360° en BUMAND mide el carácter, la puntualidad, el testimonio eclesial y el compromiso universitario."*
+2. **Control de Períodos Semestrales:**
+   - *Semestre II · 2026* (Estado: `Habilitado`, Viendo ahora).
+   - *Semestre I · 2026* (Estado: `Inhabilitado`, Cerrado).
+3. **Estructura Canónica de los 5 Módulos Evaluativos (Base 20% cada uno / Escala Vigesimal 0-20 pts):**
+   - **Módulo 01: Liderazgo en la Iglesia (Formulario Pastoral F-03):** Puntuación `18/20`. Evaluador: Pastor de la Congregación. Permite al supervisor consultar las respuestas ministeriales, testimonio eclesial y acreditación pastoral.
+   - **Módulo 02: Autoevaluación Académica:** Puntuación `20/20`. Evaluador: Estudiante Becario. Permite revisar el avance curricular y certificados de notas adjuntos.
+   - **Módulo 03: Evaluación del Mentor / Prácticas Institucionales:** Puntuación `14/20`. **Evaluador: Supervisor Diaconía.** Este es el módulo donde el supervisor califica de forma directa las competencias profesionales, puntualidad, trabajo en equipo y observancia de protocolos en la agencia asignada.
+   - **Módulo 04: Evaluación Escuela de Líderes:** Puntuación `17/20`. Evaluador: Facilitador BUMAND (seguimiento de talleres y liderazgo cristiano).
+   - **Módulo 05: Evaluación Socioeconómica:** Estado: `Pendiente`. Evaluador: Trabajo Social.
+4. **Convalidación con Firma Digital Canvas:**
+   - Incluye el disparador interactivo: *"Convalidar con Firma Digital Canvas"* (`FirmaDigital`), que permite al supervisor estampar su rúbrica con puntero o pantalla táctil sobre un lienzo HTML5 Canvas, convirtiendo el trazo en Base64 para adjuntarlo al acta oficial exportable en PDF.
 
-#### Qué Hace vs. Qué NO Hace
-- **Qué Hace:**
-  - Asigna la puntuación de desempeño práctico basada en evidencias y asistencia.
-  - Firma digitalmente la constancia semestral de prácticas.
-- **Qué NO Hace:**
-  - No puede alterar la calificación de autoevaluación llenada por el estudiante ni la evaluación pastoral emitida por el ministro eclesiástico.
+---
+
+### 4.5. Matriz Exhaustiva de Capacidades vs. Restricciones Estrictas de Rol
+
+Para garantizar el cumplimiento de los estándares de seguridad y gobernanza diaconal, a continuación se detallan las atribuciones explícitas y las prohibiciones operativas del Supervisor:
+
+| Dominio Operativo | Lo que el Supervisor PUEDE HACER (Atribuciones) | Lo que el Supervisor NO PUEDE HACER (Restricciones Estrictas) |
+| :--- | :--- | :--- |
+| **Gobernanza de Sedes y Geocercas** | Consultar el listado georreferenciado de las 72 agencias y sucursales (`GET /lugares-practica`). | **PROHIBIDO:** No puede crear (`POST`), actualizar coordenadas WGS84, direcciones o radios geodésicos (`PUT /lugares-practica/:id`), ni eliminar sedes (`DELETE`). |
+| **Expedientes de Becarios** | Consultar el directorio de los estudiantes asignados a su cohorte (`GET /becarios`). Visualizar horarios de apoyo, carreras e iglesias. | **PROHIBIDO:** No puede modificar universidades, carreras ni congregaciones (`PUT /becarios/:id`). No puede transferir ni reasignar supervisores (`PUT /becarios/:id/asignar-supervisor`). No puede validar expedientes (`PUT /becarios/:id/validar-datos`). |
+| **Control de Verificación Mensual** | Consultar si los becarios de su cohorte confirmaron sus datos (`GET /becarios/estado-confirmacion-datos`). | **PROHIBIDO:** No puede emitir la orden institucional global de verificación de datos (`POST /becarios/orden-confirmacion-datos`). El switch de control está oculto. |
+| **Aprobación de Pasajes (80%)** | Auditar planillas mensuales, verificar correlación de tramos con agencias asignadas, aprobar el 80% (`PATCH /pasajes/:id/aprobar`) y observar devolviendo a borrador (`PATCH /pasajes/:id/rechazar`). | **PROHIBIDO:** No puede alterar las tarifas oficiales del catálogo (`POST /pasajes/tarifas`, `PATCH /pasajes/tarifas/:id`). No puede sembrar paradas maestras (`POST /pasajes/paradas/sembrar`). No puede editar montos declarados arbitrariamente sin observar la planilla completa. |
+| **Evaluación 360° Semestral** | Calificar el Módulo 3 (*Evaluación del Mentor*) sobre 20 puntos (`POST /evaluaciones`, `PATCH /evaluaciones/:id/estado`). Convalidar con Firma Digital Canvas. Consultar el F-03 pastoral. | **PROHIBIDO:** No puede crear nuevos periodos semestrales (`POST /evaluaciones/periodos`). No puede alterar las ponderaciones porcentuales de la matriz (`PUT /evaluaciones/periodos/:id`). No puede modificar la nota pastoral del F-03 ni la autoevaluación del becario. |
+| **Control de Asistencia e Incidencias** | Monitorear el registro biométrico-satelital de su cohorte en tiempo real (`GET /asistencia`). Dictaminar solicitudes en la Bandeja de Justificaciones (`GET/PATCH /justificaciones`). | **PROHIBIDO:** No puede manipular directamente los timestamps de entrada o salida para encubrir retrasos o faltas no amparadas en una justificación formal aprobada. |
+| **Configuraciones Globales** | Visualizar reportes consolidados en formato PDF de su jurisdicción (`GET /reportes/visor`). | **PROHIBIDO:** No tiene acceso al módulo de administración global de usuarios ni a los roles de sistema (`/usuarios`). |
+
+---
+
+### 4.6. Especificación de Endpoints y Estados de API del Supervisor
+
+A continuación se resumen las operaciones RESTful consumidas por el perfil Supervisor bajo la guardia `JwtGuardia` y `RolesGuardia(Rol.SUPERVISOR, Rol.ADMINISTRADOR)`:
+
+```
+[MÓDULO: BECARIOS]
+GET    /becarios                      -> Retorna estudiantes filtrados automáticamente por tutor_id en sesión.
+GET    /becarios/:id                  -> Detalle completo del expediente si pertenece a su jurisdicción.
+GET    /becarios/estado-confirmacion  -> Verifica si los estudiantes han cumplido con la confirmación de datos.
+
+[MÓDULO: PASAJES Y VIÁTICOS 80%]
+GET    /pasajes                       -> Obtiene el catálogo de solicitudes de viáticos para auditoría.
+GET    /pasajes/:id                   -> Desglose de tramos, paradas, tarifas declaradas y cálculo del 80%.
+PATCH  /pasajes/:id/aprobar           -> Dictamina aprobación formal, estampa hash de firma digital y pasa a liquidación.
+PATCH  /pasajes/:id/rechazar          -> Devuelve la solicitud a borrador editable, exigiendo motivo obligatorio.
+GET    /pasajes/tarifas               -> Consulta del catálogo oficial de tarifas vigentes en La Paz y El Alto.
+GET    /pasajes/paradas               -> Nodos y paradas georreferenciadas frecuentes.
+
+[MÓDULO: EVALUACIÓN 360° Y MINISTERIAL]
+GET    /evaluaciones                  -> Listado general de evaluaciones semestrales.
+GET    /evaluaciones/becario/:id      -> Calificaciones desagregadas por módulo del becario.
+POST   /evaluaciones                  -> Registro de nota del Módulo 3 (Mentor Diaconía).
+PATCH  /evaluaciones/:id/estado       -> Transición de estado: pendiente -> completada -> convalidada.
+GET    /evaluaciones/:id/formulario-f03 -> Consulta de la evaluación pastoral del ministro de congregación.
+GET    /evaluaciones/becario/:id/periodo/:periodo_id/calificacion-total -> Nota consolidada ponderada (0-20 pts).
+
+[MÓDULO: ASISTENCIA Y JUSTIFICACIONES]
+GET    /asistencia                    -> Registros de marcación con distancia geodésica Haversine y bloque.
+GET    /justificaciones               -> Bandeja de solicitudes de justificación médica, académica o pastoral.
+PATCH  /justificaciones/:id/dictamen  -> Aprobación o rechazo motivado de la incidencia reportada.
+```
 
 ---
 
