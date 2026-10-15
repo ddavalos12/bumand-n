@@ -86,9 +86,9 @@ async function ejecutar() {
     await esperar(1500);
     await capturar(page, 'web_login.png');
 
-    // 2. Rol Administrador: admin@wscrt.com / admin
+    // 2. Rol Administrador: daniel234.davalos@gmail.com / Bumand2026!
     console.log('\n--- 2. SESIÓN ADMINISTRADOR ---');
-    await iniciarSesion(page, 'admin@wscrt.com', 'admin');
+    await iniciarSesion(page, 'daniel234.davalos@gmail.com', 'Bumand2026!');
 
     // admin_dashboard.png
     await seleccionarPestaña(page, 'administracion', 'Dashboard General');

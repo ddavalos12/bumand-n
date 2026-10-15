@@ -11,7 +11,7 @@ La plataforma web de **BUMAND** ha sido desarrollada sobre **Next.js 14+ (App Ro
 
 ### 1.1. Matriz de Roles y Alcance de Navegación
 
-| Módulo / Pestaña | Administrador (`admin@wscrt.com`) | Supervisor (`angel.ali@bumand.bo`) | Becario (`nilda.churata@bumand.bo`) |
+| Módulo / Pestaña | Administrador (`daniel234.davalos@gmail.com`) | Supervisor (`angel.ali@bumand.bo`) | Becario (`nilda.churata@bumand.bo`) |
 | :--- | :---: | :---: | :---: |
 | **Inicio de Sesión** | Acceso Global | Acceso Global | Acceso Global |
 | **Dashboard / Panel Principal** | Analítico Global con Rango de Fechas & KPIs Multas | Panel Operativo de Supervisión | Panel Personal Operativo |
@@ -56,7 +56,7 @@ npm run dev        # Inicia en http://localhost:3000
 ```
 
 #### 4. Credenciales Semilla RBAC de Prueba:
-- **Administrador:** `admin@wscrt.com` | Clave: `admin` (Acceso total, sedes/bloques, asignación tutores, apertura semestres, matriz 20%, refrigerios).
+- **Administrador:** `daniel234.davalos@gmail.com` | Clave: `Bumand2026!` (Acceso total, sedes/bloques, asignación tutores, apertura semestres, matriz 20%, refrigerios).
 - **Supervisor:** `angel.ali@bumand.bo` | Clave: `Bumand2026!` (Llamada lista en vivo, aprobación pasajes 80%, evaluación prácticas).
 - **Becaria:** `nilda.churata@bumand.bo` | Clave: `Bumand2026!` (Marcación GPS con bloque, radar, viáticos 80%, F-03, devocionales).
 
@@ -90,7 +90,7 @@ La pantalla de inicio de sesión (`/inicio-sesion`) es el punto de entrada únic
 
 ---
 
-## 3. Rol: Administrador General (`admin@wscrt.com`)
+## 3. Rol: Administrador General (`daniel234.davalos@gmail.com`)
 
 El Administrador General cuenta con el nivel de privilegios más alto dentro del ecosistema, con potestad para auditar, dar de alta sedes, registrar becarios, convocar eventos y convalidar reportes oficiales.
 

@@ -1,179 +1,167 @@
-# Catálogo de Cuentas y Usuarios de Prueba Institucionales — BUMAND
+# Catálogo Oficial de Cuentas y Usuarios Institucionales — BUMAND
 
-Este documento detalla exhaustivamente los usuarios de prueba sembrados en la base de datos de BUMAND (`bumand-backend/src/datos/semilla.servicio.ts`), organizados según el modelo de **Control de Acceso Basado en Roles (RBAC)** corporativo, sus credenciales de acceso, atribuciones operativas y flujos de trabajo en las plataformas Web, Móvil y API.
+Este documento detalla exhaustivamente la nómina completa de usuarios sembrados en la base de datos de BUMAND (`bumand-backend/src/datos/semilla.servicio.ts` y `bumand-backend/src/datos/semilla-datos.constantes.ts`), extraídos con fidelidad absoluta a partir de los documentos institucionales oficiales de **Diaconía FRIF-IFD**, las planillas de asignación de prácticas preprofesionales, la matriz fotográfica de horarios de apoyo y los formularios de evaluación de desempeño.
 
 ---
 
-## 1. Tabla de Credenciales de Acceso Rápido
+## 1. Resumen Ejecutivo de la Población Sembrada
 
-| Nombre Completo | Correo Electrónico | Contraseña | Rol Institucional | Perfil / Entidad Asociada |
+| Rol Institucional | Cantidad de Cuentas | Contraseña Estándar | Ámbito de Operación |
+| :--- | :---: | :---: | :--- |
+| **Administradores** | **2** | `Bumand2026!` | Gestión global del ecosistema, sedes, geocercas, auditoría de asistencia y pasajes, reportes PDF y analítica institucional. |
+| **Supervisores (Tutores/Mentores)** | **29** | `Bumand2026!` | Supervisión operativa por unidad, llamada de lista en vivo, aprobación de pasajes (80%), evaluación de prácticas y firma digital canvas. |
+| **Estudiantes (Becarios BUMAND)** | **30** | `Bumand2026!` | Marcación de asistencia con geocerca GPS (Haversine), declaración de tramos de pasajes (Ida/Vuelta), formulario F-03 y seguimiento académico. |
+| **Total Usuarios con Cuenta Activa** | **61** | — | **100% de cobertura institucional** |
+
+> [!NOTE]
+> Adicionalmente se encuentran sembrados **25 templos e iglesias cristianas**, **11 sedes y agencias financieras** con geocercas calibradas, y **112 registros de evaluadores** en el módulo de Evaluación 360° (pastores, mentores y autoevaluación).
+
+---
+
+## 2. Cuentas de Acceso Rápido para Pruebas (Quick Access)
+
+Para demostraciones inmediatas y pruebas de integración en el frontend web (`http://localhost:3000`) o app móvil:
+
+| Perfil / Rol | Nombre Completo | Correo Electrónico | Contraseña | Cargo / Unidad / Carrera |
 | :--- | :--- | :--- | :--- | :--- |
-| **Administrador General** | `admin@wscrt.com` | `admin` | `administrador` | Administrador General BUMAND |
-| **Angel Javier Ali Paz** | `angel.ali@bumand.bo` | `Bumand2026!` | `supervisor` | Tutor General de Prácticas (Diaconía FRIF-IFD) |
-| **Nilda Amalia Churata Paye** | `nilda.churata@bumand.bo` | `Bumand2026!` | `becario` | Becaria (Educación Parvularia - UMSA) |
-| **Edgar Elias Alarcon Huanca** | `edgar.alarcon@bumand.bo` | `Bumand2026!` | `becario` | Becario (Medicina - UMSA) |
-| **Adai Belen Huayta Cardozo** | `adai.huayta@bumand.bo` | `Bumand2026!` | `becario` | Becaria (Estadística - UMSA) |
-| **Pastor David Mamani** | `pastor.david@diaconia.bo` | *(Evaluador)* | `pastor` | Pastor Evaluador (Iglesia Central El Alto) |
+| 👑 **Admin Sistemas** | Daniel Davalos Quiñonez | `daniel234.davalos@gmail.com` | `Bumand2026!` | Desarrollador y Administrador Técnico |
+| 👑 **Admin Coordinación** | Coordinación General BUMAND | `coordinacion@bumand.bo` | `Bumand2026!` | Dirección y Coordinación Diaconía IFD |
+| 👔 **Supervisor Tutor** | Angel Javier Ali Paz | `angel.ali@bumand.bo` | `Bumand2026!` | Tutor General / Jefe de Seguridad Física |
+| 👔 **Supervisora Salud** | Claudia Consuelo Cabrera Delgado | `claudia.cabrera@diaconia.bo` | `Bumand2026!` | Consultorio Médico / Talento Humano |
+| 👔 **Supervisor Negocios**| Rodrigo Solorzano San Martin | `rodrigo.solorzano@diaconia.bo` | `Bumand2026!` | SGN Captaciones / Productos y Canales |
+| 👔 **Supervisor Finanzas**| Walter Laime Poma | `walter.laime@diaconia.bo` | `Bumand2026!` | Subgerencia Nacional de Finanzas |
+| 👔 **Supervisor Crédito** | Carlos Alanoca Pari | `carlos.alanoca@diaconia.bo` | `Bumand2026!` | Jefe Crédito Individual y Cartera |
+| 🎓 **Becaria 1** | Nilda Amalia Churata Paye | `nilda.churata@bumand.bo` | `Bumand2026!` | CI: 10028341 | Educación Parvularia |
+| 🎓 **Becario 2** | Edgar Elias Alarcon Huanca | `edgar.alarcon@bumand.bo` | `Bumand2026!` | CI: 9160054 | Medicina |
+| 🎓 **Becaria 3** | Adai Belen Huayta Cardozo | `adai.huayta@bumand.bo` | `Bumand2026!` | CI: 13696496 | Estadística |
+| 🎓 **Becario 4 (Autor)**| Daniel Davalos Quiñonez | `daniel.davalos@bumand.bo` | `Bumand2026!` | CI: 9107373 | Informática |
+| 🎓 **Becaria 5** | Jhoselin Quispe Morales | `jhoselin.quispe@bumand.bo` | `Bumand2026!` | CI: 6950093 | Comunicación Social |
 
 ---
 
-## 2. Detalle de Usuarios, Roles y Atribuciones
+## 3. Nómina Completa de Administradores (2 Cuentas)
 
-### 👑 2.1. Administrador General (`admin@wscrt.com`)
-
-- **Identidad:** Administrador General BUMAND
-- **Rol en Sistema:** `administrador`
-- **Credenciales:**
-  - **Correo:** `admin@wscrt.com`
-  - **Contraseña:** `admin`
-- **Atribuciones y Funcionalidades Activas:**
-  1. **Dashboard General Analítico (Sprint 6):**
-     - Métricas globales de becarios activos, promedio de horas de práctica acreditadas y solicitudes de viáticos en trámite.
-     - Gráficos interactivos de series temporales de horas de práctica por mes (AreaChart con degradados).
-     - Gráfico de dona (PieChart Donut) de ejecución presupuestaria del reembolso institucional del 80%.
-     - Gráfico de barras comparativo de horas por iglesias y agencias bancarias comunitarias.
-  2. **Directorio y Gestión de Becarios (Sprint 2):**
-     - Alta institucional de estudiantes, asignación de unidades operativas, carreras, universidades, iglesias y lugares de práctica.
-     - Habilitación y deshabilitación de cuentas de usuario (`activo` / `inactivo`).
-  3. **Gestión de Sedes y Geocercas (Sprint 2):**
-     - Catálogo de 72 sedes de Diaconía FRIF-IFD con georreferenciación (`latitud`, `longitud`) y ajuste del radio geodésico de tolerancia (de 20 a 200 metros).
-  4. **Supervisión de Asistencia y Pasajes (Sprints 3 y 4):**
-     - Auditoría completa de las marcaciones de asistencia (fórmula de Haversine) y liquidación de viáticos en centavos enteros.
-  5. **Generación de Reportes PDF Oficiales (Sprint 7):**
-     - Emisión, previsualización e impresión de informes mensuales institucionales y constancias de horas de práctica.
-  6. **Centro de Notificaciones Corporativas (Sprint 8):**
-     - Monitoreo de alertas globales y eventos del sistema.
+| # | Nombre Completo | Correo Electrónico | Contraseña | Cargo Institucional |
+| :-: | :--- | :--- | :--- | :--- |
+| 1 | **Daniel Davalos Quiñonez** | `daniel234.davalos@gmail.com` | `Bumand2026!` | Administrador de Sistemas e Infraestructura BUMAND |
+| 2 | **Coordinación General BUMAND** | `coordinacion@bumand.bo` | `Bumand2026!` | Coordinación Institucional y Dirección del Programa BUMAND |
 
 ---
 
-### 👔 2.2. Supervisor Institucional: Angel Javier Ali Paz (`angel.ali@bumand.bo`)
+## 4. Nómina Completa de Supervisores y Mentores (29 Cuentas)
 
-- **Identidad:** Lic. Angel Javier Ali Paz
-- **Rol en Sistema:** `supervisor`
-- **Credenciales:**
-  - **Correo:** `angel.ali@bumand.bo`
-  - **Contraseña:** `Bumand2026!`
-- **Contacto Registrado:** Teléfono `72345678`
-- **Cargo Institucional:** Tutor General de Prácticas Profesionales BUMAND en Diaconía FRIF-IFD.
-- **Becarios Asignados Directamente:**
-  - Nilda Amalia Churata Paye (CI: `10028341`, Seguridad Física)
-  - Edgar Elias Alarcon Huanca (CI: `9160054`, Consultorio Médico)
-  - Adai Belen Huayta Cardozo (CI: `13696496`, Productos y Canales)
-- **Atribuciones y Funcionalidades Activas:**
-  1. **Panel de Supervisión (Sprint 6):**
-     - Seguimiento del cumplimiento de horas y desempeño del grupo de becarios a su cargo.
-  2. **Aprobación de Solicitudes de Pasajes (Sprint 4):**
-     - Inspección detallada de tramos declarados (ida y vuelta), paradas intermedias, tarifas declaradas y apoyo realizado.
-     - Validación del cálculo exacto del 80% en centavos enteros (ejemplo canónico: sobre Bs 345.00 declarados, reembolso exacto de Bs 276.00).
-     - Validación de verificación GPS (📍) en las paradas del trayecto.
-     - **Rechazo Justificado Obligatorio:** Capacidad de observar o rechazar solicitudes requiriendo un motivo formal documentado que notifica al becario.
-  3. **Evaluación 360° y Formulario F-03 (Sprint 5):**
-     - Calificación cuantitativa y cualitativa del **Módulo 3 (Evaluación del Mentor)** sobre los 5 módulos canónicos del modelo de evaluación diaconal.
-     - Revisión de formularios pastorales F-03 llenados por las iglesias.
-  4. **Convalidación con Firma Digital Canvas (Sprint 5):**
-     - Firma a mano alzada en lienzo HTML5 Canvas para certificar horas de práctica y evaluaciones mensuales, persistiendo el trazo criptográfico en base de datos.
-  5. **Emisión de Reportes PDF de Seguimiento (Sprint 7):**
-     - Generación y descarga de informes de convalidación mensual para la dirección del programa.
+Todos los supervisores acceden con la contraseña institucional: `Bumand2026!`
 
----
-
-### 🎓 2.3. Becaria 1: Nilda Amalia Churata Paye (`nilda.churata@bumand.bo`)
-
-- **Identidad:** Nilda Amalia Churata Paye
-- **Cédula de Identidad (CI):** `10028341`
-- **Rol en Sistema:** `becario`
-- **Credenciales:**
-  - **Correo:** `nilda.churata@bumand.bo`
-  - **Contraseña:** `Bumand2026!`
-- **ID de Registro:** Becario ID: `1` | Usuario ID: `3`
-- **Perfil Académico:**
-  - **Carrera:** Educación Parvularia
-  - **Universidad:** Universidad Mayor de San Andrés (UMSA)
-  - **Institución:** Diaconía FRIF-IFD
-  - **Unidad de Asignación:** Seguridad Física
-  - **Fecha de Ingreso:** 15 de enero de 2026
-- **Asignaciones Territoriales e Institucionales:**
-  - **Sede de Práctica:** Oficina Central Diaconía IFD - El Alto (Av. Juan Pablo II esq. Calle Sbtte. Jorge Eulert 125; Coordenadas: `-16.505000, -68.163000`; Radio: 50 metros).
-  - **Iglesia Asignada:** Iglesia Central El Alto (Pastor David Mamani).
-  - **Supervisor / Tutor:** Angel Javier Ali Paz.
-- **Atribuciones y Funcionalidades Activas:**
-  1. **Mi Panel Operativo (Sprint 1):**
-     - Métricas personales: total de horas acreditadas, porcentaje de puntualidad (96%) y monto de pasajes liquidados (Bs 276.00).
-     - **Radar Geofence en Tiempo Real:** Visualización interactiva con anillos concéntricos pulsantes (60 fps), indicador de precisión GPS y estado dentro/fuera de la geocerca de la Oficina Central.
-  2. **Marcación de Asistencia (Sprint 3):**
-     - Registro de entrada y salida de prácticas con validación geodésica estricta (Haversine). Si la distancia supera los 50 metros de la sede, el sistema bloquea la marcación.
-  3. **Declaración de Recorridos y Viáticos (Sprint 4):**
-     - Formulario de tramos diarios (Ida y Vuelta) con botón **PIN GPS (📍)** para capturar las coordenadas de paradas de transporte público.
-     - Visualización automática del 80% de reembolso en tiempo real.
-     - **Cumplimiento de la Regla Institucional del Día 24:** El botón de envío formal se habilita a partir del día 24 de cada mes, impidiendo el despacho prematuro de formularios incompletos.
-  4. **Formulario Pastoral F-03 (Sprint 5):**
-     - Registro estructurado de áreas de servicio, testimonio y liderazgo eclesiástico para evaluación pastoral.
-  5. **Mis Evaluaciones (Sprint 5):**
-     - Consulta de calificaciones semestrales ponderadas en la matriz 360° (Liderazgo, Académica, Mentor, Escuela de Líderes, Socioeconómica).
-  6. **Notificaciones Push y Alertas (Sprint 8):**
-     - Recepción de avisos de marcación, recordatorios de salida, confirmaciones de viáticos aprobados y observaciones.
+| # | Nombre del Tutor / Mentor | Correo Electrónico | Unidad / Área de Práctica | Cargo Institucional | Teléfono |
+| :-: | :--- | :--- | :--- | :--- | :-: |
+| 1 | **Angel Javier Ali Paz** | `angel.ali@bumand.bo` | Jefatura de Seguridad Física | Tutor General / Jefe de Seguridad Física | 72345678 |
+| 2 | **Claudia Consuelo Cabrera Delgado** | `claudia.cabrera@diaconia.bo` | Consultorio Médico / Talento Humano | Responsable Consultorio Médico / Talento Humano | 71982341 |
+| 3 | **Rodrigo Solorzano San Martin** | `rodrigo.solorzano@diaconia.bo` | Productos y Canales / Captaciones | Responsable Productos y Canales Financieros | 72091823 |
+| 4 | **Elsa Quinteros Aquino** | `elsa.quinteros@diaconia.bo` | Finanzas y Tesorería | Responsable Finanzas y Tesorería | 73019284 |
+| 5 | **Hugo Seifert** | `hugo.seifert@diaconia.bo` | Gerencia Nacional de Riesgos | Gerente Nacional de Riesgos | 74028391 |
+| 6 | **Max Arthur Reynoso Espinoza** | `max.reynoso@diaconia.bo` | Marketing y Comunicación | Jefe de Marketing y Comunicación Institucional | 75039482 |
+| 7 | **Mildrette Rojas Soliz** | `mildrette.rojas@diaconia.bo` | Planificación, Control y Presupuesto | Jefa de Planificación, Control y Presupuesto | 76049583 |
+| 8 | **Franz Raul Salazar Vasquez** | `franz.salazar@diaconia.bo` | Auditoría Interna | Auditor Interno Institucional | 77059684 |
+| 9 | **Reynaldo Alavi Paz** | `reynaldo.alavi@diaconia.bo` | Seguros / Servicios Financieros | Responsable de Seguros y Captaciones | 78069785 |
+| 10 | **Alberto Iber Leon Coronado** | `alberto.leon@diaconia.bo` | Seguridad de la Información | Oficial de Seguridad de la Información | 79079886 |
+| 11 | **Ramiro Riera** | `ramiro.riera@diaconia.bo` | Subgerencia Nacional de Administración | Subgerente Nacional de Administración | 71182930 |
+| 12 | **Eilen Astorga** | `eilen.astorga@diaconia.bo` | Subgerencia Nacional de Administración | Administradora de Operaciones | 72293041 |
+| 13 | **Cheryl Lissett Zegarra Corminales** | `cheryl.zegarra@diaconia.bo` | Captaciones y Canales | Especialista de Captaciones y Canales | 73304152 |
+| 14 | **Juan Perez** | `juan.perez@diaconia.bo` | Contabilidad e Impuestos | Jefe de Contabilidad e Impuestos | 74415263 |
+| 15 | **Ricardo Martin Menacho Salas** | `ricardo.menacho@diaconia.bo` | Jefatura de Procesos y Normas | Jefe de Procesos y Normas | 75526374 |
+| 16 | **Brian Marcelo Siles Loras** | `brian.siles@diaconia.bo` | Gerencia Nacional de Cumplimiento | Oficial de Cumplimiento Normativo | 76637485 |
+| 17 | **Samuel Martín Durán Baspineiro** | `samuel.duran@diaconia.bo` | Responsabilidad Diaconal (RSDyA) | Responsable Responsabilidad Social y Diaconal | 77748596 |
+| 18 | **Carlos Alanoca Pari** | `carlos.alanoca@diaconia.bo` | Crédito Individual y Cartera Productiva | Jefe Crédito Individual y Cartera Productiva | 78859607 |
+| 19 | **Adams Callejas** | `adams.callejas@diaconia.bo` | Gerencia Nacional de Cumplimiento | Analista de Cumplimiento y Control | 79960718 |
+| 20 | **Walter Laime Poma** | `walter.laime@diaconia.bo` | Subgerencia Nacional de Finanzas | Analista Financiero Senior | 71071829 |
+| 21 | **Anai Linda Paye Fabian** | `anai.paye@diaconia.bo` | Subgerencia Nacional RSDyA | Coordinadora de Proyectos Diaconales | 72182930 |
+| 22 | **Maritza Aguilar Rodrigo** | `maritza.aguilar@diaconia.bo` | Subgerencia Nacional de Finanzas | Tesorera Institucional | 73293041 |
+| 23 | **Jaime Rodrigo Poma Cruz** | `jaime.poma@diaconia.bo` | Administración e Infraestructura | Encargado Mantenimiento y Activos Fijos | 74304152 |
+| 24 | **Fernando Castillo Vedia** | `fernando.castillo@diaconia.bo` | Jefatura de Redes y Comunicaciones | Jefe de Redes y Telecomunicaciones | 75415263 |
+| 25 | **María Angélica Crespo Patzi** | `maria.crespo@diaconia.bo` | Gerencia Nacional de Riesgos | Analista de Riesgo Crediticio y Operativo | 76526374 |
+| 26 | **Jenny Ramos Ticona** | `jenny.ramos@diaconia.bo` | Gerencia Nacional de Auditoría | Auditora Operativa Senior | 77637485 |
+| 27 | **Raisa Noelia Arce Humerez** | `raisa.arce@diaconia.bo` | Jefatura de Procesos y Normas | Analista de Organización y Métodos | 78748596 |
+| 28 | **Pamela Sanchez Cachi** | `pamela.sanchez@diaconia.bo` | Subgerencia Nacional RSDyA | Facilitadora de Acción Social Diaconal | 79859607 |
+| 29 | **Alejandra Lizeth Romay Valdez** | `alejandra.romay@diaconia.bo` | Subgerencia de Negocios y Marketing | Especialista en Marketing Digital | 71960718 |
 
 ---
 
-### 🎓 2.4. Becario 2: Edgar Elias Alarcon Huanca (`edgar.alarcon@bumand.bo`)
+## 5. Nómina Completa de Estudiantes y Becarios (30 Cuentas)
 
-- **Identidad:** Edgar Elias Alarcon Huanca
-- **Cédula de Identidad (CI):** `9160054`
-- **Rol en Sistema:** `becario`
-- **Credenciales:**
-  - **Correo:** `edgar.alarcon@bumand.bo`
-  - **Contraseña:** `Bumand2026!`
-- **ID de Registro:** Becario ID: `2` | Usuario ID: `4`
-- **Perfil Académico:**
-  - **Carrera:** Medicina
-  - **Universidad:** Universidad Mayor de San Andrés (UMSA)
-  - **Unidad de Asignación:** Consultorio Médico
-  - **Sede de Práctica:** Oficina Central Diaconía IFD - El Alto
-  - **Supervisor / Tutor:** Angel Javier Ali Paz
-- **Atribuciones:**
-  - Marcación georreferenciada de jornadas en el Consultorio Médico de Diaconía.
-  - Registro de traslados y viáticos para brigadas de atención médica comunitaria.
-  - Gestión de horas de servicio y autoevaluación semestral.
+Todos los estudiantes acceden con la contraseña institucional: `Bumand2026!`
 
----
-
-### 🎓 2.5. Becaria 3: Adai Belen Huayta Cardozo (`adai.huayta@bumand.bo`)
-
-- **Identidad:** Adai Belen Huayta Cardozo
-- **Cédula de Identidad (CI):** `13696496`
-- **Rol en Sistema:** `becario`
-- **Credenciales:**
-  - **Correo:** `adai.huayta@bumand.bo`
-  - **Contraseña:** `Bumand2026!`
-- **ID de Registro:** Becario ID: `3` | Usuario ID: `5`
-- **Perfil Académico:**
-  - **Carrera:** Estadística
-  - **Universidad:** Universidad Mayor de San Andrés (UMSA)
-  - **Unidad de Asignación:** Productos y Canales
-  - **Sede de Práctica:** Oficina Central Diaconía IFD - El Alto
-  - **Supervisor / Tutor:** Angel Javier Ali Paz
-- **Atribuciones:**
-  - Marcación de asistencia para proyectos de analítica y canales financieros en Diaconía.
-  - Declaración mensual de viáticos del 80% y cálculo de transporte urbano.
-  - Carga de notas semestrales y seguimiento de avance académico.
+| # | CI | Nombre del Estudiante | Correo Institucional | Carrera | Universidad | Unidad de Práctica | Tutor / Mentor Asignado | Horario Semanal de Práctica |
+| :-: | :-: | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 1 | `13696496` | **Adai Belen Huayta Cardozo** | `adai.huayta@bumand.bo` | Estadística | UMSA | Productos y Canales | Rodrigo Solorzano San Martin | Lun (13:00-16:30), Mié (13:00-16:30), Vie (09:00-14:00) |
+| 2 | `10064956` | **Alejandro Roberth Paredes Tarquino** | `alejandro.paredes@bumand.bo` | Comunicación Social | UPEA | Marketing y Comunicación | Max Arthur Reynoso Espinoza | Mar (10:30-13:30), Jue (10:30-13:30), Vie (10:30-13:30) |
+| 3 | `9952878` | **Aydee Ruth Ali Condori** | `aydee.ali@bumand.bo` | Contaduría Pública | UPEA | Finanzas y Tesorería | Elsa Quinteros Aquino | Mar (10:00-13:00), Jue (10:00-13:00), Vie (10:00-13:00) |
+| 4 | `9943280` | **Carlos Oscar Luna Lizarraga** | `carlos.luna@bumand.bo` | Economía | UMSA | Auditoría Interna | Franz Raul Salazar Vasquez | Mar (08:00-12:00), Jue (08:00-12:00), Vie (08:00-14:00) |
+| 5 | `10930509` | **Cristhian Alejandro Soto Apaza** | `cristhian.soto@bumand.bo` | Administración de Empresas | UPEA | Finanzas y Tesorería | Elsa Quinteros Aquino | Lun (08:30-16:30), Mié (08:30-16:30) |
+| 6 | `9107373` | **Daniel Davalos Quiñonez** | `daniel.davalos@bumand.bo` | Informática | UMSA | Seguridad Física | Angel Javier Ali Paz | Mar (13:00-16:00), Vie (08:00-14:00) |
+| 7 | `9160054` | **Edgar Elias Alarcon Huanca** | `edgar.alarcon@bumand.bo` | Medicina | UNABAL / UMSA | Consultorio Médico | Claudia Consuelo Cabrera Delgado | Lun (08:00-16:00), Vie (10:00-14:00) |
+| 8 | `12423846` | **Fernando Rene Yujra Quispe** | `fernando.yujra@bumand.bo` | Ingeniería Civil | UMSA | Administración e Infraestructura | Jaime Rodrigo Poma Cruz | Lun (08:30-16:30), Mié (08:30-16:30) |
+| 9 | `8416501` | **Gonzalo Valencia Laura** | `gonzalo.valencia@bumand.bo` | Contaduría Pública | UMSA | Contabilidad e Impuestos | Juan Perez | Lun (14:00-16:00), Mar (13:00-14:00), Mié (14:00-16:00), Jue (14:00-16:00) |
+| 10 | `13088041` | **Gustavo Ariel Condori Montaño** | `gustavo.condori@bumand.bo` | Contaduría Pública | UMSA | Captaciones y Canales | Cheryl Lissett Zegarra Corminales | Lun (14:00-16:00), Mar (14:00-16:00), Mié (14:00-16:00), Jue (08:00-12:00) |
+| 11 | `10920862` | **Isaias Daniel Herrera Mamani** | `isaias.herrera@bumand.bo` | Arquitectura | UPEA | Subgerencia de Administración | Ramiro Riera | Lun (09:00-15:00), Mié (08:00-16:00) |
+| 12 | `6950093` | **Jhoselin Quispe Morales** | `jhoselin.quispe@bumand.bo` | Comunicación Social | UMSA | Procesos y Normas | Ricardo Martin Menacho Salas | Lun (08:30-16:30), Mié (08:30-16:30) |
+| 13 | `9208456` | **Johan Ludvig Misme Flores** | `johan.misme@bumand.bo` | Informática | UMSA | Seguridad de la Información | Alberto Iber Leon Coronado | Lun (08:00-12:30), Mié (08:00-12:30) |
+| 14 | `12604724` | **Joselin Wara Huanca Paucara** | `joselin.huanca@bumand.bo` | Contaduría Pública | UMSA | Cumplimiento | Brian Marcelo Siles Loras | Lun (13:30-16:00), Mié (13:30-16:00), Jue (13:30-16:00), Sáb (08:30-10:00) |
+| 15 | `14378720` | **José Marcos Suñagua Quispe** | `jose.sunagua@bumand.bo` | Informática | UMSA | Riesgos | Hugo Seifert | Mié (08:30-11:30), Jue (08:30-11:30), Vie (08:30-13:30) |
+| 16 | `13603536` | **Lizbeth Pacasi Machaca** | `lizbeth.pacasi@bumand.bo` | Bioquímica y Farmacia | UMSA | Consultorio Médico | Claudia Consuelo Cabrera Delgado | Mar (08:30-14:00), Jue (11:30-15:30) |
+| 17 | `9927657` | **Luis Santiago Enrriquez Conde** | `luis.enrriquez@bumand.bo` | Comunicación Social | UMSA | Marketing y Comunicación | Alejandra Lizeth Romay Valdez | Lun (08:30-16:30), Mié (08:30-16:30) |
+| 18 | `12959656` | **Mariela Dayana Jimenez Chambi** | `mariela.jimenez@bumand.bo` | Contaduría Pública | UMSA | Seguros / Servicios Financieros | Reynaldo Alavi Paz | Lun (14:00-18:00), Mar (11:00-16:20), Jue (11:00-16:20) |
+| 19 | `7077936` | **Mario Catunta Laime** | `mario.catunta@bumand.bo` | Economía | UPEA | Cartera de Crédito | Carlos Alanoca Pari | Lun (08:00-16:00), Mié (08:00-16:00) |
+| 20 | `8411610` | **Mateo Miguel Cussi Flores** | `mateo.cussi@bumand.bo` | Informática | UMSA | Seguros | Reynaldo Alavi Paz | Lun (08:00-10:00), Mié (08:00-10:00), Vie (08:00-13:00) |
+| 21 | `13627440` | **Matias José Uri Flores** | `matias.uri@bumand.bo` | Lingüística e Idiomas | UMSA | Responsabilidad Diaconal | Samuel Martín Durán Baspineiro | Lun a Jue (08:00-13:00) |
+| 22 | `9925727` | **Mayherli Alejandra Loza Villalobos** | `mayherli.loza@bumand.bo` | Contaduría Pública | UMSA | Finanzas y Tesorería | Elsa Quinteros Aquino | Lun (08:15-14:30), Mié (10:00-15:00), Vie (10:00-14:00) |
+| 23 | `14155448` | **Milenka Quispe Coarite** | `milenka.quispe@bumand.bo` | Administración de Empresas | UMSA | Procesos y Normas | Ricardo Martin Menacho Salas | Mié (08:00-13:00), Jue (08:00-12:00) |
+| 24 | `10369104` | **Monica Mamani Mamani** | `monica.mamani@bumand.bo` | Lingüística e Idiomas | UMSA | Responsabilidad Diaconal (RSDyA)| Anai Linda Paye Fabian | Lun (08:30-16:30), Mié (08:30-16:30) |
+| 25 | `10028341` | **Nilda Amalia Churata Paye** | `nilda.churata@bumand.bo` | Educación Parvularia | UMSA / UPEA | Seguridad Física | Angel Javier Ali Paz | Mar (08:00-13:00), Jue (08:00-13:00) |
+| 26 | `7093658` | **Noemi Callisaya Alvarez** | `noemi.callisaya@bumand.bo` | Psicomotricidad y Deportes | UPEA | Consultorio Médico | Claudia Consuelo Cabrera Delgado | Lun (08:30-12:30), Vie (08:30-13:30) |
+| 27 | `6172054` | **Ronald Mauricio Quiquijana Mayta** | `ronald.quiquijana@bumand.bo` | Ing. Telecomunicaciones | EMI | Seguridad de la Información | Alberto Iber Leon Coronado | Lun (08:00-16:00), Jue (14:00-16:00) |
+| 28 | `9974211` | **Ruddy Flores Tapia** | `ruddy.flores@bumand.bo` | Informática | UMSA | Planificación y Presupuesto | Mildrette Rojas Soliz | Lun (09:00-16:00), Mié (09:00-16:00) |
+| 29 | `10915872` | **Ruth Alesandra Choque Huanca** | `ruth.choque@bumand.bo` | Ingeniería Comercial | UNICEN | Cumplimiento | Brian Marcelo Siles Loras | Lun (08:30-16:30), Mié (08:30-16:30) |
+| 30 | `13693151` | **Selena Fernanda Pillco Mamani** | `selena.pillco@bumand.bo` | Economía | UMSA | Captaciones y Canales | Cheryl Lissett Zegarra Corminales | Lun (08:00-11:00), Mar (08:00-10:30), Mié (08:00-11:00), Jue (08:00-10:30) |
 
 ---
 
-### ⛪ 2.6. Evaluador Pastoral: Pastor David Mamani (`pastor.david@diaconia.bo`)
+## 6. Red de Pastores e Iglesias Eclesiásticas (Formulario F-03)
 
-- **Identidad:** Pastor David Mamani
-- **Tipo de Evaluador:** `pastor`
-- **Contacto Registrado:** Teléfono `71234567`
-- **Congregación:** Iglesia Central El Alto
-- **Atribuciones:**
-  - Evaluación del **Módulo 1 (Liderazgo en la Iglesia)**.
-  - Calificación y emisión del Formulario F-03 con retroalimentación del testimonio, ministerio diaconal y compromiso congregacional de los becarios asignados.
+Registrados en la entidad `iglesias` y el catálogo de evaluadores de tipo `pastor` para la digitalización del Formulario Pastoral F-03:
+
+| # | Congregación Eclesiástica | Pastor Evaluador | Teléfono Pastor | Becario Vinculado |
+| :-: | :--- | :--- | :-: | :--- |
+| 1 | **Sinai Los Andes** | Pedro Pablo Callisaya Callisaya | `70659050` | Adai Belen Huayta Cardozo |
+| 2 | **Centro Evangelístico Caluyo** | David Felix Quispe Quispe | `70558225` | Alejandro Roberth Paredes Tarquino |
+| 3 | **Iglesia del Nazareno El Progreso** | René Max Condori Quispe | `72095673` | Aydee Ruth Ali Condori |
+| 4 | **Nazareno 6 de Junio** | Pastor Abdias | `67316797` | Carlos Oscar Luna Lizarraga |
+| 5 | **Arca de Dios** | Abraham Mollo Quenaya | `74042185` | Cristhian Alejandro Soto Apaza |
+| 6 | **Iglesia Metodista Monte de Horeb** | Julio Llanquichoque | `71209902` | Daniel Davalos Quiñonez |
+| 7 | **Eli - Ezer** | Antonio Ali Mayta | `62388850` | Edgar Elias Alarcon Huanca |
+| 8 | **Iglesia Evangélica de Dios Boliviana Pampahasi** | Andres Alarcon | `76209019` | Fernando Rene Yujra Quispe |
+| 9 | **Bautista para la Familia** | Alfredo Valencia Vela | `77775161` | Isaias Daniel Herrera Mamani |
+| 10 | **Pacajes** | Ramiro Zárate García | `67061212` | Jhoselin Quispe Morales |
+| 11 | **6 de Junio** | Abdias Espinoza Aleluya | `67316797` | José Marcos Suñagua Quispe |
+| 12 | **Bet-el** | Santiago Aparicio Enrriquez Salinas | `70544022` | Luis Santiago Enrriquez Conde |
+| 13 | **Ministerio Misión Boliviana** | Cristina Elizabeth Lopez Ch | `76707009` | Mariela Dayana Jimenez Chambi |
+| 14 | **Nazareno Río Seco** | Rubén Wilfredo Flores Villa | `76550588` | Mario Catunta Laime |
+| 15 | **Canaan** | Mario Pacohuanca Cruz | `63252756` | Mayherli Alejandra Loza Villalobos |
+| 16 | **La Hermosa** | Héctor Sergio Choque Mamani | `75239369` | Monica Mamani Mamani |
+| 17 | **Iglesia Evangélica Amigos Central Bautista Saavedra** | Luis Álvaro Quispe Condori | `73236864` | Nilda Amalia Churata Paye |
+| 18 | **El Progreso** | René Max Condori Quispe | `72095673` | Noemi Callisaya Alvarez |
+| 19 | **Centro Evangelístico Caluyo (Sede 2)** | David Felix Quispe Quispe | `70558225` | Ronald Mauricio Quiquijana Mayta |
+| 20 | **Iglesia del Nazareno Río Seco (Sede 2)** | Rubén Flores Villa | `76550588` | Ruddy Flores Tapia |
+| 21 | **El Buen Pastor** | Manuel Mamani Mamani | `72003290` | Ruth Alesandra Choque Huanca |
+| 22 | **Iglesia Central El Alto** | David Mamani | `71234567` | Asignación general |
+| 23 | **Iglesia Bautista Emanuel - Sopocachi** | Marcos Gutierrez | `72019283` | Asignación Zona Sur / Central |
+| 24 | **Iglesia Metodista El Salvador** | Esteban Choque | `73029384` | Asignación Calacoto |
+| 25 | **Iglesia Presbiteriana Maranata** | Samuel Miranda | `74039485` | Asignación Sopocachi |
 
 ---
 
-## 3. Matriz de Permisos por Rol (RBAC)
+## 7. Matriz de Atribuciones y Permisos por Rol (RBAC)
 
-| Módulo / Funcionalidad | `administrador` | `supervisor` | `becario` |
+| Módulo Operativo / Funcionalidad | `administrador` | `supervisor` | `becario` |
 | :--- | :---: | :---: | :---: |
 | **Inicio de Sesión y Detección Automática de Rol** | Sí | Sí | Sí |
 | **Dashboard Analítico con Gráficos Recharts (S6)** | Sí (Global) | Sí (Asignados) | No |
@@ -183,7 +171,7 @@ Este documento detalla exhaustivamente los usuarios de prueba sembrados en la ba
 | **Marcación de Asistencia Haversine (S3)** | Auditoría | Supervisión | Marcación GPS |
 | **Declaración de Tramos con Botón PIN (S4)** | Auditoría | Consulta | Declaración |
 | **Aprobación / Rechazo de Pasajes 80% (S4)** | Auditoría | Aprobación / Rechazo | Consulta de Estado |
-| **Evaluación 360° (5 Módulos Canónicos) (S5)** | Visualización Global | Calificación de Mentor | Autoevaluación |
+| **Evaluación 360° (5 Módulos Canónicos) (S5)** | Visualización Global | Calificación Mentor | Autoevaluación |
 | **Firma Digital Canvas (S5)** | Validación | Firma de Aprobación | No |
 | **Llenado de Formulario Pastoral F-03 (S5)** | Consulta | Revisión | Registro Inicial |
 | **Generación y Descarga de Reportes PDF (S7)** | Sí (Oficial) | Sí (Seguimiento) | Constancia Personal |
@@ -191,22 +179,24 @@ Este documento detalla exhaustivamente los usuarios de prueba sembrados en la ba
 
 ---
 
-## 4. Guía Rápida de Pruebas y Validación
+## 8. Guía de Ejecución y Validación de Pruebas
 
-### En la Interfaz Web (`bumand-frontend`)
-1. Dirígete a la pantalla de ingreso: `http://localhost:3000/inicio-sesion` (o el puerto configurado).
-2. En la sección inferior **"Credenciales de Prueba RBAC"**, haz clic en cualquiera de las tarjetas de acceso rápido:
-   - **Administrador General:** Carga `admin@wscrt.com` / `admin`. Permite acceder al panel analítico global con gráficos Recharts.
-   - **Supervisor (Angel Ali Paz):** Carga `angel.ali@bumand.bo` / `Bumand2026!`. Permite revisar becarios a cargo, aprobar viáticos con centavos y estampar firma digital canvas.
-   - **Becaria (Nilda Churata):** Carga `nilda.churata@bumand.bo` / `Bumand2026!`. Permite interactuar con el radar geocerca, registrar tramos con GPS (PIN) y llenar el formulario F-03.
-3. El sistema identifica automáticamente el rol del usuario sin necesidad de conmutadores manuales y ajusta las pestañas y vistas en consecuencia.
-4. Para alternar de usuario, utiliza el botón **Cerrar Sesión** en la esquina superior derecha.
+### Ejecución de la Semilla por Comando (Backend)
+Para volver a ejecutar o refrescar la siembra institucional en cualquier momento sobre una base de datos limpia:
+```bash
+cd bumand-backend
+npm run sembrar
+```
+El servicio verifica automáticamente la existencia previa de registros, actualiza los datos institucionales si ya existen y limpia perfiles obsoletos de forma totalmente idempotente.
+
+### En la Plataforma Web (`bumand-frontend`)
+1. Abrir `http://localhost:3000/inicio-sesion`.
+2. Para probar un perfil administrativo: ingresar `daniel234.davalos@gmail.com` / `Bumand2026!` o `coordinacion@bumand.bo` / `Bumand2026!`.
+3. Para probar un perfil de supervisión: ingresar `angel.ali@bumand.bo` / `Bumand2026!` o cualquier correo de los 29 supervisores.
+4. Para probar un perfil de estudiante: ingresar `nilda.churata@bumand.bo` / `Bumand2026!` o cualquiera de los 30 becarios.
+5. El sistema detecta el rol JWT automáticamente y redirige a la vista correspondiente sin necesidad de selección manual.
 
 ### En la Aplicación Móvil (`bumand-movil`)
-1. Inicia sesión con `nilda.churata@bumand.bo` y contraseña `Bumand2026!`.
-2. Observa el Radar Geofence con pulsos animados a 60 fps evaluando la cercanía a la Oficina Central El Alto.
-3. En la pestaña de viáticos, presiona el botón **PIN (📍)** para rellenar la latitud y longitud actuales del tramo.
-
-### En la API REST Backend (`bumand-backend`)
-- Documentación interactiva Swagger: `http://localhost:3000/api/docs`.
-- Endpoint de Autenticación: `POST /api/autenticacion/inicio-sesion` con `{ "correo": "...", "contrasena": "..." }`.
+1. Abrir la aplicación móvil e ingresar credenciales de estudiante (ej. `nilda.churata@bumand.bo` / `Bumand2026!`).
+2. Validar la geocerca interactiva de la **Oficina Central Diaconía IFD - El Alto** (`lat: -16.500054, lng: -68.173455`, radio 60 m).
+3. Ingresar al módulo de pasajes para verificar el formulario con cálculo exacto del 80% y restricción institucional del día 24.

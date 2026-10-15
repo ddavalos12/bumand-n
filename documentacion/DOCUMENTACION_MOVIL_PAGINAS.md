@@ -71,7 +71,7 @@ flutter build apk --release
 #### 4. Credenciales Semilla RBAC para Pruebas Móviles:
 - **Estudiante Becaria (Acceso Predeterminado):** `nilda.churata@bumand.bo` | Clave: `Bumand2026!`
 - **Supervisor Institucional:** `angel.ali@bumand.bo` | Clave: `Bumand2026!`
-- **Administrador General:** `admin@wscrt.com` | Clave: `admin`
+- **Administrador General:** `daniel234.davalos@gmail.com` | Clave: `Bumand2026!`
 
 ---
 

@@ -219,7 +219,7 @@ Para facilitar la verificación integral de las funcionalidades, la segregación
 
 | Rol de Usuario | Correo Electrónico | Contraseña | Alcance y Permisos Clave en el Ecosistema |
 | :--- | :--- | :---: | :--- |
-| **Administrador General** | `admin@wscrt.com` | `admin` | • Acceso total a todas las vistas y configuraciones.<br>• Creación y edición de sedes y sub-bloques edilicios.<br>• Asignación exclusiva de tutores y supervisores a becarios.<br>• Emisión de la orden global de confirmación mensual de datos.<br>• Apertura y cierre de semestres en evaluaciones.<br>• Configuración flexible de la matriz 360° (base 20% adaptable).<br>• Auditoría analítica con filtro de fechas y KPIs de multas.<br>• Gestión y emisión de la Planilla de Reposición de Refrigerios (`REP-REF-0000X`). |
+| **Administrador General** | `daniel234.davalos@gmail.com` | `Bumand2026!` | • Acceso total a todas las vistas y configuraciones.<br>• Creación y edición de sedes y sub-bloques edilicios.<br>• Asignación exclusiva de tutores y supervisores a becarios.<br>• Emisión de la orden global de confirmación mensual de datos.<br>• Apertura y cierre de semestres en evaluaciones.<br>• Configuración flexible de la matriz 360° (base 20% adaptable).<br>• Auditoría analítica con filtro de fechas y KPIs de multas.<br>• Gestión y emisión de la Planilla de Reposición de Refrigerios (`REP-REF-0000X`). |
 | **Supervisor Institucional** | `angel.ali@bumand.bo` | `Bumand2026!` | • Panel operativo restringido a los becarios bajo su tutela.<br>• Monitoreo presencial y llamada de lista rápida en vivo (viernes).<br>• Aprobación y observación de solicitudes de pasajes al 80%.<br>• Calificación del módulo práctico en evaluación 360° y firma digital.<br>• Dictamen motivado en bandeja de justificaciones de inasistencia.<br>• *Restricción:* No puede modificar sedes ni cambiar universidades. |
 | **Estudiante Becaria** | `nilda.churata@bumand.bo` | `Bumand2026!` | • Marcación satelital con radar geodésico y detección de bloque.<br>• Advertencia visual transparente de multa por retraso (Bs 10/min).<br>• Declaración mensual de tramos de pasajes con PIN GPS.<br>• Llenado del formulario pastoral F-03 y autoevaluación.<br>• Lectura del versículo del día y redacción de reflexiones devocionales.<br>• Consulta de Historial estructurado en 3 pestañas (Asistencias, Pasajes, Multas e Incidencias).<br>• *Restricción:* Campos universitarios bloqueados en modo solo lectura. |
 
@@ -267,7 +267,7 @@ La plataforma web de **BUMAND** ha sido desarrollada sobre **Next.js 14+ (App Ro
 
 ### 1.1. Matriz de Roles y Alcance de Navegación
 
-| Módulo / Pestaña | Administrador (`admin@wscrt.com`) | Supervisor (`angel.ali@bumand.bo`) | Becario (`nilda.churata@bumand.bo`) |
+| Módulo / Pestaña | Administrador (`daniel234.davalos@gmail.com`) | Supervisor (`angel.ali@bumand.bo`) | Becario (`nilda.churata@bumand.bo`) |
 | :--- | :---: | :---: | :---: |
 | **Inicio de Sesión** | Acceso Global | Acceso Global | Acceso Global |
 | **Dashboard / Panel Principal** | Analítico Global con Rango de Fechas & KPIs Multas | Panel Operativo de Supervisión | Panel Personal Operativo |
@@ -312,7 +312,7 @@ npm run dev        # Inicia en http://localhost:3000
 ```
 
 #### 4. Credenciales Semilla RBAC de Prueba:
-- **Administrador:** `admin@wscrt.com` | Clave: `admin` (Acceso total, sedes/bloques, asignación tutores, apertura semestres, matriz 20%, refrigerios).
+- **Administrador:** `daniel234.davalos@gmail.com` | Clave: `Bumand2026!` (Acceso total, sedes/bloques, asignación tutores, apertura semestres, matriz 20%, refrigerios).
 - **Supervisor:** `angel.ali@bumand.bo` | Clave: `Bumand2026!` (Llamada lista en vivo, aprobación pasajes 80%, evaluación prácticas).
 - **Becaria:** `nilda.churata@bumand.bo` | Clave: `Bumand2026!` (Marcación GPS con bloque, radar, viáticos 80%, F-03, devocionales).
 
@@ -346,7 +346,7 @@ La pantalla de inicio de sesión (`/inicio-sesion`) es el punto de entrada únic
 
 ---
 
-## 3. Rol: Administrador General (`admin@wscrt.com`)
+## 3. Rol: Administrador General (`daniel234.davalos@gmail.com`)
 
 El Administrador General cuenta con el nivel de privilegios más alto dentro del ecosistema, con potestad para auditar, dar de alta sedes, registrar becarios, convocar eventos y convalidar reportes oficiales.
 
@@ -919,7 +919,7 @@ flutter build apk --release
 #### 4. Credenciales Semilla RBAC para Pruebas Móviles:
 - **Estudiante Becaria (Acceso Predeterminado):** `nilda.churata@bumand.bo` | Clave: `Bumand2026!`
 - **Supervisor Institucional:** `angel.ali@bumand.bo` | Clave: `Bumand2026!`
-- **Administrador General:** `admin@wscrt.com` | Clave: `admin`
+- **Administrador General:** `daniel234.davalos@gmail.com` | Clave: `Bumand2026!`
 
 ---
 

@@ -131,7 +131,7 @@ async function ejecutar() {
     await capturar(pageWeb, path.join(CARPETA_WEB, 'web_login.png'));
 
     console.log('\n--- 2. WEB: ROL ADMINISTRADOR ---');
-    await iniciarSesion(pageWeb, 'admin@wscrt.com', 'admin');
+    await iniciarSesion(pageWeb, 'daniel234.davalos@gmail.com', 'Bumand2026!');
 
     await seleccionarPestaña(pageWeb, 'administracion', 'Dashboard General');
     await capturar(pageWeb, path.join(CARPETA_WEB, 'admin_dashboard.png'));
