@@ -61,8 +61,11 @@ pnpm-debug.log*
 /*.md
 !/README.md
 !/USUARIOS_PRUEBA.md
-!documentacion/
-documentacion/pgsql/
+
+# Documentación, Directrices de Implementación y Recursos Locales
+docs/
+documentacion/
+nuevos-requerimientos/
 
 # Archivos Temporales y Documentos de Casos de Uso No Esenciales
 /_prototipos/
