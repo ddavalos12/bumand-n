@@ -411,9 +411,8 @@ async function convertirMdAPdf(rutaMd, rutaPdfSalida, opcionesPortada) {
   const page = await browser.newPage();
   await page.setContent(documentoCompletoHtml, { waitUntil: 'networkidle0' });
 
-  // Generar el PDF oficial con márgenes y numeración
-  await page.pdf({
-    path: rutaPdfSalida,
+  // Generar el PDF oficial en memoria para soportar reemplazo seguro en Windows
+  const bufferPdf = await page.pdf({
     format: 'A4',
     printBackground: true,
     displayHeaderFooter: true,
@@ -438,8 +437,36 @@ async function convertirMdAPdf(rutaMd, rutaPdfSalida, opcionesPortada) {
   });
 
   await browser.close();
-  const tamanoKb = (fs.statSync(rutaPdfSalida).size / 1024).toFixed(1);
-  console.log(`✅ PDF generado exitosamente: ${rutaPdfSalida} (${tamanoKb} KB)`);
+
+  const escribirPdfSeguro = (rutaDestino) => {
+    try {
+      fs.writeFileSync(rutaDestino, bufferPdf);
+      return rutaDestino;
+    } catch (err) {
+      if (err.code === 'EBUSY') {
+        try {
+          const rutaTempAntigua = `${rutaDestino}.old_${Date.now()}`;
+          fs.renameSync(rutaDestino, rutaTempAntigua);
+          fs.writeFileSync(rutaDestino, bufferPdf);
+          try { fs.unlinkSync(rutaTempAntigua); } catch (_) {}
+          return rutaDestino;
+        } catch (_) {
+          const rutaAlternativa = rutaDestino.replace(/\.pdf$/i, '_ACTUALIZADO.pdf');
+          fs.writeFileSync(rutaAlternativa, bufferPdf);
+          console.warn(`⚠️ El archivo ${path.basename(rutaDestino)} está abierto en otro programa; se guardó también en: ${rutaAlternativa}`);
+          return rutaAlternativa;
+        }
+      }
+      throw err;
+    }
+  };
+
+  const rutaEscrita = escribirPdfSeguro(rutaPdfSalida);
+  const rutaRaizDestino = path.join(RUTA_RAIZ, path.basename(rutaPdfSalida));
+  escribirPdfSeguro(rutaRaizDestino);
+
+  const tamanoKb = (bufferPdf.length / 1024).toFixed(1);
+  console.log(`✅ PDF generado exitosamente: ${rutaEscrita} (${tamanoKb} KB)`);
 }
 
 async function ejecutar() {
@@ -494,19 +521,6 @@ async function ejecutar() {
       }
     );
 
-    // Copias en la raíz del proyecto para máxima accesibilidad
-    fs.copyFileSync(
-      path.join(RUTA_DOC, 'DOCUMENTACION_WEB_ROLES.pdf'),
-      path.join(RUTA_RAIZ, 'DOCUMENTACION_WEB_ROLES.pdf')
-    );
-    fs.copyFileSync(
-      path.join(RUTA_DOC, 'DOCUMENTACION_MOVIL_PAGINAS.pdf'),
-      path.join(RUTA_RAIZ, 'DOCUMENTACION_MOVIL_PAGINAS.pdf')
-    );
-    fs.copyFileSync(
-      path.join(RUTA_DOC, 'DOCUMENTACION_INTEGRAL_BUMAND.pdf'),
-      path.join(RUTA_RAIZ, 'DOCUMENTACION_INTEGRAL_BUMAND.pdf')
-    );
     console.log(`✅ Copias de acceso directo creadas en la raíz de new-bumand.`);
 
     console.log('\n🎉 ¡Todos los documentos PDF fueron compilados exitosamente!');
