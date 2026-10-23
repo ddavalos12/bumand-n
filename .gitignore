@@ -40,6 +40,7 @@ pnpm-debug.log*
 
 # Documentación LaTeX y Auxiliares
 *.tex
+!diapositivas/presentacion-bumand.tex
 *.aux
 *.log
 *.out
@@ -56,11 +57,13 @@ pnpm-debug.log*
 !DOCUMENTACION_INTEGRAL_BUMAND.pdf
 !DOCUMENTACION_WEB_ROLES.pdf
 !DOCUMENTACION_MOVIL_PAGINAS.pdf
+!diapositivas/presentacion-bumand.pdf
 
 # Documentación Markdown oficial
 /*.md
 !/README.md
 !/USUARIOS_PRUEBA.md
+!/seeders.md
 
 # Documentación, Directrices de Implementación y Recursos Locales
 docs/
@@ -108,3 +111,16 @@ $RECYCLE.BIN/
 AudiosyDocumentosBumands/
 documentacion/
 scripts/
+
+# Diapositivas: ignorar únicamente archivos auxiliares temporales de compilación
+diapositivas/*.aux
+diapositivas/*.log
+diapositivas/*.out
+diapositivas/*.toc
+diapositivas/*.nav
+diapositivas/*.snm
+diapositivas/*.fls
+diapositivas/*.fdb_latexmk
+diapositivas/*.synctex.gz
+diapositivas/_*
+
