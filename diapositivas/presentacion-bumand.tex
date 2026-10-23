@@ -517,11 +517,11 @@
                 \textbf{Base de Datos} & RDS PostgreSQL: +\$17.50/mes & Docker PostgreSQL (\$0 extra) \\
                 \textbf{IP P\'ublica Fija} & \$0.005/hora no asociada & IP est\'atica incluida (\$0 extra) \\
                 \midrule
-                \textbf{Costo Mensual} & \textbf{\$17.60 - \$35.10 / mes} & \textbf{\$10.00 USD / mes} (\~Bs. 70) \\
+                \textbf{Costo Mensual} & \textbf{\$17.60 - \$35.10 / mes}\newline(\~Bs. 211 - 421) & \textbf{\$10.00 USD / mes}\newline\textbf{(\~Bs. 120 / mes)} \\
                 \bottomrule
             \end{tabular}
             \vspace{0.06cm}
-            {\tiny \textit{Fuentes: AWS Pricing Calculator (2026); aws.amazon.com/lightsail/pricing.}}
+            {\tiny \textit{* Cotizaci\'on referencial de mercado: 1 USD $\approx$ Bs. 12 (Morningstar: Bs. 11,74 / USD). Fuentes: AWS Pricing Calculator.}}
         \end{column}
         \begin{column}{0.33\textwidth}
             % Gráfica comparativa de costos en TikZ
@@ -531,8 +531,8 @@
                 % Eje
                 \draw[thick, color=BodyInk!40] (0,0) -- (3.0,0);
                 % Barras con proporciones exactas
-                \draw[fill=DiaconiaCoral!80, draw=DiaconiaCoral, line width=0.7pt] (0.4, 0) rectangle (1.1, 2.45) node[above, font=\scriptsize\bfseries\color{DiaconiaCoral}] {\$35.10};
-                \draw[fill=DiaconiaNavy!80, draw=DiaconiaNavy, line width=0.7pt] (1.7, 0) rectangle (2.4, 0.70) node[above, font=\scriptsize\bfseries\color{DiaconiaNavy}] {\$10.00};
+                \draw[fill=DiaconiaCoral!80, draw=DiaconiaCoral, line width=0.7pt] (0.4, 0) rectangle (1.1, 2.45) node[above, font=\scriptsize\bfseries\color{DiaconiaCoral}, align=center] {\$35.10\\\tiny(\~Bs. 421)};
+                \draw[fill=DiaconiaNavy!80, draw=DiaconiaNavy, line width=0.7pt] (1.7, 0) rectangle (2.4, 0.70) node[above, font=\scriptsize\bfseries\color{DiaconiaNavy}, align=center] {\$10.00\\\tiny(\~Bs. 120)};
                 % Etiquetas
                 \node[below, font=\scriptsize, align=center] at (0.75, -0.1) {AWS EC2\\+ RDS};
                 \node[below, font=\scriptsize\bfseries, align=center] at (2.05, -0.1) {Amazon\\Lightsail};
@@ -557,7 +557,7 @@
             \infocard{Frontend en Vercel (Hobby Tier)}{
                 \begin{itemize}
                     \setlength{\itemsep}{1pt}
-                    \item \textbf{Costo: \$0.00 USD / mes.}
+                    \item \textbf{Costo: \$0.00 USD / mes (Bs. 0).}
                     \item Subdominio temporal gratuito: \texttt{bumand-diaconia.vercel.app}.
                     \item Certificado SSL Let's Encrypt autom\'atico.
                     \item Despliegue continuo con GitHub y CDN Edge.
@@ -569,9 +569,9 @@
             \infocard{Adquisici\'on de Dominio Personalizado}{
                 \begin{itemize}
                     \setlength{\itemsep}{1pt}
-                    \item \textbf{Cloudflare Registrar (.com):} \textbf{\~ \$9.77 USD / a\~no}. Registrador a precio de costo de ICANN, sin sobreprecios comerciales de renovaci\'on.
-                    \item \textbf{Dominio Territorial (.com.bo):} V\'ia NIC Bolivia (ADSIB) a \~Bs. 280 / a\~no (\~ \$40 USD/a\~no).
-                    \item \textbf{Cloudflare Free DNS:} WAF, SSL y protecci\'on DDoS a \textbf{\$0.00 extra}.
+                    \item \textbf{Cloudflare Registrar (.com):} \textbf{\~ \$9.77 USD / a\~no} (\~Bs. 117 / a\~no a Bs. 12/USD). Precio de costo mayorista de ICANN.
+                    \item \textbf{Dominio Territorial (.com.bo):} V\'ia NIC Bolivia (ADSIB) a \textbf{Bs. 280 / a\~no} (\~ \$23.30 USD/a\~no).
+                    \item \textbf{Cloudflare Free DNS:} WAF, SSL y protecci\'on DDoS a \textbf{\$0.00 extra (Bs. 0)}.
                 \end{itemize}
             }
         \end{column}
@@ -586,26 +586,29 @@
     \justifying
     Proyecci\'on de costos reales para la puesta en marcha del sistema BUMAND:
 
-    \vspace{0.12cm}
-    \renewcommand{\arraystretch}{1.18}
+    \vspace{0.10cm}
+    \renewcommand{\arraystretch}{1.14}
     \scriptsize
     \begin{tabular}{@{} >{\RaggedRight\arraybackslash}p{0.30\textwidth} >{\Centering\arraybackslash}p{0.31\textwidth} >{\Centering\arraybackslash}p{0.31\textwidth} @{}}
         \toprule
         \textbf{Componente} & \textbf{Escenario A: Piloto / Pruebas} & \textbf{Escenario B: Producci\'on Oficial} \\
         \midrule
-        Frontend Web (Next.js) & Vercel Hobby: \textbf{\$0.00 / mes} & Vercel Hobby / Pro: \textbf{\$0.00 / mes} \\
-        Backend API + PostgreSQL & Lightsail (1 GB RAM): \textbf{\$5.00 / mes} & Lightsail (2 GB RAM): \textbf{\$10.00 / mes} \\
-        Nombre de Dominio & Subdominio Vercel: \textbf{\$0.00} & Cloudflare \texttt{.com}: \textbf{\~ \$0.81 / mes} \\
-        Seguridad, DNS y WAF & Cloudflare Free: \textbf{\$0.00 / mes} & Cloudflare Free: \textbf{\$0.00 / mes} \\
+        Frontend Web (Next.js) & Vercel Hobby: \textbf{\$0.00} & Vercel Hobby: \textbf{\$0.00} \\
+        Backend API + PostgreSQL & Lightsail (1 GB): \textbf{\$5.00 / mes} (\~Bs. 60) & Lightsail (2 GB): \textbf{\$10.00 / mes} (\~Bs. 120) \\
+        Nombre de Dominio & Subdominio: \textbf{\$0.00} & Cloudflare \texttt{.com}: \textbf{\~ \$0.81 / mes} (\~Bs. 10) \\
+        Seguridad, DNS y WAF & Cloudflare Free: \textbf{\$0.00} & Cloudflare Free: \textbf{\$0.00} \\
         \midrule
-        \textbf{Total Mensual} & \textbf{\$5.00 USD / mes} (\~Bs. 35) & \textbf{\~ \$10.81 USD / mes} (\~Bs. 75) \\
-        \textbf{Total Anual} & \textbf{\$60.00 USD / a\~no} (\~Bs. 420) & \textbf{\~ \$129.77 USD / a\~no} (\~Bs. 900) \\
+        \textbf{Total Mensual} & \textbf{\$5.00 USD / mes} (\~Bs. 60) & \textbf{\~ \$10.81 USD / mes} (\~Bs. 130) \\
+        \textbf{Total Anual} & \textbf{\$60.00 USD / a\~no} (\~Bs. 720) & \textbf{\~ \$129.77 USD / a\~no} (\~Bs. 1.550) \\
         \bottomrule
     \end{tabular}
 
-    \vspace{0.10cm}
+    \vspace{0.06cm}
+    {\tiny \textit{* Cotizaci\'on cambiaria referencial: 1 USD $\approx$ Bs. 12 (redondeado s/ cotizaci\'on Morningstar actual de Bs. 11,74 / USD).}}
+
+    \vspace{0.08cm}
     \infocard{Retorno de Inversi\'on (ROI)}{
-        El costo anual (\~Bs. 900) es ampliamente inferior al gasto recurrente en papel, t\'oner y horas de oficina destinadas a gestionar m\'as de 3.000 formularios al a\~no.
+        El costo anual de operaci\'on (\~Bs. 1.550 / a\~no o \~ \$129.77 USD) es ampliamente inferior al gasto recurrente en papel, t\'oner y horas de oficina destinadas a gestionar m\'as de 3.000 formularios al a\~no.
     }
 \end{frame}
 
@@ -636,7 +639,7 @@
                     \setlength{\itemsep}{1pt}
                     \item Evaluaci\'on continua con firma digital de tutores.
                     \item Emisi\'on de reportes PDF oficiales para auditor\'ia.
-                    \item Infraestructura cloud predecible de bajo costo (\~Bs. 75/mes).
+                    \item Infraestructura cloud predecible de bajo costo (\~Bs. 130/mes o \$10.80 USD).
                 \end{itemize}
             }
         \end{column}
