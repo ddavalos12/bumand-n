@@ -142,7 +142,7 @@ async function main() {
     await esperar(1500);
     await capturar(page, 'web_login.png');
 
-    // 2. Iniciar sesión con daniel234.davalos@gmail.com / Bumand2026!
+    // 2. Iniciar sesión con coordinacion@bumand.bo / Bumand2026!
     console.log('\n--- 2. INICIO DE SESIÓN ADMINISTRADOR ---');
     await page.evaluate(() => {
       localStorage.clear();
@@ -153,7 +153,7 @@ async function main() {
 
     await page.waitForSelector('#correo');
     await page.$eval('#correo', el => el.value = '');
-    await page.type('#correo', 'daniel234.davalos@gmail.com', { delay: 30 });
+    await page.type('#correo', 'coordinacion@bumand.bo', { delay: 30 });
     await page.$eval('#contrasena', el => el.value = '');
     await page.type('#contrasena', 'Bumand2026!', { delay: 30 });
     await esperar(500);

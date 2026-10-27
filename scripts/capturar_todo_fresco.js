@@ -193,10 +193,10 @@ async function ejecutar() {
     await capturar(pageWeb, path.join(CARPETA_WEB, 'web_login.png'));
 
     // -------------------------------------------------------------------------
-    // 2. WEB: ROL ADMINISTRADOR (daniel234.davalos@gmail.com)
+    // 2. WEB: ROL ADMINISTRADOR (coordinacion@bumand.bo)
     // -------------------------------------------------------------------------
     console.log('\n--- 2. WEB: ROL ADMINISTRADOR ---');
-    await iniciarSesionWeb(pageWeb, 'daniel234.davalos@gmail.com', 'Bumand2026!');
+    await iniciarSesionWeb(pageWeb, 'coordinacion@bumand.bo', 'Bumand2026!');
 
     // 2.1 admin_dashboard.png
     await seleccionarPestañaWeb(pageWeb, 'administracion', 'Dashboard General');

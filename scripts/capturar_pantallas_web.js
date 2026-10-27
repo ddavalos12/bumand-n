@@ -86,9 +86,9 @@ async function ejecutar() {
     await esperar(1500);
     await capturar(page, 'web_login.png');
 
-    // 2. Rol Administrador: daniel234.davalos@gmail.com / Bumand2026!
+    // 2. Rol Administrador: coordinacion@bumand.bo / Bumand2026!
     console.log('\n--- 2. SESIÓN ADMINISTRADOR ---');
-    await iniciarSesion(page, 'daniel234.davalos@gmail.com', 'Bumand2026!');
+    await iniciarSesion(page, 'coordinacion@bumand.bo', 'Bumand2026!');
 
     // admin_dashboard.png
     await seleccionarPestaña(page, 'administracion', 'Dashboard General');
