@@ -401,15 +401,36 @@ async function convertirMdAPdf(rutaMd, rutaPdfSalida, opcionesPortada) {
     </html>
   `;
 
-  // Inicializar Puppeteer con Edge o Chrome
+  // Inicializar Puppeteer con Edge o Chrome y soporte para archivos locales
+  const tempHtmlPath = path.join(directorioBase, `__temp_${Date.now()}_render.html`);
+  fs.writeFileSync(tempHtmlPath, documentoCompletoHtml, 'utf8');
+
   const browser = await puppeteer.launch({
     executablePath: 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
     headless: 'new',
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--allow-file-access-from-files',
+      '--enable-local-file-accesses'
+    ]
   });
 
   const page = await browser.newPage();
-  await page.setContent(documentoCompletoHtml, { waitUntil: 'networkidle0' });
+  const fileUrl = 'file:///' + tempHtmlPath.replace(/\\/g, '/');
+  await page.goto(fileUrl, { waitUntil: 'load', timeout: 0 });
+
+  // Asegurar que todas las imágenes en base64 estén decodificadas y listas
+  await page.evaluate(async () => {
+    const imagenes = Array.from(document.querySelectorAll('img'));
+    await Promise.all(imagenes.map(img => {
+      if (img.complete && img.naturalHeight !== 0) return Promise.resolve();
+      return new Promise(resolve => {
+        img.onload = resolve;
+        img.onerror = resolve;
+      });
+    }));
+  });
 
   // Generar el PDF oficial en memoria para soportar reemplazo seguro en Windows
   const bufferPdf = await page.pdf({
@@ -437,6 +458,7 @@ async function convertirMdAPdf(rutaMd, rutaPdfSalida, opcionesPortada) {
   });
 
   await browser.close();
+  try { fs.unlinkSync(tempHtmlPath); } catch (_) {}
 
   const escribirPdfSeguro = (rutaDestino) => {
     try {
