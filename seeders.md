@@ -106,7 +106,29 @@ npm run sembrar:limpiar-datos
 
 ---
 
-### 3.3 Siembra Específica de Catálogos Institucionales
+### 3.3 Limpieza Específica de Usuarios Tipo Becario
+
+```powershell
+npm run sembrar:limpiar-becarios
+# o también:
+npm run limpiar:becarios
+```
+
+* **Propósito:** Eliminar exclusivamente a los usuarios con rol `becario`, sus expedientes estudiantiles en `becarios` y todos los datos transaccionales y operativos asociados, **preservando íntegros a los administradores, supervisores y todos los catálogos institucionales**.
+* **Acción ejecutada:**
+  1. Identifica y consulta las cuentas de usuarios con `rol = 'becario'` y expedientes en `becarios`.
+  2. Elimina en orden estricto de dependencias foráneas los registros operativos: recorridos, solicitudes de pasajes, multas, justificaciones, evaluaciones pastorales y académicas, seguimiento pastoral, entregas de tareas, registros de asistencia, asistencias a eventos, aprobaciones de prácticas, reportes PDF generados, horarios de apoyo formalizados, asignaciones de sede de práctica, documentos semestrales (kardex, carnet, programaciones), devocionales y citas de seguimiento.
+  3. Desvincula la presencia de becarios en los registros de refrigerios (preservando intacto el registro contable y de rendición del supervisor responsable).
+  4. Elimina los expedientes de la tabla `becarios`.
+  5. Elimina los evaluadores de tipo `becario` (creados para autoevaluaciones).
+  6. Elimina notificaciones y correos secundarios asociados a los becarios.
+  7. Elimina definitivamente las cuentas de usuario con rol `becario` en `usuarios`.
+  8. Reinicia la secuencia de identificación (`becarios_id_seq`).
+* **Resultado:** La base de datos queda libre de estudiantes becarios y de sus transacciones, lista para un nuevo registro o sembrado de becarios sin alterar la configuración del sistema, iglesias, agencias, administradores ni supervisores.
+
+---
+
+### 3.4 Siembra Específica de Catálogos Institucionales
 
 ```powershell
 npm run sembrar:catalogos
@@ -122,7 +144,7 @@ npm run sembrar:catalogos
 
 ---
 
-### 3.4 Siembra Específica de Cuestionarios y Preguntas
+### 3.5 Siembra Específica de Cuestionarios y Preguntas
 
 ```powershell
 npm run sembrar:cuestionarios
@@ -135,7 +157,7 @@ npm run sembrar:cuestionarios
 
 ---
 
-### 3.5 Siembra Completa Institucional (Estándar BUMAND)
+### 3.6 Siembra Completa Institucional (Estándar BUMAND)
 
 ```powershell
 npm run sembrar
@@ -154,27 +176,27 @@ npm run sembrar
 
 ## 4. Matriz Comparativa de Tablas por Comando
 
-| Tabla en PostgreSQL | `sembrar:limpiar-todo` | `sembrar:limpiar-datos` | `sembrar:catalogos` | `sembrar:cuestionarios` | `sembrar` (Completo) |
-|---|:---:|:---:|:---:|:---:|:---:|
-| `usuarios` | Solo Admin Primario | Preservado | Intacto | Intacto | Sincronizado |
-| `becarios` | Vaciada (0) | Preservado | Intacto | Intacto | 23 Becarios |
-| `horarios_apoyo` | Vaciada (0) | Preservado | Intacto | Intacto | Sembrados |
-| `asignaciones_practica` | Vaciada (0) | Preservado | Intacto | Intacto | Sembradas |
-| `iglesias` | Vaciada (0) | Preservada | Sembradas | Intacto | Sembradas |
-| `lugares_practica` | Vaciada (0) | Preservada | Sembradas | Intacto | Sembradas |
-| `modulos_evaluacion` | Vaciada (0) | Preservada | 5 Módulos | Intacto | 5 Módulos |
-| `periodos_evaluaciones` | Vaciada (0) | Preservada | Sembrados | Intacto | Sembrados |
-| `tarifas_transporte` | Vaciada (0) | Preservada | Sembradas | Intacto | Sembradas |
-| `paradas_transporte` | Vaciada (0) | Preservada | Sembradas | Intacto | Sembradas |
-| `cuestionarios` | Vaciada (0) | Preservada | Intacto | Sembrados | Sembrados |
-| `preguntas_cuestionario` | Vaciada (0) | Preservada | Intacto | Sembradas | Sembradas |
-| `preguntas_bienestar` | Vaciada (0) | Preservada | Intacto | 26 Preguntas | 26 Preguntas |
-| `solicitudes_pasajes` | **0 (Limpia)** | **0 (Limpia)** | Intacto | Intacto | **0 (Limpia)** |
-| `recorridos` | **0 (Limpia)** | **0 (Limpia)** | Intacto | Intacto | **0 (Limpia)** |
-| `registros_asistencia` | 0 (Limpia) | 0 (Limpia) | Intacto | Intacto | Intacto |
-| `justificaciones` | 0 (Limpia) | 0 (Limpia) | Intacto | Intacto | Intacto |
-| `evaluaciones` | 0 (Limpia) | 0 (Limpia) | Intacto | Intacto | Intacto |
-| `notificaciones` | 0 (Limpia) | 0 (Limpia) | Intacto | Intacto | Intacto |
+| Tabla en PostgreSQL | `sembrar:limpiar-todo` | `sembrar:limpiar-datos` | `sembrar:limpiar-becarios` | `sembrar:catalogos` | `sembrar:cuestionarios` | `sembrar` (Completo) |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| `usuarios` | Solo Admin Primario | Preservado | Admins y Supervisores | Intacto | Intacto | Sincronizado |
+| `becarios` | Vaciada (0) | Preservado | **Vaciada (0)** | Intacto | Intacto | 23 Becarios |
+| `horarios_apoyo` | Vaciada (0) | Preservado | **Vaciada (0)** | Intacto | Intacto | Sembrados |
+| `asignaciones_practica` | Vaciada (0) | Preservado | **Vaciada (0)** | Intacto | Intacto | Sembradas |
+| `iglesias` | Vaciada (0) | Preservada | **Preservada** | Sembradas | Intacto | Sembradas |
+| `lugares_practica` | Vaciada (0) | Preservada | **Preservada** | Sembradas | Intacto | Sembradas |
+| `modulos_evaluacion` | Vaciada (0) | Preservada | **Preservada** | 5 Módulos | Intacto | 5 Módulos |
+| `periodos_evaluaciones` | Vaciada (0) | Preservada | **Preservada** | Sembrados | Intacto | Sembrados |
+| `tarifas_transporte` | Vaciada (0) | Preservada | **Preservada** | Sembradas | Intacto | Sembradas |
+| `paradas_transporte` | Vaciada (0) | Preservada | **Preservada** | Sembradas | Intacto | Sembradas |
+| `cuestionarios` | Vaciada (0) | Preservada | **Preservada** | Intacto | Sembrados | Sembrados |
+| `preguntas_cuestionario` | Vaciada (0) | Preservada | **Preservada** | Intacto | Sembradas | Sembradas |
+| `preguntas_bienestar` | Vaciada (0) | Preservada | **Preservada** | Intacto | 26 Preguntas | 26 Preguntas |
+| `solicitudes_pasajes` | **0 (Limpia)** | **0 (Limpia)** | **0 (Limpia)** | Intacto | Intacto | **0 (Limpia)** |
+| `recorridos` | **0 (Limpia)** | **0 (Limpia)** | **0 (Limpia)** | Intacto | Intacto | **0 (Limpia)** |
+| `registros_asistencia` | 0 (Limpia) | 0 (Limpia) | **0 (Limpia)** | Intacto | Intacto | Intacto |
+| `justificaciones` | 0 (Limpia) | 0 (Limpia) | **0 (Limpia)** | Intacto | Intacto | Intacto |
+| `evaluaciones` | 0 (Limpia) | 0 (Limpia) | **0 (Limpia)** | Intacto | Intacto | Intacto |
+| `notificaciones` | 0 (Limpia) | 0 (Limpia) | **Solo Becarios (0)** | Intacto | Intacto | Intacto |
 
 ---
 
@@ -224,7 +246,12 @@ npm run sembrar:limpiar-todo
 # Opción B: Limpiar operaciones preservando usuarios
 npm run sembrar:limpiar-datos
 
-# Opción C: Siembra completa institucional
+# Opción C: Limpiar únicamente usuarios tipo becario (preserva administradores, supervisores y catálogos)
+npm run sembrar:limpiar-becarios
+# o también:
+npm run limpiar:becarios
+
+# Opción D: Siembra completa institucional
 npm run sembrar
 ```
 
