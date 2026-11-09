@@ -148,37 +148,38 @@ Este módulo otorga al Administrador General el control maestro sobre las **61 c
 
 ---
 
-### 3.3. Directorio General de Becarios y Configuración de Modalidad de Pasajes (`BKL-05`)
+### 3.3. Directorio General de Becarios, Gobernanza de Supervisores y Modalidad de Pasajes (`BKL-05`)
 
 #### Capturas de Pantalla
 ![Directorio General de Becarios Web](capturas/web/admin_becarios.png)
 ![Directorio de Becarios y Seguimiento de Meta 36h](capturas/web/admin/04-becarios/01_directorio_becarios_36h.png)
 ![Modal de Configuración de Modalidad de Pasajes](capturas/web/admin/04-becarios/02_modal_configuracion_modalidad_pasajes.png)
 ![Confirmación de Guardado Exitoso en Base de Datos](capturas/web/admin/04-becarios/03_modalidad_pasajes_guardado_exitoso.png)
+![Modal Editar Expediente con Catálogo Completo de 29 Supervisores](capturas/web/admin/02-becarios/06_modal_editar_expediente_29_supervisores.png)
+![Modal Cambiar Supervisor Institucional con Supervisor Actual y Buscador](capturas/web/admin/02-becarios/07_modal_cambiar_supervisor_institucional.png)
+![Vista Supervisores con Becarios Designados y Métricas de Cobertura](capturas/web/admin/02-becarios/08_vista_supervisores_con_becarios_designados.png)
 
-#### Detalle Exhaustivo del Requerimiento BKL-05
-El requerimiento **BKL-05** resolvió integralmente la persistencia de la modalidad de pasajes asignada a cada becario y su sincronización inmediata con la app móvil:
-1. **Arquitectura del Modal de Configuración:**
-   - El administrador hace clic en el botón de configuración de pasajes en la fila del becario deseado.
-   - Se despliega el modal interactivo con selección de modalidad por actividad institucional:
-     - **Solo Ida:** Para estudiantes cuyos horarios universitarios continúan después de la práctica o que residen a corta distancia.
-     - **Ida y Vuelta:** Para estudiantes que requieren traslado bidireccional completo desde su domicilio a la agencia y retorno.
-2. **Persistencia Real en PostgreSQL:**
-   - Se eliminaron todos los fallbacks ficticios en `localStorage`.
-   - La petición viaja directamente al endpoint oficial:
-     ```http
-     PATCH /api/becarios/:id/configuracion-pasajes
-     Content-Type: application/json
+#### Detalle Exhaustivo de Gobernanza de Supervisores y Requerimiento BKL-05
+La gestión de becarios y tutores institucionales ha sido elevada al estándar empresarial definitivo mediante tres innovaciones operativas:
 
-     {
-       "modalidad_pasajes": "IDA_Y_VUELTA",
-       "motivo_configuracion": "Aprobado por lejanía domiciliaria y horario vespertino",
-       "administrador_autorizador_id": 1
-     }
-     ```
-   - El backend NestJS ejecuta la actualización jerárquica sobre la entidad `Becario` resolviendo colisiones de clave foránea `UQ_becarios_ci` y transformando los identificadores mediante `@Type(() => Number)`.
-3. **Sincronización Instantánea con Móvil:**
-   - Cuando el becario ingresa a declarar pasajes en su app móvil, el frontend móvil consulta la configuración autorizada desde la base de datos PostgreSQL, habilitando o bloqueando el tramo de retorno en tiempo real.
+1. **Catálogo Integral y Dinámico de 29 Supervisores de Diaconía FRIF-IFD:**
+   - Se erradicó la lista estática reducida de 4 supervisores. El componente `GestionBecarios` sincroniza en vivo con el backend NestJS mediante `GET /usuarios?rol=supervisor` alimentado directamente por la tabla `usuarios` de PostgreSQL.
+   - Cuenta con una base homologada de los 29 supervisores activos (Adams Callejas, Alberto León, Alejandra Romay, Anai Paye, Angel Javier Alí Paz, Brian Siles, Carlos Alanoca, Cheryl Zegarra, Claudia Consuelo Cabrera Delgado, Elsa Quinteros, Max Reynoso, Rodrigo Solorzano San Martín, Walter Laime, entre otros) con sus correos oficiales `@diaconia.bo` / `@bumand.bo` y sedes asignadas.
+   - Tanto en el modal **"Editar Expediente de Becario"** como en el modal **"Cambiar Supervisor Institucional"**, los selectores exponen un buscador interactivo para filtrar en milisegundos entre los 29 supervisores, mostrando el nombre completo, correo institucional y el badge con la cantidad de becarios asignados en tiempo real.
+
+2. **Flujo de Asignación y Cambio Inmediato de Supervisor:**
+   - La tabla operativa del **Directorio General de Becarios** incorpora la columna explícita **Supervisor / Tutor Asignado**, desplegando el nombre y correo del tutor actual junto a un botón directo **"Cambiar"** (`RefreshCw`).
+   - Al pulsar el botón, el modal **"Cambiar Supervisor Institucional"** destaca un recuadro informativo con el **Supervisor Actual Asignado** y el selector del **Nuevo Supervisor Responsable**.
+   - Al confirmar la operación, el frontend despacha una mutación HTTP `PUT /becarios/:id/asignar-supervisor` con payload `{ supervisor_id: number }`, persistiendo la relación en la base de datos PostgreSQL y refrescando reactivamente la nómina.
+
+3. **Nueva Vista Especializada: "Supervisores con Becarios Designados":**
+   - Incorpora un selector de sub-vistas tipo pill: **"📋 Directorio General de Becarios"** y **"👥 Supervisores con Becarios Designados (29)"**.
+   - **Métricas KPI Superiores:** Resumen dinámico que reporta *Total Supervisores (29)*, *Supervisores con Becarios Designados*, *Supervisores Disponibles* y *Total Becarios Supervisados (100% Cobertura)*.
+   - **Filtros Avanzados:** Buscador universal (por supervisor, correo o becario) y filtros segmentados (`Todos`, `Con Becarios`, `Disponibles`).
+   - **Tarjetas Expandidas por Supervisor:** Muestra la ficha institucional de cada supervisor, su sede, y el desglose de los estudiantes asignados con su CI, carrera, universidad y sede de práctica, permitiendo reasignaciones individuales directas mediante el botón **"Cambiar"** o vincular nuevos estudiantes con el botón **"+ Designar Becario"**.
+
+4. **Configuración de Modalidad de Pasajes (BKL-05):**
+   - Permite al Administrador calibrar la asignación de viáticos de transporte entre **Solo Ida** e **Ida y Vuelta** por cada actividad programática (Prácticas, Escuela de Líderes y Acciones de Servicio), persistiendo vía `PATCH /api/becarios/:id/configuracion-pasajes` y garantizando que la App Móvil aplique las restricciones de retorno en tiempo real.
 
 ---
 
