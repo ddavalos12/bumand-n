@@ -169,29 +169,23 @@ async function main() {
     });
     await esperar(1200);
 
-    // Hacer scroll en el modal hacia la sección 4 de asignación
+    // Hacer scroll en el modal hacia la sección 4 de asignación y hacer clic en el selector
     await page.evaluate(() => {
-      const dialogBody = document.querySelector('[role="dialog"] [class*="overflow-y-auto"]') || document.querySelector('[role="dialog"]');
-      if (dialogBody) {
-        dialogBody.scrollTop = 520;
+      const selTrigger = document.querySelector('#sel-supervisor-edicion') || document.querySelector('button[id="sel-supervisor-edicion"]');
+      if (selTrigger) {
+        selTrigger.scrollIntoView({ behavior: 'instant', block: 'center' });
+      } else {
+        const dialogBody = document.querySelector('[role="dialog"] [class*="overflow-y-auto"]') || document.querySelector('[role="dialog"]');
+        if (dialogBody) dialogBody.scrollTop = 520;
       }
     });
     await esperar(800);
 
     // Abrir el select de supervisor en el modal de edición
     await page.evaluate(() => {
-      const inputFiltro = Array.from(document.querySelectorAll('input')).find((inp) =>
-        inp.placeholder && inp.placeholder.includes('Buscar entre los 29 supervisores')
-      );
-      if (inputFiltro) {
-        const contenedor = inputFiltro.closest('.space-y-1');
-        if (contenedor) {
-          const btn = contenedor.querySelector('button[role="combobox"]');
-          if (btn) {
-            btn.click();
-            return;
-          }
-        }
+      const selTrigger = document.querySelector('#sel-supervisor-edicion') || document.querySelector('button[id="sel-supervisor-edicion"]');
+      if (selTrigger) {
+        selTrigger.click();
       }
     });
     await esperar(1200);
