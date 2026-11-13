@@ -24,38 +24,79 @@
 \usetikzlibrary{calc,arrows.meta,positioning,shapes.geometric,shadows}
 \usefonttheme{serif}
 
-% Paleta de colores corporativos e institucionales
-\definecolor{DeckBG}{RGB}{255,255,255}
-\definecolor{TitleInk}{RGB}{12,40,80}
-\definecolor{BodyInk}{RGB}{45,45,45}
-\definecolor{CardBorder}{RGB}{210,225,238}
-\definecolor{LeftPanel}{RGB}{255,255,255}
-\definecolor{DiaconiaCyan}{RGB}{23,180,196}
-\definecolor{DiaconiaNavy}{RGB}{6,58,107}
-\definecolor{DiaconiaGold}{RGB}{248,199,102}
-\definecolor{DiaconiaCoral}{RGB}{226,105,75}
-\definecolor{SlateLight}{RGB}{245,248,252}
+% =============================================================================
+% PALETA CROMÁTICA INSTITUCIONAL OFICIAL - DIACONÍA FRIF-IFD (Manual de Marca)
+% =============================================================================
+\definecolor{DeckBG}{HTML}{FFFFFF}
+\definecolor{FondoClaro}{HTML}{F8FAFC}
+\definecolor{DiaconiaAzul}{HTML}{007BBE}      % Azul Marino Profundo (Primario)
+\definecolor{DiaconiaCielo}{HTML}{00ABBD}     % Azul Cielo Suave (Primario)
+\definecolor{DiaconiaAmarillo}{HTML}{FFB600}  % Amarillo Radiante (Primario)
+\definecolor{DiaconiaOscuro}{HTML}{035683}    % Azul Marino Secundario
+\definecolor{DiaconiaPetroleo}{HTML}{00808E}  % Azul Petróleo Secundario
+\definecolor{TitleInk}{HTML}{035683}          % Títulos en Azul Marino Secundario
+\definecolor{BodyInk}{HTML}{1A1A1A}           % Negro Institucional legible
+\definecolor{GrisTexto}{HTML}{808080}         % Gris Medio K50
+\definecolor{CardBorder}{HTML}{E5E7EB}        % Gris Claro bordes suaves
 
 \setbeamercolor{normal text}{fg=BodyInk,bg=DeckBG}
 \setbeamercolor{background canvas}{bg=DeckBG}
 \setbeamercolor{frametitle}{fg=TitleInk,bg=DeckBG}
-\setbeamercolor{structure}{fg=TitleInk}
+\setbeamercolor{structure}{fg=DiaconiaAzul}
 
-\setbeamerfont{title}{series=\bfseries,size=\fontsize{17}{21}\selectfont}
-\setbeamerfont{subtitle}{size=\fontsize{11}{14}\selectfont}
-\setbeamerfont{frametitle}{series=\bfseries,size=\fontsize{13.5}{16.5}\selectfont}
-\setbeamerfont{normal text}{size=\fontsize{9}{12}\selectfont}
+\setbeamerfont{title}{series=\bfseries,size=\fontsize{16.5}{20}\selectfont}
+\setbeamerfont{subtitle}{size=\fontsize{10.5}{13.5}\selectfont}
+\setbeamerfont{frametitle}{series=\bfseries,size=\fontsize{12}{14.5}\selectfont}
+\setbeamerfont{normal text}{size=\fontsize{8.8}{11.4}\selectfont}
 
 \setbeamertemplate{navigation symbols}{}
-\setbeamertemplate{footline}{}
-\setbeamertemplate{itemize item}{\color{DiaconiaNavy}$\blacktriangleright$}
+\setbeamertemplate{itemize item}{\color{DiaconiaAzul}$\blacktriangleright$}
+\setbeamertemplate{itemize subitem}{\color{DiaconiaCielo}$\bullet$}
 
-\setbeamertemplate{frametitle}{
-    \vspace{0.14cm}
-    \begin{beamercolorbox}[wd=\paperwidth,leftskip=0.85cm,rightskip=1.8cm]{frametitle}
-        \insertframetitle
-    \end{beamercolorbox}
-    \vspace{0.01cm}
+% Estilo global de fase para Roadmap (definido en preámbulo para compatibilidad Beamer)
+\tikzset{
+    fasebox/.style={
+        draw=#1,
+        line width=0.9pt,
+        fill=FondoClaro,
+        rounded corners=5pt,
+        align=left,
+        inner sep=5pt,
+        text width=3.15cm,
+        font=\scriptsize
+    }
+}
+
+\setbeamertemplate{frametitle}{%
+    \vspace{0.03cm}%
+    \begin{beamercolorbox}[wd=\paperwidth,leftskip=0.75cm,rightskip=1.8cm]{frametitle}%
+        \insertframetitle\par
+        \vspace{0.5pt}%
+        {\color{DiaconiaCielo}\rule{3.2cm}{1.2pt}}{\color{DiaconiaAmarillo}\rule{0.9cm}{1.2pt}}%
+    \end{beamercolorbox}%
+    \vspace{-0.10cm}%
+}
+
+\setbeamertemplate{headline}{%
+    \ifnum\value{framenumber}>0
+        \hfill\raisebox{-0.06cm}{\smalllogo}\hspace{0.55cm}%
+    \fi
+}
+
+\setbeamertemplate{footline}{%
+    \ifnum\value{framenumber}>0
+        \begin{beamercolorbox}[wd=\paperwidth,ht=0.28cm,dp=0.10cm,leftskip=0.75cm,rightskip=0.75cm]{normal text}%
+            \begin{minipage}{\dimexpr\paperwidth-1.5cm\relax}
+                {\color{CardBorder}\rule{\linewidth}{0.35pt}}\\[0.5pt]
+                {\tiny\color{GrisTexto}%
+                \textbf{\color{DiaconiaOscuro}Ecosistema Digital BUMAND} \textbar\ Diacon\'ia FRIF-IFD%
+                \hfill
+                12 de noviembre de 2026 (Presentaci\'on: 13 nov 2026)%
+                \hfill
+                \textbf{\color{DiaconiaAzul}\insertframenumber{} / \inserttotalframenumber}}%
+            \end{minipage}%
+        \end{beamercolorbox}%
+    \fi
 }
 
 \newcommand{\safeimage}[2]{%
@@ -73,7 +114,7 @@
 
 \newcommand{\smalllogo}{%
     \IfFileExists{logo-umsa.png}{%
-        \includegraphics[width=1.05cm]{logo-umsa.png}%
+        \includegraphics[width=0.90cm]{logo-umsa.png}%
     }{%
         \fbox{\scriptsize UMSA}%
     }%
@@ -82,53 +123,85 @@
 \newcommand{\infocard}[2]{%
     \begin{tikzpicture}
         \node[
-            draw=CardBorder,
-            line width=0.45pt,
-            rounded corners=3.5pt,
+            draw=DiaconiaAzul!30,
+            line width=0.55pt,
+            rounded corners=5pt,
             fill=white,
             align=left,
-            inner xsep=7pt,
-            inner ysep=4.5pt,
-            text width=\dimexpr\linewidth-16pt\relax
-        ]{\textbf{\footnotesize\color{TitleInk}#1}\\[1pt]\scriptsize #2};
-\end{tikzpicture}%
+            inner xsep=6.5pt,
+            inner ysep=4pt,
+            text width=\dimexpr\linewidth-15pt\relax
+        ]{{\footnotesize\bfseries\color{TitleInk}#1}\\[1.5pt]{\scriptsize #2\par}};
+    \end{tikzpicture}%
+}
+
+\newcommand{\accentcard}[3]{%
+    \begin{tikzpicture}
+        \node[
+            draw=#1!75,
+            line width=0.70pt,
+            rounded corners=5pt,
+            fill=FondoClaro,
+            align=left,
+            inner xsep=6.5pt,
+            inner ysep=4pt,
+            text width=\dimexpr\linewidth-15pt\relax
+        ]{{\footnotesize\bfseries\color{TitleInk}#2}\\[1.5pt]{\scriptsize\color{BodyInk}#3\par}};
+    \end{tikzpicture}%
+}
+
+\newcommand{\kpipill}[3]{%
+    \begin{tikzpicture}
+        \node[
+            draw=#1!45,
+            line width=0.6pt,
+            rounded corners=6pt,
+            fill=FondoClaro,
+            align=center,
+            inner xsep=4pt,
+            inner ysep=3.5pt,
+            text width=\dimexpr\linewidth-10pt\relax
+        ]{{\fontsize{10.5}{12.5}\selectfont\bfseries\color{#1}#2}\\[1pt]{\tiny\color{BodyInk}#3}};
+    \end{tikzpicture}%
 }
 
 \newcommand{\shotcard}[3]{%
     \begin{tikzpicture}
         \node[
             draw=CardBorder,
-            line width=0.5pt,
-            rounded corners=4pt,
+            line width=0.55pt,
+            rounded corners=5pt,
             fill=white,
             inner sep=2pt,
-            drop shadow={opacity=0.10, shadow xshift=0.6pt, shadow yshift=-0.6pt}
+            drop shadow={opacity=0.08, shadow xshift=0.6pt, shadow yshift=-0.6pt}
         ]{%
             \safeimage{#1}{#2}%
         };
     \end{tikzpicture}\\[1pt]
-    {\tiny\textbf{\color{DiaconiaNavy}#3}}%
+    {\tiny\textbf{\color{DiaconiaOscuro}#3}}%
 }
 
-\setbeamertemplate{headline}{
-    \ifnum\value{framenumber}>1
-        \hfill\raisebox{-0.08cm}{\smalllogo}\hspace{0.55cm}
-    \fi
+\newcommand{\pill}[2]{%
+    \tikz[baseline=(X.base)]{%
+        \node[
+            fill=#1!14,
+            draw=#1!75,
+            line width=0.45pt,
+            rounded corners=4pt,
+            inner xsep=4.5pt,
+            inner ysep=1.5pt,
+            font=\tiny\bfseries\color{#1}
+        ] (X) {#2};%
+    }%
 }
 
 \title[Ecosistema Digital BUMAND]{Ecosistema Digital BUMAND: Sistema Integral de Control de Asistencia y Desempe\~no de Becarios}
-\subtitle{Modernizaci\'on Operativa, Vi\'aticos y Evaluaci\'on para Diacon\'ia FRIF-IFD}
-\author[Universitario: Daniel Davalos Qui\~nonez]{Universitario: Daniel Davalos Qui\~nonez}
+\subtitle{Modernizaci\'on Operativa, Vi\'aticos, Evaluaci\'on 360$^\circ$ y Despliegue Cloud para Diacon\'ia FRIF-IFD}
+\author[Daniel Davalos Qui\~nonez]{Universitario Daniel Davalos Qui\~nonez}
 \institute{Universidad Mayor de San Andr\'es \textbar\ Carrera de Inform\'atica}
-\date{\vspace{-0.2cm}{\fontsize{13pt}{16pt}\selectfont\amatic La Paz - El Alto, Bolivia \textbar\ 2026}}
+\date{\vspace{-0.2cm}{\fontsize{12pt}{15pt}\selectfont\amatic La Paz - El Alto, Bolivia \textbar\ 12 de noviembre de 2026}}
 
 \raggedbottom
-
-\usepackage{fancyhdr}
-\pagestyle{plain}
-\fancyhf{}
-\renewcommand{\headrulewidth}{0pt}
-\fancyfoot[C]{\scriptsize\thepage}
 
 \begin{document}
 
@@ -136,518 +209,570 @@
 % DIAPOSITIVA 1: PORTADA
 % -----------------------------------------------------------------------------
 \begin{frame}[plain,noframenumbering]
-    \vspace{0.35cm}
+    \vspace{0.18cm}
+    % Franja superior institucional respetando orden del Manual (Amarillo -> Azul -> Cielo)
+    \begin{center}
+        \begin{tikzpicture}
+            \fill[DiaconiaAmarillo, rounded corners=2pt] (0,0) rectangle (2.2,0.10);
+            \fill[DiaconiaAzul, rounded corners=2pt] (2.35,0) rectangle (9.6,0.10);
+            \fill[DiaconiaCielo, rounded corners=2pt] (9.75,0) rectangle (13.8,0.10);
+        \end{tikzpicture}
+    \end{center}
+    \vspace{0.25cm}
     \begin{columns}[c,onlytextwidth]
-        \begin{column}{0.25\textwidth}
+        \begin{column}{0.24\textwidth}
             \centering
-            \safeimage{width=0.82\linewidth,keepaspectratio}{logo-umsa.png}
+            \safeimage{width=0.78\linewidth,keepaspectratio}{logo-umsa.png}
             \vspace{0.25cm}
             \safeimage{width=0.82\linewidth,keepaspectratio}{logo-diaconia.png}
         \end{column}
-        \begin{column}{0.72\textwidth}
+        \begin{column}{0.73\textwidth}
             {\usebeamerfont{title}\color{TitleInk}\inserttitle\par}
             \vspace{0.12cm}
-            {\usebeamerfont{subtitle}\color{DiaconiaNavy}\insertsubtitle\par}
-            \vspace{0.30cm}
-            {\normalsize\color{TitleInk}\textbf{\insertinstitute}\par}
-            \vspace{0.18cm}
-            {\normalsize\color{BodyInk}\textbf{Expositor:} \insertauthor\par}
-            \vspace{0.06cm}
-            {\footnotesize\color{BodyInk}Tutor Acad\'emico: M.Sc. Reynaldo Zeballos Daza\par}
-            \vspace{0.18cm}
+            {\usebeamerfont{subtitle}\color{DiaconiaAzul}\insertsubtitle\par}
+            \vspace{0.24cm}
+            {\normalsize\color{DiaconiaOscuro}\textbf{\insertinstitute}\par}
+            \vspace{0.15cm}
+            {\small\color{BodyInk}\textbf{Expositor:} \insertauthor\par}
+            \vspace{0.05cm}
+            {\footnotesize\color{BodyInk}\textbf{Tutor Acad\'emico:} M.Sc. Reynaldo Zeballos Daza\par}
+            \vspace{0.15cm}
             {\footnotesize\color{BodyInk}\insertdate\par}
+            \vspace{0.04cm}
+            {\scriptsize\color{DiaconiaPetroleo}\textbf{Presentaci\'on Ejecutiva:} 13 de noviembre de 2026\par}
         \end{column}
     \end{columns}
 \end{frame}
 
 % -----------------------------------------------------------------------------
-% SECCIÓN 1: INTRODUCCIÓN Y CONTEXTO
+% DIAPOSITIVA 2: CONTEXTO INSTITUCIONAL
 % -----------------------------------------------------------------------------
 \section{Contexto Institucional}
 \begin{frame}[t]{Diacon\'ia FRIF-IFD y el Programa BUMAND}
-    \vspace{-0.15cm}
+    \vspace{-0.08cm}
     \begin{columns}[T,onlytextwidth]
         \begin{column}{0.58\textwidth}
             \justifying
-            \textbf{Diacon\'ia FRIF-IFD} es una entidad financiera de desarrollo con presencia a nivel nacional en Bolivia (Oficina Central en El Alto y 62 agencias), comprometida con el desarrollo social y la inclusi\'on financiera.
+            \textbf{Diacon\'ia FRIF-IFD} es una entidad financiera de desarrollo con presencia nacional en Bolivia (Oficina Central en El Alto y 62 agencias), orientada a la inclusi\'on financiera y el progreso integral bajo principios cristianos.
 
-            \vspace{0.12cm}
+            \vspace{0.10cm}
             \textbf{El Programa BUMAND} (Becas Universitarias con Misi\'on y Acci\'on Diaconal):
             \begin{itemize}
-                \setlength{\itemsep}{1pt}
-                \item Subvenci\'on de estudios a j\'ovenes en vulnerabilidad (becas de Bs. 650 y Bs. 250).
-                \item Pr\'acticas preprofesionales en unidades de Diacon\'ia.
-                \item Escuela de L\'ideres y servicio voluntario en congregaciones cristianas.
+                \setlength{\itemsep}{2pt}
+                \item Subvenci\'on de estudios universitarios a j\'ovenes en vulnerabilidad (becas de Bs. 650 y Bs. 250).
+                \item Pr\'acticas preprofesionales en unidades de Diacon\'ia con meta de \textbf{36 horas mensuales}.
+                \item Escuela de L\'ideres (viernes) y servicio voluntario en \textbf{17 iglesias} y congregaciones cristianas.
             \end{itemize}
         \end{column}
         \begin{column}{0.39\textwidth}
             \centering
-            \safeimage{width=0.68\linewidth,keepaspectratio}{logo-bumand.png}
-            \vspace{0.15cm}
-            \infocard{Impacto Social y Formativo}{M\'as de 25 becarios activos y 65 hist\'oricos desarrollando liderazgo laboral, \'etico y cristiano en todo el pa\'is.}
+            \safeimage{width=0.60\linewidth,keepaspectratio}{logo-bumand.png}
+            \vspace{0.10cm}
+            \accentcard{DiaconiaAzul}{Cohorte Depurada y Escala Actual}{
+                \textbf{25 becarios activos} (m\'as de 65 hist\'oricos) acompa\~nados por un cat\'alogo de \textbf{29 supervisores} institucionales en todo el pa\'is.
+            }
         \end{column}
     \end{columns}
 \end{frame}
 
 % -----------------------------------------------------------------------------
-% SECCIÓN 2: PROBLEMÁTICA
+% DIAPOSITIVA 3: PROBLEMÁTICA
 % -----------------------------------------------------------------------------
 \section{Problem\'atica}
 \begin{frame}[t]{El Problema Operativo: La Carga Anal\'ogica}
-    \vspace{-0.15cm}
+    \vspace{-0.08cm}
     \justifying
-    Hasta la fecha, la gesti\'on operativa depend\'ia de formularios f\'isicos y revisi\'on manual, generando importantes cuellos de botella:
+    Previo a la plataforma, la gesti\'on depend\'ia de formularios impresos y revisi\'on manual, generando fricci\'on administrativa:
 
-    \vspace{0.15cm}
+    \vspace{0.14cm}
     \begin{columns}[T,onlytextwidth]
         \begin{column}{0.48\textwidth}
-            \infocard{Sobrecarga de Papel}{M\'as de \textbf{250 formularios impresos al mes} (10 hojas por becario: asistencia diaria, boletas de horas, pasajes y F-03).}
+            \accentcard{DiaconiaAzul}{Sobrecarga de Papel}{M\'as de \textbf{250 formularios impresos al mes} (10 hojas por becario: asistencia diaria, boletas de horas, pasajes y formulario F-03).}
             \vspace{0.12cm}
-            \infocard{Carencia de Certeza GPS}{Sin garant\'ia satelital de que el practicante estuviese f\'isicamente en la agencia o sede al momento de marcar.}
+            \accentcard{DiaconiaCielo}{Carencia de Certeza GPS}{Sin verificaci\'on satelital de presencia f\'isica en la agencia o sede al momento de registrar ingreso y salida.}
         \end{column}
         \begin{column}{0.48\textwidth}
-            \infocard{Fricci\'on en Liquidaci\'on}{Rutas manuscritas con tarifas variables, demandando c\'alculo manual para determinar el 80\% de devoluci\'on.}
+            \accentcard{DiaconiaOscuro}{Fricci\'on en Liquidaci\'on}{Rutas manuscritas con tarifas variables, demandando c\'alculo manual para determinar el \textbf{80\% de devoluci\'on}.}
             \vspace{0.12cm}
-            \infocard{Evaluaciones Dispersas}{Falta de consolidaci\'on inmediata entre tutores laborales, pastores de iglesia y facilitadores de liderazgo.}
+            \accentcard{DiaconiaPetroleo}{Evaluaciones Dispersas}{Falta de consolidaci\'on inmediata entre tutores laborales, pastores de iglesia, facilitadores y administraci\'on.}
         \end{column}
     \end{columns}
 \end{frame}
 
 % -----------------------------------------------------------------------------
-% SECCIÓN 3: ARQUITECTURA Y FLUJO TIKZ
+% DIAPOSITIVA 4: ARQUITECTURA Y MÉTRICAS VERIFICADAS
 % -----------------------------------------------------------------------------
 \section{Soluci\'on Integral}
-\begin{frame}[t]{Arquitectura del Ecosistema BUMAND}
-    \vspace{-0.15cm}
-    \justifying
-    Plataforma modular e integrada dise\~nada bajo estricta separaci\'on de responsabilidades:
-
-    \vspace{0.15cm}
+\begin{frame}[t]{Arquitectura y Escala Verificada del Ecosistema BUMAND}
+    \vspace{-0.10cm}
     \begin{center}
-    \resizebox{0.92\linewidth}{!}{%
+    \resizebox{0.94\linewidth}{!}{%
     \begin{tikzpicture}[
-        node distance=1.0cm and 1.4cm,
-        caja/.style={draw=DiaconiaNavy, line width=0.7pt, fill=white, rounded corners=5pt, align=center, inner sep=5pt, font=\scriptsize},
-        cajacore/.style={draw=DiaconiaCyan, line width=1.1pt, fill=SlateLight, rounded corners=5pt, align=center, inner sep=6pt, font=\scriptsize\bfseries},
-        flecha/.style={-{Stealth[length=2.5mm]}, line width=0.9pt, color=DiaconiaNavy}
+        node distance=0.75cm and 2.35cm,
+        caja/.style={draw=DiaconiaOscuro, line width=0.75pt, fill=white, rounded corners=5pt, align=center, inner sep=5pt, font=\scriptsize},
+        cajacore/.style={draw=DiaconiaAzul, line width=1.15pt, fill=FondoClaro, rounded corners=5pt, align=center, inner sep=5.5pt, font=\scriptsize\bfseries},
+        cajar2/.style={draw=DiaconiaPetroleo, line width=0.85pt, fill=FondoClaro, rounded corners=5pt, align=center, inner sep=4.5pt, font=\scriptsize},
+        flecha/.style={-{Stealth[length=2.4mm]}, line width=0.85pt, color=DiaconiaOscuro}
     ]
-        % Nodos de arquitectura
-        \node[caja] (movil) {\textbf{App M\'ovil (Flutter)}\\Marcaci\'on GPS Satelital\\Tarifario Urbano\\Becarios en Campo};
-        \node[cajacore, right=of movil] (backend) {\textbf{Backend REST API (NestJS)}\\Autenticaci\'on JWT \textbar\ Seguridad RBAC\\L\'ogica Financiera del 80\%\\Validaci\'on Geod\'esica Haversine};
-        \node[caja, right=of backend] (web) {\textbf{Panel Web (Next.js 14+)}\\Firma Digital Manuscrita\\Evaluaci\'on y Seguimiento\\Mentores y Coordinaci\'on};
-        \node[caja, below=0.6cm of backend] (db) {\textbf{Base de Datos Relacional (PostgreSQL)}\\15 Tablas Normalizadas \textbar\ Trazabilidad Total \textbar\ Backups};
+        \node[caja] (movil) {\textbf{\color{DiaconiaOscuro}App M\'ovil (Flutter)}\\11 M\'odulos \textbar\ 21 Pantallas\\GPS Haversine y Pin Rojo\\QR/OTP y Auditor\'ia M\'ovil};
+        \node[cajacore, right=of movil] (backend) {\textbf{\color{DiaconiaAzul}Backend API (NestJS)}\\18 M\'odulos \textbar\ 19 Controladores\\231 Endpoints REST \textbar\ RBAC\\7 Eventos Socket.IO \textbar\ 13 PDF};
+        \node[caja, right=of backend] (web) {\textbf{\color{DiaconiaOscuro}Panel Web (Next.js 14+)}\\4 Rutas \textbar\ 100 Comp. \texttt{.tsx}\\Shadcn UI + Firma HTML5\\Evaluaciones 360$^\circ$ Unificadas};
+        \node[caja, below=0.55cm of backend] (db) {\textbf{\color{DiaconiaAzul}Base de Datos (PostgreSQL)}\\34 Entidades TypeORM Normalizadas (Supabase)};
+        \node[cajar2, right=0.85cm of db] (r2) {\textbf{\color{DiaconiaPetroleo}Almacenamiento (Cloudflare R2)}\\K\'ardex, Evidencias Classroom y PDFs};
 
-        % Conexiones
-        \draw[flecha] (movil) -- node[above, font=\tiny\color{DiaconiaNavy}]{HTTPS / JSON} (backend);
-        \draw[flecha] (web) -- node[above, font=\tiny\color{DiaconiaNavy}]{REST / WebSockets} (backend);
-        \draw[flecha] (backend) -- node[right, font=\tiny\color{DiaconiaNavy}]{TypeORM} (db);
+        \draw[flecha] (movil) -- node[above, font=\tiny\color{DiaconiaOscuro}]{HTTPS / JSON} (backend);
+        \draw[flecha] (web) -- node[above, font=\tiny\color{DiaconiaOscuro}]{REST / Socket.IO} (backend);
+        \draw[flecha] (backend) -- node[right, font=\tiny\color{DiaconiaOscuro}]{TypeORM} (db);
+        \draw[flecha] (backend.south east) -- node[above right, font=\tiny\color{DiaconiaPetroleo}]{S3 API} (r2.north west);
     \end{tikzpicture}%
     }
     \end{center}
 
-    \vspace{0.10cm}
+    \vspace{0.06cm}
     \begin{columns}[T,onlytextwidth]
-        \begin{column}{0.32\textwidth}
-            \infocard{M\'ovil Aut\'onomo}{Opera sin navegador; blindado contra falseo de ubicaci\'on y suplantaci\'on.}
+        \begin{column}{0.24\textwidth}
+            \kpipill{DiaconiaAzul}{18 / 231}{M\'odulos NestJS y Endpoints REST}
         \end{column}
-        \begin{column}{0.32\textwidth}
-            \infocard{API Segura}{Protegida con roles, validaci\'on estricta de DTOs y respuestas en español.}
+        \begin{column}{0.24\textwidth}
+            \kpipill{DiaconiaCielo}{34 / 7 / 13}{Entidades BD, WS y PDFs}
         \end{column}
-        \begin{column}{0.32\textwidth}
-            \infocard{Web Reactiva}{Renderizado Next.js optimizado con componentes Shadcn UI de alta fidelidad.}
+        \begin{column}{0.24\textwidth}
+            \kpipill{DiaconiaOscuro}{100 / 21}{Componentes Web y Pantallas Flutter}
+        \end{column}
+        \begin{column}{0.24\textwidth}
+            \kpipill{DiaconiaPetroleo}{25 / 29}{Becarios Activos y Supervisores}
         \end{column}
     \end{columns}
 \end{frame}
 
 % -----------------------------------------------------------------------------
-% SECCIÓN 4: APP MÓVIL (CAPTURA REAL LOCALHOST:54912)
+% DIAPOSITIVA 5: MÓDULO MÓVIL Y ASISTENCIAS GPS
 % -----------------------------------------------------------------------------
 \section{M\'odulos Clave}
-\begin{frame}[t]{M\'odulo M\'ovil del Becario: Marcaci\'on y Certeza GPS}
-    \vspace{-0.15cm}
+\begin{frame}[t]{M\'odulo M\'ovil y Control GPS: Precisi\'on y Extracto Bancario}
+    \vspace{-0.18cm}
     \begin{columns}[T,onlytextwidth]
         \begin{column}{0.65\textwidth}
-            \justifying
-            La marcaci\'on est\'a blindada contra manipulaci\'on mediante geolocalizaci\'on satelital estricta:
-
-            \vspace{0.10cm}
+            Marcaci\'on satelital y c\'omputo de horas con controles antifraude:
+            \vspace{0.03cm}
             \begin{itemize}
-                \setlength{\itemsep}{1pt}
-                \item \textbf{Geocercas Satelitales (Haversine):} Radio de 50 a 100 m en Oficina Central y agencias.
-                \item \textbf{Exclusividad M\'ovil:} Prohibici\'on web; requiere GPS satelital del tel\'efono.
-                \item \textbf{Turnos y Horarios:} C\'alculo autom\'atico de horas efectivas de pr\'actica.
-                \item \textbf{Validaci\'on en L\'inea:} Marca de tiempo del servidor contra adulteraci\'on horaria.
+                \setlength{\itemsep}{0.5pt}
+                \item \textbf{Geocercas + Pin Rojo:} Radio 50--100 m (Haversine) con pin rojo en mapa.
+                \item \textbf{Autoselecci\'on y Datos:} Paradas frecuentes y confirmaci\'on mensual.
+                \item \textbf{Extracto Bancario:} Historial auditado de marcaciones y horas.
+                \item \textbf{Meta 36h/Mes:} Exclusi\'on de horas de \textbf{Escuela de L\'ideres} de la meta laboral de \textbf{36h mensuales}.
             \end{itemize}
 
-            \vspace{0.08cm}
-            \infocard{Oficina Central Diacon\'ia}{
-                Latitud: \texttt{-16.500053}, Longitud: \texttt{-68.173455} (Av. Juan Pablo II N$^\circ$ 125, El Alto).
+            \vspace{0.04cm}
+            \accentcard{DiaconiaCielo}{Oficina Central Diacon\'ia y Paridad M\'ovil}{
+                Latitud \texttt{-16.500053}, Longitud \texttt{-68.173455} (Av. Juan Pablo II N$^\circ$ 125). Auditor\'ia disponible tanto en Web como en APK.
             }
         \end{column}
         \begin{column}{0.32\textwidth}
             \centering
-            \shotcard{height=4.05cm,keepaspectratio}{captura-movil-app.png}{App M\'ovil (localhost:54912)}
+            \shotcard{height=2.85cm,keepaspectratio}{captura-movil-app.png}{App M\'ovil Flutter (Becarios)}
         \end{column}
     \end{columns}
 \end{frame}
 
 % -----------------------------------------------------------------------------
-% SECCIÓN 5: VIÁTICOS Y TRANSPORTE (CAPTURA REAL)
+% DIAPOSITIVA 6: VIÁTICOS Y TRANSPORTE
 % -----------------------------------------------------------------------------
-\begin{frame}[t]{Automatizaci\'on de Vi\'aticos y Devoluci\'on del 80\%}
-    \vspace{-0.15cm}
+\begin{frame}[t]{Vi\'aticos, Tarifario Flexible y Devoluci\'on del 80\%}
+    \vspace{-0.16cm}
     \begin{columns}[T,onlytextwidth]
         \begin{column}{0.50\textwidth}
             \justifying
-            Reemplaza la planilla f\'isica de transporte por un flujo matem\'atico transparente y auditado:
+            Digitaliza la planilla de transporte urbano con reglas flexibles y c\'alculo exacto:
 
-            \vspace{0.10cm}
+            \vspace{0.05cm}
             \begin{itemize}
-                \setlength{\itemsep}{1pt}
-                \item \textbf{Tarifario Urbano Preconfigurado:} Minib\'us tramo corto/largo, Microb\'us, Trufi interzonal y Mi Telef\'erico.
-                \item \textbf{Bot\'on Ida en Reversa:} Con un solo toque invierte origen y destino para el tramo de retorno.
-                \item \textbf{Liquidaci\'on Matem\'atica del 80\%:}
+                \setlength{\itemsep}{0.5pt}
+                \item \textbf{Tarifario sin Deduplicaci\'on por Monto:} Permite m\'ultiples tarifas con igual monto (Minib\'us, Microb\'us, Trufi, Telef\'erico).
+                \item \textbf{Historial de Paradas y Solo Ida:} Trazabilidad de paradas habituales, opci\'on \textbf{Solo Ida} y bot\'on de inversi\'on de retorno.
+                \item \textbf{Liquidaci\'on del 80\%:}
                 \begin{center}
                     \scriptsize $\text{Subvenci\'on} = \left(\sum \text{Tramos Diarios}\right) \times 0.80$
                 \end{center}
-                \item \textbf{Ventana de Env\'io:} Bloqueo de env\'ios previos al \textbf{d\'ia 24}, garantizando planillas consolidadas.
+                \item \textbf{Ventana de Env\'io:} Habilitaci\'on ordenada desde el \textbf{d\'ia 24} de cada mes.
             \end{itemize}
         \end{column}
         \begin{column}{0.48\textwidth}
             \centering
-            \shotcard{width=0.92\linewidth,keepaspectratio}{captura-web-pasajes.png}{Panel de Aprobaci\'on de Pasajes (Next.js)}
-            \vspace{0.05cm}
-            \infocard{Ahorro en Tesorer\'ia}{Elimina semanas de revisi\'on manual y cuadres contables en la oficina de Diacon\'ia.}
+            \shotcard{height=2.55cm,keepaspectratio}{captura-web-pasajes.png}{Panel de Aprobaci\'on de Pasajes (Next.js)}
+            \vspace{0.04cm}
+            \infocard{Cero Fricci\'on en Tesorer\'ia}{Elimina cuadres manuales y asegura respaldo auditado por cada tramo declarado.}
         \end{column}
     \end{columns}
 \end{frame}
 
 % -----------------------------------------------------------------------------
-% SECCIÓN 6: SUPERVISIÓN Y ASISTENCIAS (CAPTURA REAL)
+% DIAPOSITIVA 7: SUPERVISIÓN, AUDITORÍA Y PARIDAD WEB/MÓVIL
 % -----------------------------------------------------------------------------
-\begin{frame}[t]{Supervisi\'on Laboral y Control de Asistencia}
-    \vspace{-0.15cm}
+\begin{frame}[t]{Supervisi\'on Laboral y Paridad de Auditor\'ia Web / M\'ovil}
+    \vspace{-0.18cm}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.50\textwidth}
+            Tutores y administraci\'on validan pr\'acticas en ambas plataformas:
+
+            \vspace{0.04cm}
+            \begin{itemize}
+                \setlength{\itemsep}{0.5pt}
+                \item \textbf{Paridad Auditor\'ia Web/M\'ovil:} Aprobaci\'on administrativa (\texttt{aprobar-administracion}) unificada en Next.js y Flutter.
+                \item \textbf{Pisos y Bloques:} Filtros por unidades (Riesgos, Finanzas, Auditor\'ia, Canales) en Pisos 2--5, Bloques A y B.
+                \item \textbf{Firma Digital HTML5:} R\'ubrica directa del tutor en pantalla.
+                \item \textbf{Extracto y Meta 36h:} Separaci\'on transparente entre pr\'actica laboral y Escuela de L\'ideres.
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \centering
+            \shotcard{height=2.35cm,keepaspectratio}{captura-web-asistencias.png}{M\'odulo de Control de Asistencia (Next.js)}
+            \vspace{0.04cm}
+            \infocard{Firma Manuscrita Auditada}{La r\'ubrica digital queda vinculada al extracto mensual y exportable a PDF oficial.}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+% DIAPOSITIVA 8: ESCUELA DE LÍDERES CLASSROOM, MULTAS Y REFRIGERIOS
+% -----------------------------------------------------------------------------
+\begin{frame}[t]{Escuela de L\'ideres (Classroom), Multas y Refrigerios}
+    \vspace{-0.18cm}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.50\textwidth}
+            Formaci\'on integral y disciplina puntual automatizada:
+
+            \vspace{0.03cm}
+            \begin{itemize}
+                \setlength{\itemsep}{0.5pt}
+                \item \textbf{Escuela Estilo Classroom:} \textbf{12 tareas can\'onicas} + cat\'alogo global, con entregas \textbf{Web $\leftrightarrow$ APK}.
+                \item \textbf{Encuentro Semanal:} Viernes 14:30 con marcaci\'on diferenciada (excluida de las 36h).
+                \item \textbf{Multas:} \textbf{Bs. 10/min de retraso} tras el ingreso.
+                \item \textbf{Refrigerios (Bs. 5):} Rendici\'on simplificada de raciones por \textbf{Bs. 5} y reposici\'on.
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \centering
+            \shotcard{height=2.25cm,keepaspectratio}{captura-web-refrigerios.png}{Gesti\'on de Refrigerios Institucionales (Next.js)}
+            \vspace{0.04cm}
+            \accentcard{DiaconiaAmarillo}{Disciplina y Formaci\'on Integral}{Automatiza el reglamento de puntualidad y centraliza las 12 entregas formativas en la nube.}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+% DIAPOSITIVA 9: EVALUACIÓN SEMESTRAL INTEGRAL 360° (5 EJES)
+% -----------------------------------------------------------------------------
+\begin{frame}[t]{Evaluaci\'on Semestral 360$^\circ$: 5 Ejes y Ponderaci\'on Din\'amica}
+    \vspace{-0.16cm}
     \begin{columns}[T,onlytextwidth]
         \begin{column}{0.50\textwidth}
             \justifying
-            Los tutores y supervisores de Diacon\'ia gestionan sus unidades en tiempo real:
+            \textbf{Edici\'on din\'amica de ponderaciones} (100 pts configurables por gesti\'on; base 20\% por eje):
 
-            \vspace{0.10cm}
-            \begin{itemize}
-                \setlength{\itemsep}{1pt}
-                \item \textbf{Filtros por Pisos y Bloques:} Visualizaci\'on por unidades (Riesgos, Finanzas, Auditor\'ia, Canales) en Pisos 2 al 5, Bloques A y B de Oficina Central.
-                \item \textbf{Firma Digital en Canvas HTML5:} El mentor aprueba las horas firmando directamente en pantalla con l\'apiz o cursor.
-                \item \textbf{Trazabilidad Total:} Registro inmutable de hora de entrada, salida y estado de convalidaci\'on.
-            \end{itemize}
-        \end{column}
-        \begin{column}{0.48\textwidth}
-            \centering
-            \shotcard{width=0.92\linewidth,keepaspectratio}{captura-web-asistencias.png}{M\'odulo de Control de Asistencia (Next.js)}
-            \vspace{0.05cm}
-            \infocard{Firma Manuscrita Encriptada}{La r\'ubrica digital del supervisor se asocia de forma inalterable a la planilla mensual.}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-% -----------------------------------------------------------------------------
-% SECCIÓN 7: REFRIGERIOS Y ESCUELA DE LÍDERES (CAPTURA REAL)
-% -----------------------------------------------------------------------------
-\begin{frame}[t]{Escuela de L\'ideres, Multas y Refrigerios}
-    \vspace{-0.15cm}
-    \begin{columns}[T,onlytextwidth]
-        \begin{column}{0.50\textwidth}
-            \justifying
-            La formaci\'on de valores y car\'acter es el pilar central de BUMAND:
-
-            \vspace{0.10cm}
-            \begin{itemize}
-                \setlength{\itemsep}{1pt}
-                \item \textbf{Encuentro Semanal Obligatorio:} Viernes a las 14:30 en punto. Marcaci\'on especial habilitada los viernes.
-                \item \textbf{R\'egimen Automatizado de Multas:}
-                \begin{itemize}
-                    \setlength{\itemsep}{0.5pt}
-                    \item \textbf{Bs. 10 de multa por cada minuto de retraso} tras el horario l\'imite de ingreso.
-                    \item C\'alculo transparente y planilla consolidada de retenciones para BUMAND.
-                \end{itemize}
-                \item \textbf{Control de Refrigerios:} M\'odulo institucional para registrar raciones y reposici\'on institucional.
-            \end{itemize}
-        \end{column}
-        \begin{column}{0.48\textwidth}
-            \centering
-            \shotcard{width=0.92\linewidth,keepaspectratio}{captura-web-refrigerios.png}{Gesti\'on de Refrigerios Institucionales (Next.js)}
-            \vspace{0.05cm}
-            \infocard{Disciplina y Puntualidad}{Automatiza la aplicaci\'on estricta del reglamento formativo de Diacon\'ia.}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-% -----------------------------------------------------------------------------
-% SECCIÓN 8: EVALUACIÓN INTEGRAL (CAPTURA REAL Y GRÁFICA TIKZ)
-% -----------------------------------------------------------------------------
-\begin{frame}[t]{Evaluaci\'on Semestral Integral: 5 Ejes (100 Puntos)}
-    \vspace{-0.15cm}
-    \begin{columns}[T,onlytextwidth]
-        \begin{column}{0.48\textwidth}
-            \justifying
-            Consolidaci\'on ponderada de los 5 pilares institucionales (20\% cada uno):
-
-            \vspace{0.08cm}
-            % Gráfica TikZ de ponderación de evaluación
+            \vspace{0.04cm}
             \begin{center}
-            \resizebox{0.95\linewidth}{!}{%
+            \resizebox{0.96\linewidth}{!}{%
             \begin{tikzpicture}
-                % Barras visuales ponderadas
-                \draw[fill=DiaconiaNavy, draw=none] (0, 1.6) rectangle (3.8, 1.90) node[right, font=\tiny\bfseries\color{DiaconiaNavy}] {~Acad\'emico (20 pts)};
-                \draw[fill=DiaconiaCyan, draw=none] (0, 1.2) rectangle (3.8, 1.50) node[right, font=\tiny\bfseries\color{DiaconiaCyan}] {~Pastoral F-03 (20 pts)};
-                \draw[fill=DiaconiaGold, draw=none] (0, 0.8) rectangle (3.8, 1.10) node[right, font=\tiny\bfseries\color{BodyInk}] {~Pr\'acticas Diacon\'ia (20 pts)};
-                \draw[fill=DiaconiaCoral, draw=none] (0, 0.4) rectangle (3.8, 0.70) node[right, font=\tiny\bfseries\color{DiaconiaCoral}] {~Escuela L\'ideres (20 pts)};
-                \draw[fill=SlateLight!80!DiaconiaNavy, draw=none] (0, 0.0) rectangle (3.8, 0.30) node[right, font=\tiny\bfseries\color{DiaconiaNavy}] {~Socioecon\'omico (20 pts)};
+                \draw[fill=DiaconiaOscuro, draw=none, rounded corners=1.5pt] (0, 1.44) rectangle (3.3, 1.68) node[right, font=\tiny\bfseries\color{DiaconiaOscuro}] {~Acad\'emica (Carga directa + Pre-eval. + Conval.)};
+                \draw[fill=DiaconiaAzul, draw=none, rounded corners=1.5pt] (0, 1.08) rectangle (3.3, 1.32) node[right, font=\tiny\bfseries\color{DiaconiaAzul}] {~Pastoral F-03 (17 iglesias + PDF Web/M\'ovil)};
+                \draw[fill=DiaconiaCielo, draw=none, rounded corners=1.5pt] (0, 0.72) rectangle (3.3, 0.96) node[right, font=\tiny\bfseries\color{DiaconiaCielo}] {~Mentor Pr\'acticas (Validaci\'on QR / OTP 6 d\'igitos)};
+                \draw[fill=DiaconiaAmarillo, draw=none, rounded corners=1.5pt] (0, 0.36) rectangle (3.3, 0.60) node[right, font=\tiny\bfseries\color{BodyInk}] {~Escuela L\'ideres (Classroom 12 tareas)};
+                \draw[fill=DiaconiaPetroleo, draw=none, rounded corners=1.5pt] (0, 0.0) rectangle (3.3, 0.24) node[right, font=\tiny\bfseries\color{DiaconiaPetroleo}] {~Socioecon\'omica (26 preguntas + editor)};
             \end{tikzpicture}%
             }
             \end{center}
 
-            \vspace{-0.05cm}
+            \vspace{0.01cm}
             \begin{itemize}
                 \setlength{\itemsep}{0.5pt}
                 \item \textbf{$\ge 70$ pts:} Aprobaci\'on \'optima (conserva beca).
-                \item \textbf{$51 - 69$ pts:} Condicionado (firma compromiso).
+                \item \textbf{$51 - 69$ pts:} Condicionado (firma de compromiso).
                 \item \textbf{$\le 50$ pts:} Baja definitiva del programa.
             \end{itemize}
         \end{column}
-        \begin{column}{0.50\textwidth}
-            \centering
-            \shotcard{width=0.92\linewidth,keepaspectratio}{captura-web-evaluaciones.png}{Matriz de Evaluaci\'on Integral (Next.js)}
-            \vspace{0.05cm}
-            \infocard{Formulario Pastoral F-03}{El pastor eval\'ua testimonio, liderazgo y servicio directamente en la plataforma.}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-% -----------------------------------------------------------------------------
-% SECCIÓN 9: DIRECTORIO Y DASHBOARD GENERAL (CAPTURA REAL)
-% -----------------------------------------------------------------------------
-\begin{frame}[t]{Dashboard General y Directorio de Becarios}
-    \vspace{-0.15cm}
-    \begin{columns}[T,onlytextwidth]
         \begin{column}{0.48\textwidth}
             \centering
-            \shotcard{width=0.92\linewidth,keepaspectratio}{captura-web-dashboard.png}{Dashboard General Anal\'itico (Next.js)}
-            \vspace{0.05cm}
-            \infocard{M\'etricas en Tiempo Real}{Total de becarios, horas computadas en el mes, vi\'aticos liquidados y alertas.}
-        \end{column}
-        \begin{column}{0.48\textwidth}
-            \centering
-            \shotcard{width=0.92\linewidth,keepaspectratio}{captura-web-becarios.png}{Directorio y Expedientes de Becarios}
-            \vspace{0.05cm}
-            \infocard{Expediente Digital Unificado}{Carrera, universidad, unidad de pr\'actica, tutor asignado y registro hist\'orico.}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-% -----------------------------------------------------------------------------
-% SECCIÓN 10: TOPOLOGÍA DE DESPLIEGUE
-% -----------------------------------------------------------------------------
-\section{Despliegue y Costos}
-\begin{frame}[t]{Topolog\'ia de Despliegue en la Nube}
-    \vspace{-0.15cm}
-    \justifying
-    Arquitectura cloud de alta disponibilidad, seguridad financiera y costos m\'inimos:
-
-    \vspace{0.15cm}
-    \begin{columns}[T,onlytextwidth]
-        \begin{column}{0.32\textwidth}
-            \infocard{Frontend Web}{
-                \textbf{Vercel Edge Network}
-                \begin{itemize}
-                    \setlength{\itemsep}{1pt}
-                    \item Next.js App Router nativo.
-                    \item Despliegue continuo CI/CD.
-                    \item CDN global con SSL TLS 1.3.
-                    \item Subdominio temporal gratuito.
-                \end{itemize}
-            }
-        \end{column}
-        \begin{column}{0.32\textwidth}
-            \infocard{Backend + Base de Datos}{
-                \textbf{Amazon Web Services}
-                \begin{itemize}
-                    \setlength{\itemsep}{1pt}
-                    \item Servidor VPS Linux (Ubuntu).
-                    \item Contenedores Docker aislados.
-                    \item NestJS API + PostgreSQL 16.
-                    \item Proxy Nginx y compresi\'on.
-                \end{itemize}
-            }
-        \end{column}
-        \begin{column}{0.32\textwidth}
-            \infocard{Capa de Red y Dominio}{
-                \textbf{Cloudflare + DNS}
-                \begin{itemize}
-                    \setlength{\itemsep}{1pt}
-                    \item DNS Anycast (<12ms latencia).
-                    \item Mitigaci\'on de ataques DDoS.
-                    \item Reglas WAF para APIs REST.
-                    \item Dominio a precio mayorista.
-                \end{itemize}
+            \shotcard{height=2.55cm,keepaspectratio}{captura-web-evaluaciones.png}{Matriz de Evaluaci\'on Integral (Next.js)}
+            \vspace{0.04cm}
+            \infocard{Flujos Completos por Eje}{
+                Incluye \textbf{F-03} (17 iglesias y PDF), \textbf{Acad\'emica} (PDF/imagen), \textbf{OTP 6 d\'igitos} y ajuste administrativo en \textbf{Socioecon\'omica}.
             }
         \end{column}
     \end{columns}
 \end{frame}
 
 % -----------------------------------------------------------------------------
-% SECCIÓN 11: COMPARATIVA AWS EC2 VS LIGHTSAIL CON GRÁFICA TIKZ
+% DIAPOSITIVA 10: ESTANDARIZACIÓN UX/UI, PDFS Y TIEMPO REAL
 % -----------------------------------------------------------------------------
-\begin{frame}[t]{Costos de Servidor: AWS EC2 vs. Amazon Lightsail}
-    \vspace{-0.15cm}
-    \justifying
-    Evaluaci\'on t\'ecnica y econ\'omica para alojar el Backend API y PostgreSQL:
-
-    \vspace{0.10cm}
+\begin{frame}[t]{Estandarizaci\'on Multiplataforma, Tiempo Real y PDF}
+    \vspace{-0.16cm}
     \begin{columns}[T,onlytextwidth]
-        \begin{column}{0.65\textwidth}
-            \renewcommand{\arraystretch}{1.15}
-            \tiny
-            \begin{tabular}{@{} >{\RaggedRight\arraybackslash}p{0.21\textwidth} >{\RaggedRight\arraybackslash}p{0.21\textwidth} >{\RaggedRight\arraybackslash}p{0.21\textwidth} @{}}
-                \toprule
-                \textbf{Criterio} & \textbf{AWS EC2 On-Demand} & \textbf{Amazon Lightsail (Recomendado)} \\
-                \midrule
-                \textbf{Instancia Base} & \texttt{t3.small} (2 vCPU, 2 GB): \$15.20/mes & VPS Bundle (2 vCPU, 2 GB): \textbf{\$10.00/mes} \\
-                \textbf{Disco SSD} & EBS gp3 (30 GB): \$2.40/mes & 60 GB SSD NVMe incluido \\
-                \textbf{Tr\'afico Salida} & \$0.09/GB tras 100 GB & \textbf{3.000 GB (3 TB)} incluidos \\
-                \textbf{Base de Datos} & RDS PostgreSQL: +\$17.50/mes & Docker PostgreSQL (\$0 extra) \\
-                \textbf{IP P\'ublica Fija} & \$0.005/hora no asociada & IP est\'atica incluida (\$0 extra) \\
-                \midrule
-                \textbf{Costo Mensual} & \textbf{\$17.60 - \$35.10 / mes}\newline(\~Bs. 211 - 421) & \textbf{\$10.00 USD / mes}\newline\textbf{(\~Bs. 120 / mes)} \\
-                \bottomrule
-            \end{tabular}
+        \begin{column}{0.52\textwidth}
+            \accentcard{DiaconiaAzul}{Botones Condicionales Unificados (Web y M\'ovil)}{
+                Estandarizaci\'on (\texttt{BotonesAccionEvaluacion}) para todos los roles en los 5 ejes de Evaluaci\'on 360$^\circ$:\\[4pt]
+                $\blacktriangleright$ \textbf{Inspecci\'on:} Bot\'on \pill{DiaconiaOscuro}{Revisar} para detalle y ajuste.\\[4pt]
+                $\blacktriangleright$ \textbf{P\'ildora Condicional seg\'un Estado:}\\[3pt]
+                \pill{DiaconiaAzul}{Aprobar} $\rightarrow$ \pill{DiaconiaCielo}{Aprobado} \pill{DiaconiaAmarillo}{Observado} \pill{DiaconiaPetroleo}{Pendiente}\\[5pt]
+                $\blacktriangleright$ Paridad visual y funcional para Becario, Tutor, Pastor, Facilitador y Administraci\'on en Next.js y Flutter.
+            }
+        \end{column}
+        \begin{column}{0.45\textwidth}
+            \infocard{13 Endpoints PDF (Puppeteer)}{
+                Generaci\'on institucional en PDF con descarga resiliente (\texttt{descargarPdfConResiliencia}) para actas, F-03, extractos bancarios y pasajes.
+            }
             \vspace{0.06cm}
-            {\tiny \textit{* Cotizaci\'on referencial de mercado: 1 USD $\approx$ Bs. 12 (Morningstar: Bs. 11,74 / USD). Fuentes: AWS Pricing Calculator.}}
-        \end{column}
-        \begin{column}{0.33\textwidth}
-            % Gráfica comparativa de costos en TikZ
-            \begin{center}
-            \resizebox{0.88\linewidth}{!}{%
-            \begin{tikzpicture}
-                % Eje
-                \draw[thick, color=BodyInk!40] (0,0) -- (3.0,0);
-                % Barras con proporciones exactas
-                \draw[fill=DiaconiaCoral!80, draw=DiaconiaCoral, line width=0.7pt] (0.4, 0) rectangle (1.1, 2.45) node[above, font=\scriptsize\bfseries\color{DiaconiaCoral}, align=center] {\$35.10\\\tiny(\~Bs. 421)};
-                \draw[fill=DiaconiaNavy!80, draw=DiaconiaNavy, line width=0.7pt] (1.7, 0) rectangle (2.4, 0.70) node[above, font=\scriptsize\bfseries\color{DiaconiaNavy}, align=center] {\$10.00\\\tiny(\~Bs. 120)};
-                % Etiquetas
-                \node[below, font=\scriptsize, align=center] at (0.75, -0.1) {AWS EC2\\+ RDS};
-                \node[below, font=\scriptsize\bfseries, align=center] at (2.05, -0.1) {Amazon\\Lightsail};
-            \end{tikzpicture}%
+            \infocard{7 Eventos Socket.IO en Tiempo Real}{
+                Sincronizaci\'on Web $\leftrightarrow$ M\'ovil: \texttt{asistencia}, \texttt{pasajes}, \texttt{justificacion}, \texttt{devocional}, \texttt{evento}, \texttt{codigo\_verificacion\_tutor} y \texttt{evaluacion\_actualizada}.
             }
-            \end{center}
         \end{column}
     \end{columns}
 \end{frame}
 
 % -----------------------------------------------------------------------------
-% SECCIÓN 12: ESTRATEGIA DE DOMINIOS Y VERCEL
+% DIAPOSITIVA 11: DASHBOARD Y DIRECTORIO DEPURADO
 % -----------------------------------------------------------------------------
-\begin{frame}[t]{Estrategia de Frontend, Dominios y Cloudflare}
-    \vspace{-0.15cm}
-    \justifying
-    Opciones estrat\'egicas de bajo costo y m\'axima seguridad para Diacon\'ia:
-
-    \vspace{0.15cm}
+\begin{frame}[t]{Dashboard Anal\'itico y Directorio Depurado de Becarios}
+    \vspace{-0.16cm}
     \begin{columns}[T,onlytextwidth]
         \begin{column}{0.48\textwidth}
-            \infocard{Frontend en Vercel (Hobby Tier)}{
-                \begin{itemize}
-                    \setlength{\itemsep}{1pt}
-                    \item \textbf{Costo: \$0.00 USD / mes (Bs. 0).}
-                    \item Subdominio temporal gratuito: \texttt{bumand-diaconia.vercel.app}.
-                    \item Certificado SSL Let's Encrypt autom\'atico.
-                    \item Despliegue continuo con GitHub y CDN Edge.
-                    \item Ideal para la fase piloto y validaci\'on inicial.
-                \end{itemize}
-            }
+            \centering
+            \shotcard{height=2.60cm,keepaspectratio}{captura-web-dashboard.png}{Dashboard General Anal\'itico (Next.js)}
+            \vspace{0.04cm}
+            \infocard{M\'etricas en Tiempo Real (5 Componentes)}{3 endpoints anal\'iticos: cohorte activa, horas de pr\'actica (sin Escuela), liquidaci\'on de vi\'aticos y alertas.}
         \end{column}
         \begin{column}{0.48\textwidth}
-            \infocard{Adquisici\'on de Dominio Personalizado}{
-                \begin{itemize}
-                    \setlength{\itemsep}{1pt}
-                    \item \textbf{Cloudflare Registrar (.com):} \textbf{\~ \$9.77 USD / a\~no} (\~Bs. 117 / a\~no a Bs. 12/USD). Precio de costo mayorista de ICANN.
-                    \item \textbf{Dominio Territorial (.com.bo):} V\'ia NIC Bolivia (ADSIB) a \textbf{Bs. 280 / a\~no} (\~ \$23.30 USD/a\~no).
-                    \item \textbf{Cloudflare Free DNS:} WAF, SSL y protecci\'on DDoS a \textbf{\$0.00 extra (Bs. 0)}.
-                \end{itemize}
-            }
+            \centering
+            \shotcard{height=2.60cm,keepaspectratio}{captura-web-becarios.png}{Directorio y Expedientes de Becarios}
+            \vspace{0.04cm}
+            \infocard{25 Becarios y 29 Supervisores}{Cohorte depurada con 12 tutores asignados activamente, cambio directo de tutor y expediente hist\'orico unificado.}
         \end{column}
     \end{columns}
 \end{frame}
 
 % -----------------------------------------------------------------------------
-% SECCIÓN 13: MATRIZ DE PRESUPUESTO CONSOLIDADA
+% DIAPOSITIVA 12: NUEVA TOPOLOGÍA CLOUD Y ALMACENAMIENTO
 % -----------------------------------------------------------------------------
-\begin{frame}[t]{Matriz de Presupuesto Consolidada}
-    \vspace{-0.15cm}
+\section{Despliegue y Roadmap}
+\begin{frame}[t]{Nueva Topolog\'ia Cloud (Piloto Nov 2026 -- Feb 2027)}
+    \vspace{-0.10cm}
     \justifying
-    Proyecci\'on de costos reales para la puesta en marcha del sistema BUMAND:
-
-    \vspace{0.10cm}
-    \renewcommand{\arraystretch}{1.14}
-    \scriptsize
-    \begin{tabular}{@{} >{\RaggedRight\arraybackslash}p{0.30\textwidth} >{\Centering\arraybackslash}p{0.31\textwidth} >{\Centering\arraybackslash}p{0.31\textwidth} @{}}
-        \toprule
-        \textbf{Componente} & \textbf{Escenario A: Piloto / Pruebas} & \textbf{Escenario B: Producci\'on Oficial} \\
-        \midrule
-        Frontend Web (Next.js) & Vercel Hobby: \textbf{\$0.00} & Vercel Hobby: \textbf{\$0.00} \\
-        Backend API + PostgreSQL & Lightsail (1 GB): \textbf{\$5.00 / mes} (\~Bs. 60) & Lightsail (2 GB): \textbf{\$10.00 / mes} (\~Bs. 120) \\
-        Nombre de Dominio & Subdominio: \textbf{\$0.00} & Cloudflare \texttt{.com}: \textbf{\~ \$0.81 / mes} (\~Bs. 10) \\
-        Seguridad, DNS y WAF & Cloudflare Free: \textbf{\$0.00} & Cloudflare Free: \textbf{\$0.00} \\
-        \midrule
-        \textbf{Total Mensual} & \textbf{\$5.00 USD / mes} (\~Bs. 60) & \textbf{\~ \$10.81 USD / mes} (\~Bs. 130) \\
-        \textbf{Total Anual} & \textbf{\$60.00 USD / a\~no} (\~Bs. 720) & \textbf{\~ \$129.77 USD / a\~no} (\~Bs. 1.550) \\
-        \bottomrule
-    \end{tabular}
-
-    \vspace{0.06cm}
-    {\tiny \textit{* Cotizaci\'on cambiaria referencial: 1 USD $\approx$ Bs. 12 (redondeado s/ cotizaci\'on Morningstar actual de Bs. 11,74 / USD).}}
+    Arquitectura h\'ibrida gratuita (\textbf{\$0/mes}) que desacopla c\'omputo, base de datos relacional y almacenamiento de objetos:
 
     \vspace{0.08cm}
-    \infocard{Retorno de Inversi\'on (ROI)}{
-        El costo anual de operaci\'on (\~Bs. 1.550 / a\~no o \~ \$129.77 USD) es ampliamente inferior al gasto recurrente en papel, t\'oner y horas de oficina destinadas a gestionar m\'as de 3.000 formularios al a\~no.
+    \begin{center}
+    \resizebox{0.93\linewidth}{!}{%
+    \begin{tikzpicture}[
+        node distance=0.80cm and 1.40cm,
+        svc/.style={draw=DiaconiaAzul, line width=0.8pt, fill=white, rounded corners=5pt, align=center, inner sep=5pt, font=\scriptsize, minimum width=3.0cm},
+        core/.style={draw=DiaconiaOscuro, line width=1.1pt, fill=FondoClaro, rounded corners=5pt, align=center, inner sep=5.5pt, font=\scriptsize, minimum width=3.3cm},
+        r2/.style={draw=DiaconiaPetroleo, line width=0.95pt, fill=FondoClaro, rounded corners=5pt, align=center, inner sep=5pt, font=\scriptsize, minimum width=3.2cm},
+        arr/.style={-{Stealth[length=2.3mm]}, line width=0.85pt, color=DiaconiaOscuro}
+    ]
+        \node[svc] (users) {\textbf{\color{DiaconiaOscuro}Usuarios Web y APK}\\Becarios, Tutores,\\Pastores y Admin};
+        \node[svc, right=of users] (vercel) {\textbf{\color{DiaconiaAzul}Vercel (Hobby Plan)}\\Frontend Next.js 14+\\CDN Edge + SSL};
+        \node[core, right=of vercel] (render) {\textbf{\color{DiaconiaOscuro}Render (Free Service)}\\API NestJS + Socket.IO\\Puppeteer PDF (512 MB)};
+        \node[svc, below=0.85cm of render, xshift=-2.05cm] (supa) {\textbf{\color{DiaconiaAzul}Supabase (Free Tier)}\\PostgreSQL (500 MB)\\34 Entidades + Auth};
+        \node[r2, below=0.85cm of render, xshift=2.05cm] (r2box) {\textbf{\color{DiaconiaPetroleo}Cloudflare R2 (Bucket)}\\10 GB Gratis \textbar\ \textbf{\$0 Egress}\\K\'ardex, Evidencias y PDFs};
+
+        \draw[arr] (users) -- node[above, font=\tiny\color{DiaconiaOscuro}]{HTTPS} (vercel);
+        \draw[arr] (vercel) -- node[above, font=\tiny\color{DiaconiaOscuro}]{REST / WS} (render);
+        \draw[arr] (users.south) -- ++(0,-0.22) -| node[pos=0.25, below, font=\tiny\color{DiaconiaOscuro}]{APK REST / WS} ([xshift=-0.85cm]render.south);
+        \draw[arr] ([xshift=-0.35cm]render.south) -- node[midway, fill=white, inner sep=1.5pt, font=\tiny\color{DiaconiaAzul}]{Pool SQL} (supa.north);
+        \draw[arr] ([xshift=0.35cm]render.south) -- node[midway, fill=white, inner sep=1.5pt, font=\tiny\color{DiaconiaPetroleo}]{S3 API} (r2box.north);
+    \end{tikzpicture}%
+    }
+    \end{center}
+
+    \vspace{0.05cm}
+    \accentcard{DiaconiaPetroleo}{Por qu\'e Cloudflare R2 es pieza clave del stack}{
+        Evita saturar los \textbf{500 MB} de PostgreSQL en Supabase y resuelve la p\'erdida de archivos locales por el \textbf{disco ef\'imero de Render}, permitiendo almacenar K\'ardex, documentos acad\'emicos, evidencias Classroom y PDFs con \textbf{\$0 de costo por egreso}.
     }
 \end{frame}
 
 % -----------------------------------------------------------------------------
-% SECCIÓN 14: CONCLUSIONES Y VALOR PARA DIACONÍA
+% DIAPOSITIVA 13: LIMITACIONES TÉCNICAS VERIFICADAS DEL TIER GRATUITO
 % -----------------------------------------------------------------------------
-\section{Conclusiones}
-\begin{frame}[t]{Conclusiones y Valor Estrat\'egico para Diacon\'ia}
-    \vspace{-0.15cm}
-    \justifying
-    El Ecosistema BUMAND transforma integralmente la administraci\'on del programa:
-
-    \vspace{0.15cm}
+\begin{frame}[t]{Stack Cloud: Capacidades y Limitaciones del Tier Gratuito}
+    \vspace{-0.18cm}
     \begin{columns}[T,onlytextwidth]
         \begin{column}{0.48\textwidth}
-            \infocard{Eficiencia y Cero Fricci\'on}{
-                \begin{itemize}
-                    \setlength{\itemsep}{1pt}
-                    \item Eliminaci\'on total del papeleo f\'isico mensual.
-                    \item Liquidaci\'on de pasajes en segundos al 80\%.
-                    \item Certeza satelital no falsificable con geocercas.
-                \end{itemize}
+            \accentcard{DiaconiaPetroleo}{Cloudflare R2 (Almacenamiento de Objetos)}{
+                $\bullet$ \textbf{10 GB-mes} gratis; \textbf{1M} Class A + \textbf{10M} Class B ops/mes.\\
+                $\bullet$ \textbf{\$0 egress} (cero costo por descarga/lectura).\\
+                $\bullet$ L\'imite \textbf{5 GiB} simple (\textbf{5 TiB} multipart).\\
+                $\bullet$ Requiere \textbf{tarjeta} para activar (sin cobro bajo cuota).
+            }
+            \vspace{0.04cm}
+            \accentcard{DiaconiaAzul}{Supabase (Base de Datos PostgreSQL)}{
+                $\bullet$ \textbf{500 MB} BD (\textbf{500 MB RAM}); m\'ax. \textbf{2 proyectos} activos.\\
+                $\bullet$ \textbf{Pausa a los 7 d\'ias sin consultas} (reactivaci\'on manual).\\
+                $\bullet$ \textbf{5 GB/mes} uncached + \textbf{5 GB/mes} cached egress.\\
+                $\bullet$ Hasta \textbf{50,000 MAUs} en Auth incluidos.
             }
         \end{column}
         \begin{column}{0.48\textwidth}
-            \infocard{Transparencia y Gobernanza}{
-                \begin{itemize}
-                    \setlength{\itemsep}{1pt}
-                    \item Evaluaci\'on continua con firma digital de tutores.
-                    \item Emisi\'on de reportes PDF oficiales para auditor\'ia.
-                    \item Infraestructura cloud predecible de bajo costo (\~Bs. 130/mes o \$10.80 USD).
-                \end{itemize}
+            \accentcard{DiaconiaOscuro}{Vercel (Frontend Next.js --- Plan Hobby)}{
+                $\bullet$ Estricto \textbf{uso personal / no comercial}.\\
+                $\bullet$ \textbf{100 GB/mes} transfer; \textbf{1M} invoc. (\textbf{4 CPU-h}, \textbf{360 GB-h}).\\
+                $\bullet$ Timeout \textbf{300 s} (Fluid) / \textbf{120 s} HTTP proxied.\\
+                $\bullet$ \textbf{1 build} / \textbf{100 deploys/d\'ia}; pausa por cuota.
+            }
+            \vspace{0.04cm}
+            \accentcard{DiaconiaAmarillo}{Render (Backend NestJS --- Free Web Service)}{
+                $\bullet$ \textbf{750 h/mes} compartidas por workspace.\\
+                $\bullet$ \textbf{Suspensi\'on 15 min}; \textbf{cold start $\sim$50--60 s}.\\
+                $\bullet$ \textbf{512 MB RAM} / \textbf{0.1 vCPU}; \textbf{5 GB/mes} saliente.\\
+                $\bullet$ \textbf{Disco ef\'imero} (sin persistencia local).
             }
         \end{column}
     \end{columns}
 \end{frame}
 
 % -----------------------------------------------------------------------------
-% DIAPOSITIVA 15: CIERRE Y PREGUNTAS
+% DIAPOSITIVA 14: PLAN DE DESPLIEGUE NOV 2026 - FEB 2027
+% -----------------------------------------------------------------------------
+\begin{frame}[t]{Plan de Despliegue y Mitigaciones (Nov 2026 -- Feb 2027)}
+    \vspace{-0.16cm}
+    \begin{center}
+    \resizebox{0.93\linewidth}{!}{%
+    \begin{tikzpicture}[
+        arr/.style={-{Stealth[length=2.4mm]}, line width=1pt, color=DiaconiaAzul}
+    ]
+        \node[fasebox=DiaconiaAzul] (n) {\textbf{\color{DiaconiaAzul}Nov 2026: Piloto Inicial}\\
+            \tiny$\bullet$ Stack \$0/mes en l\'inea.\\
+            $\bullet$ Binarios y PDFs en \textbf{R2} (sin depender de disco ef\'imero).\\
+            $\bullet$ Aviso de \emph{cold-start} ($\sim$50--60 s) o \emph{healthcheck} controlado.};
+        \node[fasebox=DiaconiaCielo, right=0.45cm of n] (d) {\textbf{\color{DiaconiaCielo}Dic 2026: Cierre y Carga}\\
+            \tiny$\bullet$ Monitoreo de \textbf{500 MB} en Supabase y egresos (5 GB).\\
+            $\bullet$ Pruebas de Puppeteer PDF en \textbf{512 MB RAM} (Render).\\
+            $\bullet$ Prevenci\'on de pausa de 7 d\'ias en BD.};
+        \node[fasebox=DiaconiaPetroleo, right=0.45cm of d] (e) {\textbf{\color{DiaconiaPetroleo}Ene 2027: Auditor\'ia}\\
+            \tiny$\bullet$ Revisi\'on de pool \textbf{750 h/mes} (Render) y \textbf{100 GB} (Vercel).\\
+            $\bullet$ Evaluaci\'on de licencia comercial frente a Vercel Hobby.\\
+            $\bullet$ Respaldos automatizados a R2.};
+        \node[fasebox=DiaconiaOscuro, right=0.45cm of e] (f) {\textbf{\color{DiaconiaOscuro}Feb 2027: Arranque 2027}\\
+            \tiny$\bullet$ Decisi\'on de \emph{upgrade} institucional previo a alta demanda.\\
+            $\bullet$ Eliminaci\'on de \emph{cold start} y pausa de BD.\\
+            $\bullet$ Dominio oficial institucional.};
+
+        \draw[arr] (n) -- (d);
+        \draw[arr] (d) -- (e);
+        \draw[arr] (e) -- (f);
+    \end{tikzpicture}%
+    }
+    \end{center}
+
+    \vspace{0.05cm}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.48\textwidth}
+            \infocard{Mitigaciones Operativas Durante el Piloto}{
+                $\bullet$ \textbf{Cold Start ($\sim$50--60 s):} Cron \emph{keep-alive} en horario h\'abil (sin exceder 750 h/mes) y aviso en App/Web.\\
+                $\bullet$ \textbf{Persistencia:} 100\% de archivos en \textbf{Cloudflare R2} + respaldos SQL programados fuera de Render.
+            }
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \infocard{Criterios de Salto a Producci\'on (Febrero 2027)}{
+                $\bullet$ Uso institucional/comercial formal de \textbf{Vercel} o traslado del frontend a servidor propio.\\
+                $\bullet$ Superar 70\% de los \textbf{500 MB} en Supabase o requerir SLA continuo sin suspensi\'on de 15 minutos.
+            }
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+% DIAPOSITIVA 15: PRESUPUESTO COMPARATIVO ($0/MES VS ESCENARIOS AWS)
+% -----------------------------------------------------------------------------
+\begin{frame}[t]{Presupuesto: Piloto \$0/mes vs. Alternativas AWS Post-Piloto}
+    \vspace{-0.20cm}
+    \begin{center}
+    {\setlength{\tabcolsep}{1.8pt}
+    \renewcommand{\arraystretch}{0.98}
+    \fontsize{6.0}{7.3}\selectfont
+    \begin{tabular}{@{} l l l l l @{}}
+        \toprule
+        \textbf{Capa} & \textbf{Piloto (Nov--Feb)} & \textbf{AWS Solo Lightsail} & \textbf{Lightsail + Vercel Pro} & \textbf{EC2 + RDS + S3} \\
+        \midrule
+        \textbf{Frontend} & Vercel Hobby: \textbf{\$0.00} & En Lightsail: \textbf{\$0.00} & Vercel Pro: \textbf{\$20.00} & En EC2 (\$0) / Vercel (+\$20) \\
+        \textbf{Backend} & Render Free: \textbf{\$0.00} & Lightsail 2 GB: \textbf{\$10.00} & Lightsail 2 GB: \textbf{\$10.00} & EC2 \texttt{t4g.small}+30G: \textbf{\$14.66} \\
+        \textbf{Base Datos} & Supabase 500M: \textbf{\$0.00} & PostgreSQL local: \textbf{\$0.00} & PostgreSQL local: \textbf{\$0.00} & RDS \texttt{db.t4g.micro}: \textbf{\$13.98} \\
+        \textbf{Objetos} & CF R2 (10 GB): \textbf{\$0.00} & SSD 60G (o R2): \textbf{\$0.00} & AWS S3 (10G): \textbf{$\sim$\$0.23} & AWS S3 (10 GB): \textbf{$\sim$\$0.23} \\
+        \textbf{Dominio} & Subdom. + CF: \textbf{\$0.00} & \texttt{.com} + CF: \textbf{\$0.81} & \texttt{.com} + CF: \textbf{\$0.81} & \texttt{.com} + CF: \textbf{\$0.81} \\
+        \midrule
+        \textbf{Total/Mes} & \textbf{\$0.00 (Bs. 0)} & \textbf{$\sim$\$10.81 ($\sim$Bs. 130)} & \textbf{$\sim$\$31.04 ($\sim$Bs. 372)} & \textbf{$\sim$\$29.68} / \textbf{\$49.68}\textsuperscript{*} \\
+        \textbf{Total/A\~no} & \textbf{\$0.00 (4 meses)} & \textbf{$\sim$\$129.72 ($\sim$Bs. 1.557)} & \textbf{$\sim$\$372.48 ($\sim$Bs. 4.470)} & \textbf{$\sim$\$356.16} / \textbf{\$596.16}\textsuperscript{*} \\
+        \bottomrule
+    \end{tabular}}
+    \end{center}
+
+    \vspace{0.02cm}
+    {\tiny \textit{* 1 USD $\approx$ Bs. 12. En \textbf{EC2+RDS+S3}: \textbf{\$29.68/mes} ($\sim$Bs. 356) con Frontend en EC2 o \textbf{\$49.68/mes} ($\sim$Bs. 596) manteniendo Vercel Pro; \texttt{t3.small} x86 suma +\$2.92/mes y transferencia saliente/IPv4 en EC2/S3 se factura por uso. Lightsail 2 GB incluye 60 GB SSD, 3 TB/mes e IPv4. Dominio \texttt{.com.bo} (ADSIB): Bs. 280/a\~no.}}
+
+    \vspace{0.04cm}
+    \accentcard{DiaconiaAzul}{Ruta Financiera Recomendada (Piloto $\rightarrow$ AWS)}{
+        Validar en campo hasta \textbf{febrero 2027} con costo \textbf{\$0/mes}. Al pasar a operaci\'on continua, \textbf{AWS Solo Lightsail ($\sim$Bs. 130/mes)} cubre todo el stack a tarifa fija; si se exige BD administrada y SLA por capas, escalar a \textbf{EC2 + RDS + S3}.
+    }
+\end{frame}
+
+% -----------------------------------------------------------------------------
+% DIAPOSITIVA 16: VENTAJAS Y DESVENTAJAS (LIGHTSAIL VS EC2+RDS+S3 VS VERCEL PRO)
+% -----------------------------------------------------------------------------
+\begin{frame}[t]{AWS Post-Piloto: Ventajas y Desventajas por Arquitectura}
+    \vspace{-0.22cm}
+    \begin{columns}[T,totalwidth=\textwidth]
+        \begin{column}{0.488\textwidth}
+            \accentcard{DiaconiaAzul}{Solo Amazon Lightsail ($\sim$\$10.81/mes)}{
+                \textbf{Ventajas:} Tarifa plana predecible (\$10/mes: 2 GB RAM, 60 GB SSD, IPv4 y \textbf{3 TB/mes}); despliegue simple todo-en-uno con Docker sin configurar VPC complejas.\\[1.5pt]
+                \textbf{Desventajas:} PostgreSQL comparte RAM/CPU con NestJS y PDFs; respaldos/parches manuales; instancias detenidas siguen cobrando si no se eliminan.
+            }\\[2.5pt]
+            \accentcard{DiaconiaAmarillo}{Mantener Vercel Pro Pagado (+\$20.00/mes)}{
+                \textbf{Ventajas:} Habilita \textbf{uso comercial} (ToS); incluye \$20 en cr\'edito mensual, CDN Edge global, CI/CD con GitHub y \textit{Previews} por PR.\\[1.5pt]
+                \textbf{Desventajas:} Suma \$20/mes por miembro que despliega; prescindible si Next.js corre self-hosted en Lightsail/EC2 sin costo extra.
+            }
+        \end{column}
+        \begin{column}{0.488\textwidth}
+            \accentcard{DiaconiaPetroleo}{Amazon EC2 + RDS + S3 ($\sim$\$29.68--\$49.68/mes)}{
+                \textbf{Ventajas:} \textbf{RDS} automatiza backups, parches y Multi-AZ; \textbf{S3} ofrece durabilidad 99.999999999\%; \textbf{EC2} (\texttt{t4g.small}) escala independiente con IAM y Security Groups.\\[1.5pt]
+                \textbf{Desventajas:} Costo \textbf{3x--5x} mayor; cobros variables por egreso (\$\,0.09/GB tras free tier), IPv4 y snapshots; mayor carga DevOps.
+            }\\[2.5pt]
+            \infocard{Almacenamiento: AWS S3 vs. Cloudflare R2}{
+                \textbf{AWS S3 (\$0.023/GB-mes):} Integraci\'on nativa EC2/IAM y pol\'iticas de retenci\'on, pero cobra tr\'afico saliente a internet.\\[1.5pt]
+                \textbf{Cloudflare R2 (\$0 hasta 10 GB):} \textbf{\$0 por egreso}; combinable con Lightsail o EC2 para descargas de PDFs/evidencias sin costo de red.
+            }
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+% DIAPOSITIVA 16: CONCLUSIONES
+% -----------------------------------------------------------------------------
+\section{Conclusiones}
+\begin{frame}[t]{Conclusiones y Valor Estrat\'egico para Diacon\'ia}
+    \vspace{-0.08cm}
+    \justifying
+    El Ecosistema BUMAND consolida una soluci\'on integral, auditada y financieramente sostenible:
+
+    \vspace{0.12cm}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.48\textwidth}
+            \accentcard{DiaconiaAzul}{Eficiencia Operativa y Paridad}{
+                $\bullet$ Eliminaci\'on de m\'as de \textbf{250 formularios/mes} y liquidaci\'on exacta de pasajes al \textbf{80\%}.\\[3pt]
+                $\bullet$ GPS Haversine con pin rojo, extracto bancario y exclusi\'on autom\'atica de Escuela en la meta de \textbf{36h}.\\[3pt]
+                $\bullet$ Paridad total Web/M\'ovil en auditor\'ia, Classroom (12 tareas) y botones condicionales de Evaluaci\'on 360$^\circ$.
+            }
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \accentcard{DiaconiaPetroleo}{Gobernanza y Despliegue Progresivo}{
+                $\bullet$ \textbf{13 reportes PDF} oficiales y \textbf{7 eventos} Socket.IO en tiempo real sobre \textbf{25 becarios} y \textbf{29 supervisores}.\\[3pt]
+                $\bullet$ Piloto controlado a \textbf{\$0/mes} hasta \textbf{febrero 2027} protegiendo archivos en \textbf{Cloudflare R2}.\\[3pt]
+                $\bullet$ Ruta clara de transici\'on hacia producci\'on institucional sin interrumpir la operaci\'on.
+            }
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+% DIAPOSITIVA 17: CIERRE Y PREGUNTAS
 % -----------------------------------------------------------------------------
 \begin{frame}[plain,noframenumbering]
     \vfill
@@ -658,20 +783,28 @@
         \hspace{0.6cm}
         \safeimage{height=1.2cm,keepaspectratio}{logo-umsa.png}
 
-        \vspace{0.4cm}
+        \vspace{0.35cm}
         {\color{TitleInk}\fontsize{24}{28}\selectfont\bfseries \textexclamdown Muchas Gracias!}
 
-        \vspace{0.2cm}
+        \vspace{0.16cm}
         {\color{BodyInk}\normalsize Sistema Integral de Control de Asistencia y Desempe\~no de Becarios (BUMAND)}
 
-        \vspace{0.2cm}
-        {\color{TitleInk}\large Sesi\'on de Preguntas y Respuestas}
+        \vspace{0.16cm}
+        {\color{DiaconiaAzul}\large\textbf{Sesi\'on de Preguntas y Respuestas}}
 
-        \vspace{0.25cm}
-        {\normalsize\color{BodyInk}\textbf{Expositor:} Universitario: Daniel Davalos Qui\~nonez\par}
+        \vspace{0.22cm}
+        {\normalsize\color{BodyInk}\textbf{Expositor:} Universitario Daniel Davalos Qui\~nonez\par}
 
-        \vspace{0.25cm}
-        {\footnotesize\color{BodyInk} Diacon\'ia FRIF-IFD \textbar\ Universidad Mayor de San Andr\'es \textbar\ Gesti\'on 2026}
+        \vspace{0.20cm}
+        {\footnotesize\color{DiaconiaOscuro} Diacon\'ia FRIF-IFD \textbar\ Universidad Mayor de San Andr\'es \textbar\ 13 de noviembre de 2026}
+    \end{center}
+    \vspace{0.22cm}
+    \begin{center}
+        \begin{tikzpicture}
+            \fill[DiaconiaAmarillo, rounded corners=2pt] (0,0) rectangle (2.2,0.08);
+            \fill[DiaconiaAzul, rounded corners=2pt] (2.35,0) rectangle (9.6,0.08);
+            \fill[DiaconiaCielo, rounded corners=2pt] (9.75,0) rectangle (13.8,0.08);
+        \end{tikzpicture}
     \end{center}
     \vfill
 \end{frame}
