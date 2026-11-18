@@ -58,6 +58,7 @@ pnpm-debug.log*
 !DOCUMENTACION_WEB_ROLES.pdf
 !DOCUMENTACION_MOVIL_PAGINAS.pdf
 !diapositivas/presentacion-bumand.pdf
+!BACKLOG_Y_CONSULTAS_BUMAND.pdf
 
 # Documentación Markdown oficial
 /*.md
