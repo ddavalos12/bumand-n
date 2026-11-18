@@ -27,6 +27,9 @@ Este documento constituye el **Backlog Maestro Único Vigente** del ecosistema *
 | **[BKL-17]** | Formulario para Contabilidad y SRD con cálculo de pago líquido de pasajes | Web, Backend y Móvil | `[x] Completado` |
 | **[BKL-18]** | Indicador de horas faltantes en color ROJO y tamaño grande en Historial de Asistencia | Móvil (`bumand-movil`) | `[x] Completado` |
 | **[BKL-19]** | Corrección de geocerca interior y habilitación de botones "Marcar ingreso" y "Marcar salida" | Móvil (`bumand-movil`) | `[x] Completado` |
+| **[BKL-20]** | Restauración del diseño y comportamiento previo de botones en pantalla móvil "Evaluación de Desempeño" | Móvil (`bumand-movil`) | `[x] Completado` |
+| **[BKL-21]** | Filtrado estricto por Mentor (`supervisor` / `mentor`) para ver exclusivamente sus becarios designados | Web, Móvil y Backend | `[x] Completado` |
+| **[BKL-22]** | Renombrado de formularios y reportes financieros de "Auditoría" a "Contabilidad" / "Formulario para Contabilidad y SRD" | Web y Backend | `[x] Completado` |
 
 ---
 
@@ -274,3 +277,44 @@ Este documento constituye el **Backlog Maestro Único Vigente** del ecosistema *
   - `bumand-movil/lib/modulos/asistencia/pantallas/asistencia-pantalla.dart`, `repositorios/asistencia-repositorio.dart`, `proveedores/asistencia-proveedor.dart`
 - **Resultado técnico**:
   - Radio mínimo `150.0` m, margen `posicion.accuracy.clamp(0.0, 120.0)`, fallback Sede Central Diaconía El Alto, re-evaluación automática al cargar perfil/lugar y habilitación de botones `"Marcar ingreso"` y `"Marcar salida"` con aviso informativo en deriva interior.
+
+---
+
+## 🚀 Requerimientos Ejecutados (Lote BKL-20 a BKL-22)
+
+### [BKL-20] [x] Completado - Restauración de botones en Evaluación de Desempeño (Móvil)
+- **Estado**: `[x] Completado`
+- **Ámbito**: Móvil (`bumand-movil`)
+- **Archivos modificados**:
+  - `bumand-movil/lib/modulos/evaluaciones/pantallas/evaluaciones-pantalla.dart`
+- **Resultado técnico**:
+  - En `_construirTarjetaModulo`, se eliminó el doble botón `BotonesAccionEvaluacion` (`Revisar` + `Completado/Enviado/Evaluar QR`) y se restauró la fila inferior previa: texto `"Módulo receptor 0$numero"` a la izquierda y `Row` con `accion` (`Ver formulario`, `Subir documentos`, `Acceso QR`, `Ver tareas`, `Abrir cuestionario`) + `Icons.chevron_right` a la derecha, manteniendo la apertura por toque en la tarjeta (`_abrirModuloReceptor`).
+
+### [BKL-21] [x] Completado - Filtrado estricto por Mentor para ver exclusivamente sus becarios designados (Web, Móvil y Backend)
+- **Estado**: `[x] Completado`
+- **Ámbito**: Web, Móvil y Backend (`bumand-frontend`, `bumand-movil`, `bumand-backend`)
+- **Archivos modificados**:
+  - `bumand-backend/src/utilidades/filtro-mentor.utilidad.ts` (nuevo), `src/datos/semilla-datos.constantes.ts`, `semilla.servicio.ts`, `src/modulos/autenticacion/` (`jwt.estrategia.ts`, `roles.guardia.ts`, `autenticacion.servicio.ts`), `becarios/`, `pasajes/`, `asistencia/`, `justificaciones/`, `evaluaciones/`, `practicas/`, `dashboard/`
+  - `bumand-frontend/src/lib/filtro-mentor.ts` (nuevo), `src/components/ui/insignia-becarios-designados.tsx` (nuevo), `src/components/pasajes/`, `asistencia/`, `justificaciones/`, `evaluaciones/`
+  - `bumand-movil/lib/nucleo/utilidades/filtro-mentor.dart` (nuevo), `lib/modulos/pasajes/`, `asistencia/`, `justificaciones/`, `evaluaciones/`, `inicio/`, `devocionales/`
+- **Resultado técnico**:
+  - **Backend**: Helper `filtro-mentor.utilidad.ts` y sincronización `sincronizarSupervisoresYBecariosDesignados()` en `onModuleInit()`. Soporte completo para rol `'supervisor'` y `'mentor'`, restringiendo estrictamente todas las consultas de Becarios, Pasajes, Asistencia, Permisos/Justificaciones, Evaluaciones, Prácticas y Dashboard a `becario.supervisor_id === usuario.id`.
+  - **Web**: Helper `filtro-mentor.ts` (`usarBecariosDesignadosMentor`, `filtrarListaParaMentor`) e insignia `InsigniaBecariosDesignados` (`"Mostrando tus becarios designados"`) aplicados en Pasajes, Asistencia, Permisos/Justificaciones y Evaluaciones.
+  - **Móvil**: Helper `FiltroMentor` (`esRolMentor`, `obtenerIdsBecariosAsignados`, `filtrarParaMentor`) aplicado en Pasajes, Asistencia/Multas, Permisos/Justificaciones, Evaluaciones (Módulo 3) y Devocionales, con badges informativos de becarios designados.
+
+### [BKL-22] [x] Completado - Renombrado de formularios y reportes financieros a Contabilidad / Formulario para Contabilidad y SRD (Web y Backend)
+- **Estado**: `[x] Completado`
+- **Ámbito**: Web y Backend (`bumand-frontend`, `bumand-backend`; verificado sin ocurrencias financieras en `bumand-movil`)
+- **Archivos modificados**:
+  - `bumand-backend/src/modulos/pdf/pdf.controlador.ts`, `pdf.servicio.ts`
+  - `bumand-frontend/src/components/asistencia/auditoria-asistencia.tsx`, `src/lib/generador-pdf-cliente.ts`, `src/lib/generador-excel-cliente.ts`, `src/servicios/pdf.servicio.ts`
+- **Resultado técnico**:
+  - **Backend**: Renombrados encabezados, títulos, códigos, etiquetas y nombres de archivo generados (`Formulario_Contabilidad_SRD_BUMAND_*.pdf`, `Formulario_Contabilidad_Pasajes_*.pdf`, `Formulario_Contabilidad_Recorridos_*.pdf`, `Formulario_Contabilidad_Refrigerios_*.pdf`) a **Formulario para Contabilidad y SRD**, manteniendo `/pdf/consolidado-auditoria` por compatibilidad y añadiendo los alias `/pdf/consolidado-contabilidad` y `/pdf/formulario-contabilidad`.
+  - **Web**: Actualizados botones (`"Extraer Reporte PDF para Contabilidad"`), encabezados PDF (`INFORME OFICIAL DE CONTABILIDAD`), parámetros, columna `"Observaciones Contables"`, subtítulos Excel (`Contabilidad Institucional BUMAND`) y descarga `Consolidado_Contabilidad_BUMAND.pdf`.
+
+---
+
+## ✅ Verificaciones Reportadas (Lote BKL-20 a BKL-22)
+- **Backend (`bumand-backend`)**: `npm run build` ejecutado con `0` errores (`webpack 5.106.2 compiled successfully`, exit code `0`).
+- **Frontend Web (`bumand-frontend`)**: `npm run build` ejecutado con `0` errores, TypeScript y generación estática (`7/7`) exitosos (exit code `0`).
+- **App Móvil (`bumand-movil`)**: `flutter analyze` ejecutado con resultado `No issues found!` (`0` errores, exit code `0`).
