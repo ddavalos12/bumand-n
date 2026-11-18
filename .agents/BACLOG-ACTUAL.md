@@ -30,6 +30,7 @@ Este documento constituye el **Backlog Maestro Único Vigente** del ecosistema *
 | **[BKL-20]** | Restauración del diseño y comportamiento previo de botones en pantalla móvil "Evaluación de Desempeño" | Móvil (`bumand-movil`) | `[x] Completado` |
 | **[BKL-21]** | Filtrado estricto por Mentor (`supervisor` / `mentor`) para ver exclusivamente sus becarios designados | Web, Móvil y Backend | `[x] Completado` |
 | **[BKL-22]** | Renombrado de formularios y reportes financieros de "Auditoría" a "Contabilidad" / "Formulario para Contabilidad y SRD" | Web y Backend | `[x] Completado` |
+| **[BKL-23]** | Planillas Oficiales de Donación (Refrigerio y Transporte BUMAN-D) con Alternancia Con/Sin Firma y Firmantes Institucionales | Web y Backend | `[x] Completado` |
 
 ---
 
@@ -311,6 +312,16 @@ Este documento constituye el **Backlog Maestro Único Vigente** del ecosistema *
 - **Resultado técnico**:
   - **Backend**: Renombrados encabezados, títulos, códigos, etiquetas y nombres de archivo generados (`Formulario_Contabilidad_SRD_BUMAND_*.pdf`, `Formulario_Contabilidad_Pasajes_*.pdf`, `Formulario_Contabilidad_Recorridos_*.pdf`, `Formulario_Contabilidad_Refrigerios_*.pdf`) a **Formulario para Contabilidad y SRD**, manteniendo `/pdf/consolidado-auditoria` por compatibilidad y añadiendo los alias `/pdf/consolidado-contabilidad` y `/pdf/formulario-contabilidad`.
   - **Web**: Actualizados botones (`"Extraer Reporte PDF para Contabilidad"`), encabezados PDF (`INFORME OFICIAL DE CONTABILIDAD`), parámetros, columna `"Observaciones Contables"`, subtítulos Excel (`Contabilidad Institucional BUMAND`) y descarga `Consolidado_Contabilidad_BUMAND.pdf`.
+
+### [BKL-23] [x] Completado - Planillas Oficiales de Donación (Refrigerio y Transporte BUMAN-D) con Alternancia Con/Sin Firma y Firmantes Institucionales (Web y Backend)
+- **Estado**: `[x] Completado`
+- **Ámbito**: Web y Backend (`bumand-frontend`, `bumand-backend`)
+- **Archivos modificados / creados**:
+  - **Backend (`bumand-backend`)**: `src/modulos/pdf/pdf.servicio.ts`, `src/modulos/pdf/pdf.controlador.ts`, `src/modulos/pdf/pdf.servicio.spec.ts`
+  - **Frontend (`bumand-frontend`)**: `src/servicios/rutas-api.constantes.ts`, `src/servicios/pdf.servicio.ts`, `src/components/reportes/selector-planilla-donacion.tsx` (nuevo), `src/components/reportes/visor-reportes-pdf.tsx`, `src/components/refrigerios/control-refrigerios.tsx`, `src/components/pasajes/aprobacion-pasajes.tsx`
+- **Resultado técnico**:
+  - **Backend**: Implementados los endpoints `GET /pdf/donacion-refrigerio` y `GET /pdf/donacion-transporte` con separación de columnas `NOMBRES` / `APELLIDOS` ordenada alfabéticamente, cálculo del 80% sin multas sobre nómina completa, receptor único en refrigerios, parámetro `con_firma=true|false` para alternancia con/sin firma y catálogo de 3 firmantes institucionales: Ruth Alesandra Choque Huanca, Pamela Sanchez Cachi y Samuel Martín Durán Baspineiro. Verificado con `7 passed` en Jest y `npm run build` OK.
+  - **Frontend**: Integradas rutas y servicio PDF para las planillas oficiales de donación, componente `selector-planilla-donacion.tsx` y controles en `visor-reportes-pdf.tsx`, `control-refrigerios.tsx` y `aprobacion-pasajes.tsx`. Verificado con `npm run build` OK.
 
 ---
 
