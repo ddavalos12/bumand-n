@@ -31,6 +31,7 @@ Este documento constituye el **Backlog Maestro Único Vigente** del ecosistema *
 | **[BKL-21]** | Filtrado estricto por Mentor (`supervisor` / `mentor`) para ver exclusivamente sus becarios designados | Web, Móvil y Backend | `[x] Completado` |
 | **[BKL-22]** | Renombrado de formularios y reportes financieros de "Auditoría" a "Contabilidad" / "Formulario para Contabilidad y SRD" | Web y Backend | `[x] Completado` |
 | **[BKL-23]** | Planillas Oficiales de Donación (Refrigerio y Transporte BUMAN-D) con Alternancia Con/Sin Firma y Firmantes Institucionales | Web y Backend | `[x] Completado` |
+| **[BKL-24]** | Estabilización Crítica End-to-End: Renderizado Móvil `410x820`, Exclusión de Escuela de Líderes en Pasajes, Lecturas PDF/Enlaces y Reporte PDF Consolidado (`2820 tramos`) | Web, Backend y Móvil | `[x] Completado` |
 
 ---
 
@@ -322,6 +323,27 @@ Este documento constituye el **Backlog Maestro Único Vigente** del ecosistema *
 - **Resultado técnico**:
   - **Backend**: Implementados los endpoints `GET /pdf/donacion-refrigerio` y `GET /pdf/donacion-transporte` con separación de columnas `NOMBRES` / `APELLIDOS` ordenada alfabéticamente, cálculo del 80% sin multas sobre nómina completa, receptor único en refrigerios, parámetro `con_firma=true|false` para alternancia con/sin firma y catálogo de 3 firmantes institucionales: Ruth Alesandra Choque Huanca, Pamela Sanchez Cachi y Samuel Martín Durán Baspineiro. Verificado con `7 passed` en Jest y `npm run build` OK.
   - **Frontend**: Integradas rutas y servicio PDF para las planillas oficiales de donación, componente `selector-planilla-donacion.tsx` y controles en `visor-reportes-pdf.tsx`, `control-refrigerios.tsx` y `aprobacion-pasajes.tsx`. Verificado con `npm run build` OK.
+
+### [BKL-24] [x] Completado - Estabilización Crítica End-to-End: Renderizado Móvil, Exclusión de Escuela de Líderes en Pasajes, Lecturas PDF/Enlaces y Reporte PDF Consolidado (Web, Backend y Móvil)
+- **Estado**: `[x] Completado`
+- **Ámbito**: Web, Backend y Móvil (`bumand-frontend`, `bumand-backend`, `bumand-movil`)
+- **Archivos modificados**:
+  - **Móvil (`bumand-movil`)**: `lib/modulos/asistencia/pantallas/historial-asistencia-pantalla.dart`, `lib/modulos/pasajes/pantallas/declarar-recorrido-pantalla.dart`, `lib/modulos/evaluaciones/repositorios/evaluaciones-repositorio.dart`, `lib/modulos/evaluaciones/modelos/evaluacion-modelo.dart`, `lib/modulos/evaluaciones/detalle_evaluacion_modal.dart`, `lib/nucleo/utilidades/descargador_archivo_*.dart`
+  - **Backend (`bumand-backend`)**: `src/modulos/pdf/pdf.servicio.ts`, `src/modulos/evaluaciones/dtos/escuela-lideres.dto.ts`, `src/modulos/evaluaciones/evaluaciones.servicio.ts`, `src/modulos/pasajes/pasajes.servicio.ts`, `src/modulos/pasajes/dtos/agregar-recorrido.dto.ts`, `src/modulos/pasajes/pasajes.servicio.spec.ts`
+  - **Frontend (`bumand-frontend`)**: `src/components/evaluaciones/escuela-lideres-classroom.tsx`, `src/components/pasajes/registro-recorrido.tsx`, `src/components/pasajes/pasajes-vista.tsx`, `src/components/pasajes/aprobacion-pasajes.tsx`, `src/components/pasajes/historial-paradas-estudiante.tsx`, `src/servicios/cliente-api.ts`, `src/lib/generador-pdf-cliente.ts`
+- **Resultado técnico**:
+  - **Móvil (`bumand-movil`)**:
+    - `historial-asistencia-pantalla.dart`: Corrección de crash `RenderFlex` (`Row -> Expanded(Row) -> Expanded`) y overflow en viewport `410x820` que causaba pantalla gris, freeze y bucle `mouse_tracker.dart:199:12` en `Mi historial -> Pasajes` (verificado con `0` errores).
+    - `declarar-recorrido-pantalla.dart`: Eliminación de `Escuela de Líderes` del reembolso de pasajes en `Tipo de actividad`, dejando únicamente `Prácticas` y `Acciones de Servicio`.
+    - `evaluaciones-repositorio.dart`, `evaluacion-modelo.dart`, `detalle_evaluacion_modal.dart` y `descargador_archivo_*.dart`: Timeout `12s`, recarga manual y renderizado/apertura de lecturas PDF y enlaces en `Aula Virtual · Escuela de Líderes`.
+  - **Backend (`bumand-backend`)**:
+    - `pdf.servicio.ts`: Bloque `try/finally` cerrando Chromium, `timeout: 120000` y consolidado liviano para `> 400` tramos en `GET /pdf/pasajes-general` (`2820 tramos` renderizados en `1.3 s` con HTTP `200 OK`, erradicando `TimeoutError: 30000ms`), además de exclusión de `Escuela de Líderes` en reportes PDF de transporte.
+    - `escuela-lideres.dto.ts` y `evaluaciones.servicio.ts`: Alias compatibles `@IsOptional()` y persistencia completa de `lecturas_pdf` y `enlaces_lectura` en PostgreSQL (`PUT 200 OK`, cero `400`).
+    - `pasajes.servicio.ts` y `agregar-recorrido.dto.ts`: Helper `esActividadReembolsablePasaje` con rechazo HTTP `400` para `Escuela de Líderes` y actualización de `pasajes.servicio.spec.ts` (`3 suites, 59/59 passed`).
+  - **Frontend (`bumand-frontend`)**:
+    - `escuela-lideres-classroom.tsx`: Payload alineado al DTO sin `catch {}` silenciosos y refresco inmediato desde BD.
+    - `pasajes/` (`registro-recorrido.tsx`, `pasajes-vista.tsx`, `aprobacion-pasajes.tsx`, `historial-paradas-estudiante.tsx`): Exclusión de `Escuela de Líderes` del reembolso del 80%.
+    - `cliente-api.ts` y `generador-pdf-cliente.ts`: `AbortController` real con `tiempo_espera_ms = 90000`.
 
 ---
 
