@@ -24,12 +24,12 @@ Este documento constituye el **Backlog Maestro Único Vigente** del ecosistema *
 | **[BKL-14]** | Notificaciones persistentes y en tiempo real de aprobación/rechazo en Tareas y Permisos | Web, Backend y Móvil | `[x] Completado` |
 | **[BKL-15]** | Adjuntar lecturas (PDF y enlaces/links) en tareas de Escuela de Líderes y vista APK | Web, Backend y Móvil | `[x] Completado` |
 | **[BKL-16]** | Exportación opcional a Excel junto a reportes PDF | Web (`bumand-frontend`) | `[x] Completado` |
-| **[BKL-17]** | Formulario para Contabilidad y SRD con cálculo de pago líquido de pasajes | Web, Backend y Móvil | `[x] Completado` |
+| **[BKL-17]** | Formulario para Contabilidad y RSD con cálculo de pago líquido de pasajes | Web, Backend y Móvil | `[x] Completado` |
 | **[BKL-18]** | Indicador de horas faltantes en color ROJO y tamaño grande en Historial de Asistencia | Móvil (`bumand-movil`) | `[x] Completado` |
 | **[BKL-19]** | Corrección de geocerca interior y habilitación de botones "Marcar ingreso" y "Marcar salida" | Móvil (`bumand-movil`) | `[x] Completado` |
 | **[BKL-20]** | Restauración del diseño y comportamiento previo de botones en pantalla móvil "Evaluación de Desempeño" | Móvil (`bumand-movil`) | `[x] Completado` |
 | **[BKL-21]** | Filtrado estricto por Mentor (`supervisor` / `mentor`) para ver exclusivamente sus becarios designados | Web, Móvil y Backend | `[x] Completado` |
-| **[BKL-22]** | Renombrado de formularios y reportes financieros de "Auditoría" a "Contabilidad" / "Formulario para Contabilidad y SRD" | Web y Backend | `[x] Completado` |
+| **[BKL-22]** | Renombrado de formularios y reportes financieros de "Auditoría" a "Contabilidad" / "Formulario para Contabilidad y RSD" | Web y Backend | `[x] Completado` |
 | **[BKL-23]** | Planillas Oficiales de Donación (Refrigerio y Transporte BUMAN-D) con Alternancia Con/Sin Firma y Firmantes Institucionales | Web y Backend | `[x] Completado` |
 | **[BKL-24]** | Estabilización Crítica End-to-End: Renderizado Móvil `410x820`, Exclusión de Escuela de Líderes en Pasajes, Lecturas PDF/Enlaces y Reporte PDF Consolidado (`2820 tramos`) | Web, Backend y Móvil | `[x] Completado` |
 
@@ -252,9 +252,9 @@ Este documento constituye el **Backlog Maestro Único Vigente** del ecosistema *
   - `bumand-frontend/src/lib/generador-excel-cliente.ts` (nuevo)
   - `bumand-frontend/src/components/pasajes/aprobacion-pasajes.tsx`, `pasajes-vista.tsx`, `evaluaciones/sabana-consolidado-semestral.tsx`, `asistencia/auditoria-asistencia.tsx`, `historial-asistencia-becario.tsx`, `reportes/visor-reportes-pdf.tsx`
 - **Resultado técnico**:
-  - Generador `.xls` UTF-8 con BOM (`descargarExcelInstitucional`, `exportarFormularioContabilidadSrdExcel`, `exportarSabanaEvaluacionesExcel`, `exportarAuditoriaAsistenciaExcel`) y botones `"Exportar Excel"` junto a los botones PDF.
+  - Generador `.xls` UTF-8 con BOM (`descargarExcelInstitucional`, `exportarFormularioContabilidadRsdExcel`, `exportarSabanaEvaluacionesExcel`, `exportarAuditoriaAsistenciaExcel`) y botones `"Exportar Excel"` junto a los botones PDF.
 
-### [BKL-17] [x] Completado - Formulario para Contabilidad y SRD con pago líquido de pasajes (Web, Backend y Móvil)
+### [BKL-17] [x] Completado - Formulario para Contabilidad y RSD con pago líquido de pasajes (Web, Backend y Móvil)
 - **Estado**: `[x] Completado`
 - **Ámbito**: Web, Backend y Móvil (`bumand-frontend`, `bumand-backend`, `bumand-movil`)
 - **Archivos modificados**:
@@ -262,7 +262,7 @@ Este documento constituye el **Backlog Maestro Único Vigente** del ecosistema *
   - `bumand-frontend/src/servicios/pasajes.servicio.ts`, `src/components/pasajes/aprobacion-pasajes.tsx`, `pasajes-vista.tsx`, `src/lib/generador-pdf-cliente.ts`, `src/components/reportes/visor-reportes-pdf.tsx`
   - `bumand-movil/lib/modulos/pasajes/modelos/solicitud-pasaje-modelo.dart`, `pantallas/pasajes-pantalla.dart`, `detalle-historial-pasaje-pantalla.dart`, `lib/modulos/asistencia/pantallas/historial-asistencia-pantalla.dart`
 - **Resultado técnico**:
-  - Enriquecimiento de solicitudes con `multas_asistencia_bs` y `monto_liquido_pagable`, reportes PDF/Excel titulados `"FORMULARIO PARA CONTABILIDAD Y SRD"` y desglose en Web y Móvil de `Reembolso 80%`, `(-) Descuento por Multas` y `Líquido Pagable (Neto)`.
+  - Enriquecimiento de solicitudes con `multas_asistencia_bs` y `monto_liquido_pagable`, reportes PDF/Excel titulados `"FORMULARIO PARA CONTABILIDAD Y RSD"` y desglose en Web y Móvil de `Reembolso 80%`, `(-) Descuento por Multas` y `Líquido Pagable (Neto)`.
 
 ### [BKL-18] [x] Completado - Indicador de horas faltantes en ROJO y tamaño grande (Móvil)
 - **Estado**: `[x] Completado`
@@ -304,14 +304,14 @@ Este documento constituye el **Backlog Maestro Único Vigente** del ecosistema *
   - **Web**: Helper `filtro-mentor.ts` (`usarBecariosDesignadosMentor`, `filtrarListaParaMentor`) e insignia `InsigniaBecariosDesignados` (`"Mostrando tus becarios designados"`) aplicados en Pasajes, Asistencia, Permisos/Justificaciones y Evaluaciones.
   - **Móvil**: Helper `FiltroMentor` (`esRolMentor`, `obtenerIdsBecariosAsignados`, `filtrarParaMentor`) aplicado en Pasajes, Asistencia/Multas, Permisos/Justificaciones, Evaluaciones (Módulo 3) y Devocionales, con badges informativos de becarios designados.
 
-### [BKL-22] [x] Completado - Renombrado de formularios y reportes financieros a Contabilidad / Formulario para Contabilidad y SRD (Web y Backend)
+### [BKL-22] [x] Completado - Renombrado de formularios y reportes financieros a Contabilidad / Formulario para Contabilidad y RSD (Web y Backend)
 - **Estado**: `[x] Completado`
 - **Ámbito**: Web y Backend (`bumand-frontend`, `bumand-backend`; verificado sin ocurrencias financieras en `bumand-movil`)
 - **Archivos modificados**:
   - `bumand-backend/src/modulos/pdf/pdf.controlador.ts`, `pdf.servicio.ts`
   - `bumand-frontend/src/components/asistencia/auditoria-asistencia.tsx`, `src/lib/generador-pdf-cliente.ts`, `src/lib/generador-excel-cliente.ts`, `src/servicios/pdf.servicio.ts`
 - **Resultado técnico**:
-  - **Backend**: Renombrados encabezados, títulos, códigos, etiquetas y nombres de archivo generados (`Formulario_Contabilidad_SRD_BUMAND_*.pdf`, `Formulario_Contabilidad_Pasajes_*.pdf`, `Formulario_Contabilidad_Recorridos_*.pdf`, `Formulario_Contabilidad_Refrigerios_*.pdf`) a **Formulario para Contabilidad y SRD**, manteniendo `/pdf/consolidado-auditoria` por compatibilidad y añadiendo los alias `/pdf/consolidado-contabilidad` y `/pdf/formulario-contabilidad`.
+  - **Backend**: Renombrados encabezados, títulos, códigos, etiquetas y nombres de archivo generados (`Formulario_Contabilidad_RSD_BUMAND_*.pdf`, `Formulario_Contabilidad_Pasajes_*.pdf`, `Formulario_Contabilidad_Recorridos_*.pdf`, `Formulario_Contabilidad_Refrigerios_*.pdf`) a **Formulario para Contabilidad y RSD**, manteniendo `/pdf/consolidado-auditoria` por compatibilidad y añadiendo los alias `/pdf/consolidado-contabilidad` y `/pdf/formulario-contabilidad`.
   - **Web**: Actualizados botones (`"Extraer Reporte PDF para Contabilidad"`), encabezados PDF (`INFORME OFICIAL DE CONTABILIDAD`), parámetros, columna `"Observaciones Contables"`, subtítulos Excel (`Contabilidad Institucional BUMAND`) y descarga `Consolidado_Contabilidad_BUMAND.pdf`.
 
 ### [BKL-23] [x] Completado - Planillas Oficiales de Donación (Refrigerio y Transporte BUMAN-D) con Alternancia Con/Sin Firma y Firmantes Institucionales (Web y Backend)
@@ -344,6 +344,26 @@ Este documento constituye el **Backlog Maestro Único Vigente** del ecosistema *
     - `escuela-lideres-classroom.tsx`: Payload alineado al DTO sin `catch {}` silenciosos y refresco inmediato desde BD.
     - `pasajes/` (`registro-recorrido.tsx`, `pasajes-vista.tsx`, `aprobacion-pasajes.tsx`, `historial-paradas-estudiante.tsx`): Exclusión de `Escuela de Líderes` del reembolso del 80%.
     - `cliente-api.ts` y `generador-pdf-cliente.ts`: `AbortController` real con `tiempo_espera_ms = 90000`.
+
+### [BKL-25] [x] Completado - Renombrado RSD, botón Refrigerios, `/uploads/` estático, entrada 14:30 y Reporte Asistencia Escuela de Líderes (Backend, Web y Móvil)
+- **Detalle**:
+  - **Renombrado `SRD → RSD`**: Reemplazo íntegro en Backend (`pdf.controlador.ts`, `pdf.servicio.ts`), Frontend (`aprobacion-pasajes.tsx`, `pasajes-vista.tsx`, `visor-reportes-pdf.tsx`, `generador-excel-cliente.ts`, `generador-pdf-cliente.ts`) y backlog (`0` ocurrencias restantes de `SRD`).
+  - **Móvil (`bumand-movil`)**:
+    - `declarar-recorrido-pantalla.dart`: Botón fijo **"Refrigerios de Escuela de Líderes (Confirmar recojo / Rendir)"** colocado directamente debajo de `Tipo de actividad` (`Prácticas | Acciones de Servicio`), sin rehabilitar reembolso de pasajes para Escuela de Líderes.
+    - `detalle_evaluacion_modal.dart`: Modal **"Material PDF de Lectura"** con `Wrap` responsivo sin recorte en pantalla angosta, descarga verificada `HTTP 200 OK`.
+    - `asistencia-pantalla.dart` y `historial-asistencia-pantalla.dart`: Unificación de hora oficial de entrada a **`14:30`** para Escuela de Líderes.
+  - **Backend (`bumand-backend`)**:
+    - `main.ts`: `NestExpressApplication` con `useStaticAssets` en `/uploads/` y `/api/uploads/` + cabeceras CORS (`Access-Control-Allow-Origin: *`), eliminando `404 Cannot GET /uploads/escuela-lideres/...pdf`.
+    - `pdf.controlador.ts`, `pdf.servicio.ts` y `pdf.servicio.spec.ts`: Nuevo endpoint **`GET /pdf/asistencia-escuela-lideres`** con nómina completa de todos los becarios, entrada oficial **`14:30`** en todo campo y enlace real con **Permisos/Justificaciones** y **Multas (Bs)** (`60/60` pruebas unitarias en verde).
+  - **Frontend (`bumand-frontend`)**:
+    - `visor-reportes-pdf.tsx`: Botón **"Asistencia Escuela de Líderes"** (en reemplazo de *"Acta de Evento"*) y **"Formulario Contabilidad y RSD"**.
+    - `auditoria-asistencia.tsx`: Botón directo **"Asistencia Escuela de Líderes"** en cabecera y auto-configuración de `14:30–17:30` al registrar asistencia manual de Escuela de Líderes.
+
+### [BKL-26] [x] Completado - Enlace Web Mentor ↔ App Móvil para Versículos, Devocionales y Citas de Seguimiento (Backend, Web y Móvil)
+- **Detalle**:
+  - **Backend (`devocionales.controlador.ts`, `devocionales.servicio.ts`)**: Habilitado `POST /devocionales` también para Mentores/Supervisores (con notificación inmediata `devocional_mentor`), inclusión del pasaje bíblico en notificaciones de citas y retroalimentación pastoral, y emisión en tiempo real.
+  - **Frontend (`registro-devocionales.tsx`)**: Alineación estricta del payload de `POST /api/devocionales/citas` al DTO (erradicando `HTTP 400` oculto por `catch {}`), mapeo real de `mis-supervisados` y `citas` desde PostgreSQL y botón + modal **"Enviar Versículo / Devocional"** directo al becario.
+  - **Móvil (`cita-seguimiento-modelo.dart`, `devocionales-repositorio.dart`, `devocionales-pantalla.dart`)**: Lectura de `supervisor.nombre` y `becario.usuario.nombre`, eliminación del fallback de semillas falsas (*"Pastor Marcos Quispe"*) ante `HTTP 200`, botón de actualización manual y acción **"Meditar este versículo"** en citas del mentor (verificado E2E en vivo).
 
 ---
 
