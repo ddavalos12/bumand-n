@@ -32,6 +32,7 @@ Este documento constituye el **Backlog Maestro Único Vigente** del ecosistema *
 | **[BKL-22]** | Renombrado de formularios y reportes financieros de "Auditoría" a "Contabilidad" / "Formulario para Contabilidad y RSD" | Web y Backend | `[x] Completado` |
 | **[BKL-23]** | Planillas Oficiales de Donación (Refrigerio y Transporte BUMAN-D) con Alternancia Con/Sin Firma y Firmantes Institucionales | Web y Backend | `[x] Completado` |
 | **[BKL-24]** | Estabilización Crítica End-to-End: Renderizado Móvil `410x820`, Exclusión de Escuela de Líderes en Pasajes, Lecturas PDF/Enlaces y Reporte PDF Consolidado (`2820 tramos`) | Web, Backend y Móvil | `[x] Completado` |
+| **[BKL-27]** | Preparación Vercel (Puppeteer Dual, Almacenamiento Dual R2/Local, Supabase SSL, Perfiles `.env`), Pago de Pasajes con/sin Multas, Excel OOXML `.xlsx` (`exceljs`) y Corrección Visual Web | Web y Backend | `[x] Completado` |
 
 ---
 
@@ -365,9 +366,32 @@ Este documento constituye el **Backlog Maestro Único Vigente** del ecosistema *
   - **Frontend (`registro-devocionales.tsx`)**: Alineación estricta del payload de `POST /api/devocionales/citas` al DTO (erradicando `HTTP 400` oculto por `catch {}`), mapeo real de `mis-supervisados` y `citas` desde PostgreSQL y botón + modal **"Enviar Versículo / Devocional"** directo al becario.
   - **Móvil (`cita-seguimiento-modelo.dart`, `devocionales-repositorio.dart`, `devocionales-pantalla.dart`)**: Lectura de `supervisor.nombre` y `becario.usuario.nombre`, eliminación del fallback de semillas falsas (*"Pastor Marcos Quispe"*) ante `HTTP 200`, botón de actualización manual y acción **"Meditar este versículo"** en citas del mentor (verificado E2E en vivo).
 
+### [BKL-27] [x] Completado - Preparación Vercel, Pago de Pasajes Descontando Multas, Excel OOXML (`.xlsx`) y Corrección Visual Web (Backend y Web)
+- **Estado**: `[x] Completado`
+- **Ámbito**: Web y Backend (`bumand-frontend`, `bumand-backend`)
+- **Detalle**:
+  - **Preparación Vercel (`bumand-backend` y `bumand-frontend`)**:
+    - **Backend Webpack multi-entry & Serverless**: Compilación multi-entry hacia `dist/main.js` y `dist/vercel.js`, handler `api/index.js`, `vercel.json` (sin `"memory"`, con `buildCommand`, `functions["api/index.js"]` `maxDuration: 60`, `includeFiles: "dist/**"` y `rewrites`), `src/bootstrap-app.ts`, `src/vercel.ts` (`app.init()` sin `listen()`), y endpoint liviano `GET /health` (`/api/health`) sin Puppeteer ni DB.
+    - **Puppeteer Dual (`NavegadorPdfServicio`)**: Modos `cloud` (con `@sparticuz/chromium` pre-empaquetado de `66.8 MB` en `node_modules/@sparticuz/chromium/bin` sin descargas externas en runtime + `puppeteer-core` en carga diferida/lazy) y `local`, cola de concurrencia estricta `1` (`cola_ejecucion`), bloqueo de recursos externos HTTP/HTTPS en modo nube, flags `--no-sandbox`, `--disable-setuid-sandbox`, `--disable-dev-shm-usage`, `--disable-gpu`, y cierre garantizado en `try/finally`.
+    - **Almacenamiento Dual Cloudflare R2 / Local (`AlmacenamientoServicio`)**: Soporte `@aws-sdk/client-s3` (modo `r2`) y disco local (modo `local`), endpoints `GET /uploads/:carpeta/:nombre` y `/api/uploads/:carpeta/:nombre` con CORS `*` (`cross-origin`) y protección anti path-traversal (`sanitizarSegmento` + `path.resolve`), y migración de subidas de `diskStorage` a `memoryStorage()` (límite 15MB).
+    - **Supabase Pooler IPv4, Cold Start y Perfiles `.env`**: Configuración SSL condicional y pool `extra` en `TypeOrmModule.forRootAsync`, Swagger deshabilitado en Vercel (`SWAGGER_ENABLED=false`) y logger reducido en `src/vercel.ts`, `.env.vercel` actualizado al Pooler IPv4 verificado de Supabase (`aws-1-us-east-1.pooler.supabase.com:6543`, usuario `postgres.wbrksoasajpzqlojuele`), y perfiles separados `.env.desktop` y `.env.vercel` protegidos en `.gitignore`.
+  - **Opción de Cálculo de Pago de Pasajes Descontando Multas**:
+    - **Backend**: Nuevo endpoint `GET /pasajes/calculo-pago` con aritmética exacta de centavos (`descontar_multas` default `'true'`) y parámetro `?descontar_multas=true|false` en PDFs de transporte y contabilidad (`donacion-transporte` default `false`, `pasajes-general`, `consolidado-auditoria`, `consolidado-contabilidad` y `formulario-contabilidad` default `true`).
+    - **Frontend**: Controles UI y conexión al API en `aprobacion-pasajes.tsx`, `selector-planilla-donacion.tsx` y `visor-reportes-pdf.tsx` (junto con `pdf.servicio.ts` y `pasajes.servicio.ts`).
+  - **Exportación Excel OOXML Nativa (`.xlsx`), Logos y WebSockets**:
+    - **ExcelJS (`generador-excel-cliente.ts`)**: Generación nativa OOXML `.xlsx` con `exceljs`, erradicando la alerta de archivo corrupto `.xls` HTML y eliminando mocks en `visor-reportes-pdf.tsx`.
+    - **Logos y Tiempo Real**: Corrección de `viewBox` y proporción de `LOGO-BUMAND_2023.svg` (`viewBox="24 158 1140 484"`) y `LOGO-BUMAND-2_2023.svg` (`viewBox="24 162 1140 479"`) en `menu-lateral.tsx`, `app/page.tsx` e `inicio-sesion/page.tsx`; normalización de `NEXT_PUBLIC_API_URL` y `NEXT_PUBLIC_WS_ENABLED` en `useTiempoReal.ts` y `next.config.ts`.
+
 ---
 
-## ✅ Verificaciones Reportadas (Lote BKL-20 a BKL-22)
-- **Backend (`bumand-backend`)**: `npm run build` ejecutado con `0` errores (`webpack 5.106.2 compiled successfully`, exit code `0`).
-- **Frontend Web (`bumand-frontend`)**: `npm run build` ejecutado con `0` errores, TypeScript y generación estática (`7/7`) exitosos (exit code `0`).
-- **App Móvil (`bumand-movil`)**: `flutter analyze` ejecutado con resultado `No issues found!` (`0` errores, exit code `0`).
+## ✅ Verificaciones Reportadas (BKL-27 — 21 de Noviembre de 2026)
+- **Backend (`bumand-backend`)**:
+  - `npm run compilar:vercel`: Exit `0` (`webpack 5.106.2 compiled successfully in 9263 ms`), generados `dist/main.js` y `dist/vercel.js`, con `node_modules/@sparticuz/chromium/bin` (`4` archivos, `66.8 MB`).
+  - Handler Serverless (`VERCEL=1 node -e "require('./api/index.js')"`): Exit `0`, salida `VERCEL_HANDLER_OK function`; benchmark real contra Supabase Pooler `:6543` con `.env.vercel`: arranque en frío total `2842 ms` (`REQUIRE: 1446 ms`, `BOOT: 1396 ms`, `puppeteer-core`/`@sparticuz`/`swagger-ui-express` no cargados en arranque) y `GET /health` en `20 ms` (`GET /api/health` warm en `3 ms`).
+  - Pruebas dirigidas (`app.controlador.spec.ts`, `pasajes.servicio.spec.ts`, `pdf.servicio.spec.ts`, `pdf.controlador.spec.ts`): `4 suites, 45/45 passed` tras migración a `@sparticuz/chromium`. (En suite completa previa: `193/197` con `4` fallos preexistentes sin relación: `becarios`, `refrigerios`, `asistencia` y `obtenerConsolidadoSemestral`).
+- **Frontend Web (`bumand-frontend`)**:
+  - `npm run compilar` (`next build`): Exit `0`, Next.js 16.3.6 (Turbopack) + TypeScript sin errores, `7/7` rutas generadas.
+  - Verificación ExcelJS en memoria: firma mágica OOXML `504B0304` (`PK\x03\x04`) y recarga correcta con `ExcelJS.Workbook().xlsx.load(buf)`.
+- **Entornos `.env.*`, Git y Móvil**:
+  - `.env.desktop` y `.env.vercel` confirmados ignorados por `.gitignore` en `bumand-backend` y `bumand-frontend` (`git check-ignore`).
+  - `bumand-movil`: `git -C bumand-movil status -s` limpio (`0` modificaciones).
