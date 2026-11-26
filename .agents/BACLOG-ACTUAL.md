@@ -33,6 +33,7 @@ Este documento constituye el **Backlog Maestro Único Vigente** del ecosistema *
 | **[BKL-23]** | Planillas Oficiales de Donación (Refrigerio y Transporte BUMAN-D) con Alternancia Con/Sin Firma y Firmantes Institucionales | Web y Backend | `[x] Completado` |
 | **[BKL-24]** | Estabilización Crítica End-to-End: Renderizado Móvil `410x820`, Exclusión de Escuela de Líderes en Pasajes, Lecturas PDF/Enlaces y Reporte PDF Consolidado (`2820 tramos`) | Web, Backend y Móvil | `[x] Completado` |
 | **[BKL-27]** | Preparación Vercel (Puppeteer Dual, Almacenamiento Dual R2/Local, Supabase SSL, Perfiles `.env`), Pago de Pasajes con/sin Multas, Excel OOXML `.xlsx` (`exceljs`) y Corrección Visual Web | Web y Backend | `[x] Completado` |
+| **[BKL-28]** | Prototipo Temporal GPS C++ — Captura de Recorridos Offline/Online Pre-Login y Mapa Segmentado en Administración | Móvil, Backend y Web | `[x] Completado (En Prueba)` |
 
 ---
 
@@ -395,3 +396,29 @@ Este documento constituye el **Backlog Maestro Único Vigente** del ecosistema *
 - **Entornos `.env.*`, Git y Móvil**:
   - `.env.desktop` y `.env.vercel` confirmados ignorados por `.gitignore` en `bumand-backend` y `bumand-frontend` (`git check-ignore`).
   - `bumand-movil`: `git -C bumand-movil status -s` limpio (`0` modificaciones).
+
+---
+
+### [BKL-28] [x] Completado (En Prueba) - Prototipo Temporal GPS C++: Captura de Recorridos Offline/Online Pre-Login y Mapa Segmentado en Administración
+- **Estado**: `[x] Completado (En Prueba)` — **Funcionalidad Temporal de Prueba**
+- **Ámbito**: Móvil, Backend y Web (`bumand-movil`, `bumand-backend`, `bumand-frontend`)
+- **Propósito de la Prueba**:
+  - Validar en campo el registro continuo de recorridos GPS sin depender de señal continua (funcionamiento offline u online), permitiendo realizar pruebas rápidas desde el móvil antes del inicio de sesión (sin estudiante ni middleware de autenticación) y visualizar cada tramo/pedazo conectado en el panel de Administración Web.
+- **Implementación Realizada**:
+  - **Logo Vectorial Compartido (`logo-gps-cpp.svg`)**: Creado en `bumand-movil/assets/logos/logo-gps-cpp.svg` y `bumand-frontend/public/logos/logo-gps-cpp.svg` (pin GPS `#00ABBD` y tipografía vectorial `C++` blanca sobre `#1A1A1A`).
+  - **Móvil (`bumand-movil`)**:
+    - Botón **GPS C++** agregado en `lib/modulos/autenticacion/pantallas/inicio-sesion-pantalla.dart` antes del login (sin sesión ni estudiante).
+    - Nueva pantalla `lib/modulos/recorridos-gps-prueba/pantallas/recorrido-gps-prueba-pantalla.dart`: botón verde **`INICIAR`** que realiza la captura GPS inicial con hora del dispositivo, hora satelital GNSS, reloj monótono, detección de ubicación simulada (`isMocked`) y sello SHA-256 (`utilidades/hash-sha256.dart`), activando **`FINALIZAR`** únicamente tras quedar iniciado correctamente.
+    - Captura automática cada **5 minutos** (`300 s`, con recuperación al volver de segundo plano) persistiendo en `SharedPreferences` (`offline` u `online`). Al finalizar, muestra la lista de puntos **en modo estrictamente inmutable (solo lectura)** con opciones **`Subir`**, **`Reintentar`** y **`Eliminar`**, reiniciando el flujo tras completar cualquiera de esas acciones para volver a probar.
+  - **Backend (`bumand-backend`)**:
+    - Nuevo módulo `src/modulos/recorridos-gps-prueba/` (`recorrido-gps-prueba.entidad.ts`, `crear-recorrido-gps-prueba.dto.ts`, `recorridos-gps-prueba.servicio.ts`, `recorridos-gps-prueba.controlador.ts`, `recorridos-gps-prueba.modulo.ts`) registrado en `app.modulo.ts`, `bootstrap-app.ts` y `tiempo-real.gateway.ts` (`recorrido_gps_prueba_actualizado`).
+    - `POST /api/recorridos-gps-prueba` público (sin guards) con idempotencia por `uuid_sesion`, recálculo de distancias Haversine por tramo/total y auditoría anti-fraude (`UBICACION_SIMULADA`, `DESFASE_RELOJ_GPS`, `MANIPULACION_RELOJ_RECORRIDO`, `SALTO_VELOCIDAD_ANOMALO`, `HORA_FUTURA_SERVIDOR`, `CADENA_HASH_INVALIDA`).
+    - Endpoints `GET /api/recorridos-gps-prueba`, `GET /api/recorridos-gps-prueba/:id` y `DELETE /api/recorridos-gps-prueba/:id` protegidos con `JwtGuardia` y `RolesGuardia`.
+  - **Web Administración (`bumand-frontend`)**:
+    - Nuevo ítem **"GPS C++ (Prueba)"** con el mismo logo en `menu-lateral.tsx` y `src/app/page.tsx` (exclusivo `administrador`).
+    - Visor `visor-recorridos-gps-prueba.tsx` y mapa `mapa-recorrido-leaflet.tsx` (Calles/Satélite) con marcadores numerados por pedazo, polilínea conectora segmentada por tramos (resaltado `#FFB600` y alertas de saltos anómalos), auditoría anti-fraude y actualización en tiempo real vía WebSocket.
+- **Lineamientos para Promoción a Producción (Si se Acepta la Prueba)**:
+  - Esta funcionalidad es **estrictamente temporal para pruebas**. Si los resultados en campo son aceptados para integrarse al módulo oficial de Recorridos/Pasajes, se deberá:
+    1. **Regla de frecuencia diaria**: Limitar el registro oficial a **una vez al día** (con reglas de tramo ida/vuelta y horario operativo institucional).
+    2. **Seguridad y Autenticación**: Eliminar el botón pre-login y el endpoint público sin middleware, exigiendo JWT válido, perfil de `becario` verificado y relación directa con su `SolicitudPasajes`.
+    3. **Reglas de Negocio Vigentes**: Integrar validación con geocercas de sedes/eventos, catálogo oficial de paradas, cálculo de reembolso del `80%`, exclusión de `Escuela de Líderes` y demás reglas operativas adicionales que se definan tras la evaluación.
